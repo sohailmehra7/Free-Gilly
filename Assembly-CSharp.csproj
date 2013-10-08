@@ -62,6 +62,8 @@
      <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
      <Compile Include="Assets\Scripts\Level1_Global.cs" />
+     <Compile Include="Assets\Scripts\Level2_Global.cs" />
+     <Compile Include="Assets\Scripts\Level3_Global.cs" />
      <Compile Include="Assets\Scripts\Navigation.cs" />
      <Compile Include="Assets\Scripts\Stamina.cs" />
      <Compile Include="Assets\Scripts\Title_Global.cs" />
