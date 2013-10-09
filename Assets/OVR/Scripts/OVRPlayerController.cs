@@ -62,7 +62,7 @@ public class OVRPlayerController : OVRComponent
 	protected Transform DirXform = null;
 	
 	// We can adjust these to influence speed and rotation of player controller
-	private float MoveScaleMultiplier     = 1.0f; 
+	private float MoveScaleMultiplier     = 50.0f; 
 	private float RotationScaleMultiplier = 1.0f; 
 	private bool  AllowMouseRotation      = true;
 	private bool  HaltUpdateMovement      = false;
@@ -196,6 +196,8 @@ public class OVRPlayerController : OVRComponent
 		bool moveLeft  	 = false;
 		bool moveRight   = false;
 		bool moveBack    = false;
+		bool moveUp   	 = false;
+		bool moveDown    = false;
 				
 		MoveScale = 1.0f;
 			
@@ -205,14 +207,18 @@ public class OVRPlayerController : OVRComponent
 		// Move
 			
 		// WASD
-		if (Input.GetKey(KeyCode.W)) moveForward = true;
+		if (Input.GetKey(KeyCode.W)) moveUp 	 = true;
 		if (Input.GetKey(KeyCode.A)) moveLeft	 = true;
-		if (Input.GetKey(KeyCode.S)) moveBack 	 = true; 
-		if (Input.GetKey(KeyCode.D)) moveRight 	 = true; 
+		if (Input.GetKey(KeyCode.S)) moveDown 	 = true; 
+		if (Input.GetKey(KeyCode.D)) moveRight 	 = true;
+		
+		if (Input.GetKey(KeyCode.T)) moveForward = true;
+		if (Input.GetKey(KeyCode.R)) moveBack	 = true;
+		
 		// Arrow keys
-		if (Input.GetKey(KeyCode.UpArrow))    moveForward = true;
+		if (Input.GetKey(KeyCode.UpArrow))    moveUp 	  = true;
 		if (Input.GetKey(KeyCode.LeftArrow))  moveLeft 	  = true;
-		if (Input.GetKey(KeyCode.DownArrow))  moveBack 	  = true; 
+		if (Input.GetKey(KeyCode.DownArrow))  moveDown 	  = true; 
 		if (Input.GetKey(KeyCode.RightArrow)) moveRight   = true; 
 			
 		if ( (moveForward && moveLeft) || (moveForward && moveRight) ||
@@ -220,8 +226,8 @@ public class OVRPlayerController : OVRComponent
 			MoveScale = 0.70710678f;
 			
 		// No positional movement if we are in the air
-		if (!Controller.isGrounded)	
-			MoveScale = 0.0f;
+		//if (!Controller.isGrounded)	
+			//MoveScale = 0.0f;
 			
 		MoveScale *= DeltaTime;
 			
@@ -242,6 +248,11 @@ public class OVRPlayerController : OVRComponent
 				MoveThrottle += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen;
 			if (moveRight)
 				MoveThrottle += DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen;
+			if (moveUp)
+				MoveThrottle += DirXform.TransformDirection(Vector3.up * moveInfluence);
+			if (moveDown)
+				MoveThrottle += DirXform.TransformDirection(Vector3.down * moveInfluence) * BackAndSideDampen;
+			
 		}
 			
 		// Rotate
