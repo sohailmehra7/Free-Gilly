@@ -1,12 +1,19 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\OVR\Scripts\OVRPlayerController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\iTweenEditor\iTweenEvent.cs">
     <Files>
+      <File FileName="Assets\Scripts\HUDScript.cs" Line="178" Column="26" />
       <File FileName="Assets\Scripts\Stamina.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Health.cs" Line="1" Column="1" />
       <File FileName="Assets\Scripts\Title_Global.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Navigation.cs" Line="9" Column="17" />
-      <File FileName="Assets\OVR\Scripts\OVRPlayerController.cs" Line="199" Column="27" />
+      <File FileName="Assets\Scripts\Navigation.cs" Line="1" Column="1" />
+      <File FileName="Assets\OVR\Scripts\OVRPlayerController.cs" Line="1" Column="1" />
+      <File FileName="Assets\OVR\Scripts\OVRCrosshair.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\ShootBubble.cs" Line="12" Column="48" />
+      <File FileName="Assets\Scripts\Level1_Global.cs" Line="30" Column="3" />
+      <File FileName="Assets\iTweenEditor\iTweenPath.cs" Line="25" Column="15" />
+      <File FileName="Assets\iTweenEditor\iTween.cs" Line="1507" Column="128" />
+      <File FileName="Assets\iTweenEditor\iTweenEvent.cs" Line="557" Column="5" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
