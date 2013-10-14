@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\ShootBubble.cs" />
      <Compile Include="Assets\Scripts\Stamina.cs" />
      <Compile Include="Assets\Scripts\Title_Global.cs" />
+     <Compile Include="Assets\Scripts\UniWiiCheck.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\Vector3OrTransform.cs" />
@@ -80,6 +81,9 @@
      <None Include="Assets\OVR\OVRImageEffects\OVRLensCorrection_CA.shader" />
      <None Include="Assets\OVR\OVRImageEffects\OVRLensCorrection.shader" />
      <None Include="Assets\OVR\Shaders\OVRGUIShader.shader" />
+ <Reference Include="UniWii">
+ <HintPath>Assets\Plugins\UniWii.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

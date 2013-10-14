@@ -15,6 +15,7 @@ using UnityEngine;
 using System.Collections;
 public class HUDScript: MonoBehaviour {
    
+   private Level1_Global globalObj;
    private OVRGUI        GuiHelper        = new OVRGUI();
    private GameObject      GUIRenderObject  = null;
    private RenderTexture   GUIRenderTexture = null;
@@ -22,7 +23,7 @@ public class HUDScript: MonoBehaviour {
    // Handle to OVRCameraController
    private OVRCameraController CameraController = null;
    public Font    FontReplace         = null;
-   
+   public string healthString ; 
    
       // Awake
    void Awake()
@@ -46,6 +47,10 @@ public class HUDScript: MonoBehaviour {
    
    // Use this for initialization
    void Start () {
+		GameObject gl = GameObject.Find("Global");
+		globalObj = gl.GetComponent<Level1_Global>();
+		healthString = (globalObj.currentHealth) + "/" +(globalObj.maxHealth);
+	
             // Ensure that camera controller variables have been properly
       // initialized before we start reading them
       if(CameraController != null)
@@ -110,7 +115,8 @@ public class HUDScript: MonoBehaviour {
    
    // Update is called once per frame
    void Update () {
-
+		//Debug.Log(globalObj.currentHealth);
+		healthString = (globalObj.currentHealth) + "/" +(globalObj.maxHealth);
    }
    
    
@@ -140,7 +146,7 @@ public class HUDScript: MonoBehaviour {
          float h = OVRDevice.HResolution;
          float v = OVRDevice.VResolution;
          scale.x = v / h;                // calculate hor scale
-          scale.y = h / v;                // calculate vert scale
+         scale.y = h / v;                // calculate vert scale
       }
    Matrix4x4 svMat = GUI.matrix; // save current matrix
        // substitute matrix - only scale is altered from standard
@@ -164,8 +170,9 @@ public class HUDScript: MonoBehaviour {
       if(CameraController!=null){
          /* ***************************************************  */
          /* ******* PLACE YOUR GUI CODE BELOW ******* */
-                  string test= "Free Gily";
-                  GuiHelper.StereoBox (400, 300, 200, 50, ref test, Color.red);
+                  string test= healthString;//(globalObj.currentHealth) + "//" +(globalObj.maxHealth);
+                  GuiHelper.StereoBox(450, 150, 100, 25, ref test, Color.red);
+				  GuiHelper.StereoBox(450, 180, 100, 25, ref test, Color.green);
 		
          /* ******************************************************* */
          }
