@@ -13,8 +13,22 @@ public class UniWiiCheck : MonoBehaviour {
  
 	[DllImport ("UniWii")]
 	private static extern int wiimote_count();
+	
+	[DllImport ("UniWii")]
+	private static extern byte wiimote_getAccX(int which);
+	
+	[DllImport ("UniWii")]
+	private static extern byte wiimote_getAccY(int which);
+	
+	[DllImport ("UniWii")]
+	private static extern byte wiimote_getAccZ(int which);
  
 	private String display;
+	
+	public float YAccel;
+	public float ZAccel;
+	
+	public int wiiCount;
  
 	void OnGUI() {
 		int c = wiimote_count();
@@ -32,10 +46,23 @@ public class UniWiiCheck : MonoBehaviour {
 	void Start ()
 	{
 		wiimote_start();
+		wiiCount = wiimote_count();
+	}
+	
+	void Update()
+	{
+		
+		YAccel = wiimote_getAccY(0);
+		Debug.Log("the acceleeration is " + ZAccel );
+		ZAccel = wiimote_getAccZ(0);
+		if(ZAccel > 180.0f || ZAccel < 110.0f)
+			YAccel = 130.0f;
+		
+		
 	}
  
 	void OnApplicationQuit() {
-		wiimote_stop();
+		//wiimote_stop();
 	}
  
 }

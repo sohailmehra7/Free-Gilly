@@ -9,13 +9,13 @@ public class Navigation : MonoBehaviour {
 	void Start () {
 		GameObject gl = GameObject.Find("Global");
 		globalObj = gl.GetComponent<Level1_Global>();
-		moveSpeed = 10.0f ;
-		//gameObject.rigidbody.AddForce(0,0,-5);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
+		moveSpeed = 10.0f;
+		gameObject.rigidbody.AddForce(0,0,-10000);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		//gameObject.rigidbody.AddForce(0,0,-5);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
+		//gameObject.rigidbody.AddForce(0,0,-50);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
 		/*
 		
 		if(Input.GetAxisRaw ("Vertical") > 0 ) // Up
@@ -47,7 +47,7 @@ public class Navigation : MonoBehaviour {
 		//Collider collider = collision.collider;
 		
 		if(hit.gameObject.tag == "Environment") {
-			globalObj.currentHealth -= 2;
+			globalObj.currentHealth -= 0;
 			// Destroy bubble
 			//Destroy (gameObject);
 		}
@@ -60,7 +60,7 @@ public class Navigation : MonoBehaviour {
 		}
 		
 		else if(hit.gameObject.tag == ("Large Obstacle")) {
-			globalObj.currentHealth -= 5;
+			globalObj.currentHealth -= 10;
 			// break obstacle by instatiating smaller pieces , random chance of power up 
 			//Destroy (gameObject);
 		}

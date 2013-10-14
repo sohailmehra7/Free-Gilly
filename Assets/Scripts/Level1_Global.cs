@@ -35,6 +35,10 @@ public class Level1_Global : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 	   
+		if(currentHealth <= 0 )
+		{
+			Debug.Log("Game is Over");
+		}
 		//Debug.Log(MainCam.transform.rotation.eulerAngles.ToString());
 		if(Input.GetKeyDown(KeyCode.P))
 		{
@@ -46,7 +50,7 @@ public class Level1_Global : MonoBehaviour {
 			//Debug.Log("bullet direction is " + direction.ToString());
 			Vector3 dir = direction;
 			dir.Normalize();
-			Vector3 offset = dir*10.0f ;
+			Vector3 offset = dir*25.0f ;
 			startPosition = startPosition + offset;
 		    Instantiate(bubble, startPos + offset, Quaternion.identity) ;	
 		}	

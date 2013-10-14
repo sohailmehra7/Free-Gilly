@@ -5,7 +5,10 @@ public class ShootBubble : MonoBehaviour {
 	
 	private Level1_Global globalObj;
 	private Vector3 shootDirection;
-	
+	public GameObject redParticles;
+	public GameObject greenParticles;
+	public GameObject yellowParticles;
+	public GameObject blueParticles;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,7 +16,7 @@ public class ShootBubble : MonoBehaviour {
 		GameObject gl = GameObject.Find("Global");
 		globalObj = gl.GetComponent<Level1_Global>();
 		shootDirection = globalObj.direction;
-		gameObject.rigidbody.AddForce(shootDirection * 5000.0f);
+		gameObject.rigidbody.AddForce(shootDirection * 10000.0f);
 		
 		//Debug.Log("bullet force is " + (shootDirection*5000.0f).ToString());
 		
@@ -44,30 +47,34 @@ public class ShootBubble : MonoBehaviour {
 		
 		// Collision with small obstacles
 		else if(collider.CompareTag("Small Obstacle")) {
-			
+			Destroy (collider.gameObject);
 			// break obstacle by instatiating smaller pieces , random chance of power up 
 			Destroy (gameObject);
+			Instantiate(yellowParticles, collider.gameObject.transform.position, Quaternion.identity) ;	
 		}
 		
 		// Collision with large obstacles
 		else if(collider.CompareTag("Large Obstacle")) {
-			
+			Destroy (collider.gameObject);
 			//Debug.Log("Collided with large object");
 			Destroy (gameObject);
+			Instantiate(yellowParticles, collider.gameObject.transform.position, Quaternion.identity) ;	
 		}		
 		
 		// Collision with large obstacles
 		else if(collider.CompareTag("Health PowerUp")) {
-			
+			Destroy (collider.gameObject);
 			//Debug.Log("Collided with large object");
 			Destroy (gameObject);
+			Instantiate(redParticles, collider.gameObject.transform.position, Quaternion.identity) ;	
 		}	
 		
 		// Collision with large obstacles
 		else if(collider.CompareTag("Stamina PowerUp")) {
-			
+			Destroy (collider.gameObject);
 			//Debug.Log("Collided with large object");
 			Destroy (gameObject);
+			Instantiate(greenParticles, collider.gameObject.transform.position, Quaternion.identity) ;	
 		}	
 	}
 }

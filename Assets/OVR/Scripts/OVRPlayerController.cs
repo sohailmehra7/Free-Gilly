@@ -37,6 +37,9 @@ using System.Collections.Generic;
 //
 public class OVRPlayerController : OVRComponent
 {
+	//getting wii data
+	private UniWiiCheck globalObj;
+	
 	protected CharacterController 	Controller 		 = null;
 	protected OVRCameraController 	CameraController = null;
 
@@ -62,7 +65,7 @@ public class OVRPlayerController : OVRComponent
 	protected Transform DirXform = null;
 	
 	// We can adjust these to influence speed and rotation of player controller
-	private float MoveScaleMultiplier     = 50.0f; 
+	private float MoveScaleMultiplier     = 100.0f; 
 	private float RotationScaleMultiplier = 1.0f; 
 	private bool  AllowMouseRotation      = true;
 	private bool  HaltUpdateMovement      = false;
@@ -121,6 +124,10 @@ public class OVRPlayerController : OVRComponent
 		
 		InitializeInputs();	
 		SetCameras();
+		
+		//getting uniwiicheck script
+		GameObject gl = GameObject.Find("Global");
+		globalObj = gl.GetComponent<UniWiiCheck>();
 	}
 		
 	// Update 
@@ -213,7 +220,27 @@ public class OVRPlayerController : OVRComponent
 		if (Input.GetKey(KeyCode.D)) moveRight 	 = true;
 		
 		if (Input.GetKey(KeyCode.T)) moveForward = true;
-		if (Input.GetKey(KeyCode.R)) moveBack	 = true;
+		if (Input.GetKey(KeyCode.R)) moveBack	 = true;  //|| globalObj.YAccel > 135.0f
+		
+		int c = globalObj.wiiCount;
+		if (c>0) {
+		
+				if(globalObj.YAccel < 120.0f || globalObj.YAccel > 140.0f)
+				{
+					//moveForward = true;
+					gameObject.rigidbody.AddForce(0,0,-500);
+				}
+				else if(globalObj.ZAccel < 110.0f || globalObj.ZAccel > 180.0f)
+				{
+					//moveBack = true;
+					gameObject.rigidbody.AddForce(0,0,500);
+				}
+				else
+				{
+				
+					gameObject.rigidbody.velocity.Set(0,0,-10000);
+				}
+		}
 		
 		// Arrow keys
 		if (Input.GetKey(KeyCode.UpArrow))    moveUp 	  = true;
