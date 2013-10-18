@@ -1,17 +1,8 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Level1_Global.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\HUDScript.cs">
     <Files>
-      <File FileName="Assets\Scripts\Navigation.cs" Line="17" Column="18" />
-      <File FileName="Assets\Scripts\UniWiiCheck.cs" Line="56" Column="48" />
-      <File FileName="Assets\Scripts\ShootBubble.cs" Line="22" Column="3" />
-      <File FileName="Assets\Scripts\HUDScript.cs" Line="1" Column="1" />
-      <File FileName="Assets\OVR\Scripts\OVRPlayerController.cs" Line="212" Column="20" />
-      <File FileName="Assets\OVR\Scripts\OVRCrosshair.cs" Line="1" Column="1" />
-      <File FileName="Assets\Scripts\Level1_Global.cs" Line="38" Column="26" />
-      <File FileName="Assets\iTweenEditor\iTweenPath.cs" Line="1" Column="1" />
-      <File FileName="Assets\iTweenEditor\iTween.cs" Line="1" Column="1" />
-      <File FileName="Assets\iTweenEditor\iTweenEvent.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\HUDScript.cs" Line="209" Column="35" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

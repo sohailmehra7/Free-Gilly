@@ -51,14 +51,11 @@ public class UniWiiCheck : MonoBehaviour {
 	
 	void Update()
 	{
-		
 		YAccel = wiimote_getAccY(0);
 		Debug.Log("the acceleeration is " + ZAccel );
 		ZAccel = wiimote_getAccZ(0);
 		if(ZAccel > 180.0f || ZAccel < 110.0f)
 			YAccel = 130.0f;
-		
-		
 	}
  
 	void OnApplicationQuit() {
