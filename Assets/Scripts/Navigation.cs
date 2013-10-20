@@ -4,13 +4,20 @@ using System.Collections;
 public class Navigation : MonoBehaviour {
 
 	public float moveSpeed;
+	
 	private Level1_Global globalObj;
+	
+	// Particle effects
+	public GameObject redParticles;
+	public GameObject greenParticles;
+	
 	// Use this for initialization
 	void Start () {
+		
 		GameObject gl = GameObject.Find("Global");
 		globalObj = gl.GetComponent<Level1_Global>();
 		moveSpeed = 10.0f;
-		gameObject.rigidbody.AddForce(0,0,-10000);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
+		gameObject.rigidbody.AddForce(0, 0, -10000);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
 	}
 	
 	// Update is called once per frame
@@ -47,22 +54,46 @@ public class Navigation : MonoBehaviour {
 		//Collider collider = collision.collider;
 		
 		if(hit.gameObject.tag == "Environment") {
+			
 			globalObj.currentHealth -= 0;
-			// Destroy bubble
+			
 			//Destroy (gameObject);
 		}
 		
 		// Collision with small obstacles
 		else if(hit.gameObject.tag == ("Small Obstacle")) {
+			
 			globalObj.currentHealth -= 5;
-			// break obstacle by instatiating smaller pieces , random chance of power up 
-			//Destroy (gameObject);
+			
+			// Break obstacle 
+			Destroy (hit.gameObject);
 		}
 		
 		else if(hit.gameObject.tag == ("Large Obstacle")) {
+			
 			globalObj.currentHealth -= 10;
-			// break obstacle by instatiating smaller pieces , random chance of power up 
-			//Destroy (gameObject);
+
+			//Destroy(gameObject);
+		}
+		
+		else if(hit.gameObject.tag == ("Health PowerUp")) {
+			
+			// Destroy object and instantiate particles
+			Destroy(hit.gameObject);
+			Instantiate(redParticles, collider.gameObject.transform.position, Quaternion.identity);
+			
+			// Set storedHealthPU to true
+			globalObj.storedHealthPU = true;
+		}
+		
+		else if(hit.gameObject.tag == ("Stamina PowerUp")) {
+			
+			// Destroy object and instantiate particles
+			Destroy(hit.gameObject);
+			Instantiate(greenParticles, collider.gameObject.transform.position, Quaternion.identity);
+			
+			// Set storedStaminaPU to true
+			globalObj.storedStaminaPU = true;
 		}
 		
 	}

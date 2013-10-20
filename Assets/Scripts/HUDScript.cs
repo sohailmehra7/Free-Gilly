@@ -25,10 +25,17 @@ public class HUDScript: MonoBehaviour {
    	public Font    	FontReplace = null;
    	
 	// Helath, stamina, and score strings to be displayed on the HUD
-	public string healthString;
-	public string staminaString;
-	public string scoreString;
-
+	private string healthString;
+	private string staminaString;
+	private string scoreString;
+	
+	// PowerUps
+	private bool healthPUStored;
+	private bool staminaPUstored;
+	
+	// Bubbles
+	private int bubbleNum;
+	
 	// Icons
 	public Texture healthIcon, staminaIcon, bubblesIcon, scoreIcon;
 	public Texture bubbleIconColor, bubbleIconGrey;
@@ -62,7 +69,12 @@ public class HUDScript: MonoBehaviour {
 		globalObj = gl.GetComponent<Level1_Global>();
 		healthString = (globalObj.currentHealth) + "/" +(globalObj.maxHealth);
 		staminaString = (globalObj.currentStamina) + "/" +(globalObj.maxStamina);
-		scoreString = "Score";//globalObj.score + "";
+		scoreString = globalObj.score + "";
+		
+		healthPUStored = globalObj.storedHealthPU;
+		staminaPUstored = globalObj.storedStaminaPU;
+		
+		bubbleNum = globalObj.bubblesLeft;
 	
         // Ensure that camera controller variables have been properly
       	// initialized before we start reading them
@@ -131,7 +143,16 @@ public class HUDScript: MonoBehaviour {
 
 		healthString = (globalObj.currentHealth) + "/" +(globalObj.maxHealth);
 		staminaString = (globalObj.currentStamina) + "/" +(globalObj.maxStamina);
-		scoreString = "Score";//globalObj.score + "";
+		scoreString = globalObj.score + "";
+		
+		healthPUStored = globalObj.storedHealthPU;
+		staminaPUstored = globalObj.storedStaminaPU;
+		
+		bubbleNum = globalObj.bubblesLeft;
+		
+		// Update HUD info
+		displayPowerUpIcons();
+		displayBubbles();
    }
    
    
@@ -198,15 +219,10 @@ public class HUDScript: MonoBehaviour {
 			GuiHelper.StereoDrawTexture(730, 147, 40, 25, ref scoreIcon, Color.gray);
 			
 			// Bubbles
-			GuiHelper.StereoDrawTexture(727, 173, 20, 17, ref bubbleIconColor, Color.blue);
-			GuiHelper.StereoDrawTexture(747, 173, 20, 17, ref bubbleIconColor, Color.blue);
-			GuiHelper.StereoDrawTexture(767, 173, 20, 17, ref bubbleIconColor, Color.blue);
-			GuiHelper.StereoDrawTexture(787, 173, 20, 17, ref bubbleIconColor, Color.blue);
-			GuiHelper.StereoDrawTexture(807, 173, 20, 17, ref bubbleIconColor, Color.blue);
+			displayBubbles();
 			
 			// Power-ups
-			GuiHelper.StereoDrawTexture(650, 145, 30, 30, ref healthPUIconGrey, Color.gray);
-			GuiHelper.StereoDrawTexture(685, 147, 40, 25, ref staminaPUIconGrey, Color.gray);
+			displayPowerUpIcons();
         	/* ******************************************************* */
         }
 
@@ -216,6 +232,74 @@ public class HUDScript: MonoBehaviour {
       	// ***
       	// Restore previous GUI matrix
       	GUI.matrix = svMat; 
-      }     
-   }
+   	}
+	
+	void displayPowerUpIcons()
+	{
+		if(healthPUStored)
+			GuiHelper.StereoDrawTexture(650, 145, 30, 30, ref healthPUIconColor, Color.grey);
+		else
+			GuiHelper.StereoDrawTexture(650, 145, 30, 30, ref healthPUIconGrey, Color.gray);
+			
+		if(staminaPUstored)
+			GuiHelper.StereoDrawTexture(685, 147, 40, 25, ref staminaPUIconColor, Color.grey);
+		else
+			GuiHelper.StereoDrawTexture(685, 147, 40, 25, ref staminaPUIconGrey, Color.gray);	
+	}
+	
+	void displayBubbles()
+	{
+		switch(bubbleNum)
+		{
+			case 0:
+			default:
+					GuiHelper.StereoDrawTexture(727, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(747, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(767, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(787, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(807, 173, 20, 17, ref bubbleIconColor, Color.black);
+					break;
+			
+			case 1:
+					GuiHelper.StereoDrawTexture(727, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(747, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(767, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(787, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(807, 173, 20, 17, ref bubbleIconColor, Color.black);
+					break;
+			
+			case 2:
+					GuiHelper.StereoDrawTexture(727, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(747, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(767, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(787, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(807, 173, 20, 17, ref bubbleIconColor, Color.black);
+					break;
+			
+			case 3:
+					GuiHelper.StereoDrawTexture(727, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(747, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(767, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(787, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(807, 173, 20, 17, ref bubbleIconColor, Color.black);
+					break;
+			
+			case 4:
+					GuiHelper.StereoDrawTexture(727, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(747, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(767, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(787, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(807, 173, 20, 17, ref bubbleIconColor, Color.black);
+					break;
+			
+			case 5:
+					GuiHelper.StereoDrawTexture(727, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(747, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(767, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(787, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(807, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					break;
+		}
+	}
+ }
      

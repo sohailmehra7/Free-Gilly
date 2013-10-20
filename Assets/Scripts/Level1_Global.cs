@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+static class Constants {
+	
+    public const int MAX_BUBBLES = 5;
+	public const float BUBBLE_REGEN_TIME = 3.0f;
+	public const float BUBBLE_SPAWN_OFFSET = 25.0f;
+}
+
 public class Level1_Global : MonoBehaviour {
 
 	public GameObject bubble;
@@ -24,8 +31,10 @@ public class Level1_Global : MonoBehaviour {
 	
 	// Bubbles
 	public int bubblesLeft;
-	public int maxBubbles;
 	public float bubbleRegenTimer;
+	
+	// Score
+	public int score;
 	
 	// SetOVRCameraController
 	public void SetOVRCameraController(ref OVRCameraController cameraController)
@@ -48,13 +57,15 @@ public class Level1_Global : MonoBehaviour {
 		storedHealthPU = false;
 		storedStaminaPU = false;
 		
-		maxBubbles = 5;
-		bubblesLeft = maxBubbles;
+		bubblesLeft = Constants.MAX_BUBBLES;
+		bubbleRegenTimer = Constants.BUBBLE_REGEN_TIME;
+		
+		score = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	   
+		
 		// Game over condition
 		if(currentHealth <= 0 )
 		{
@@ -63,20 +74,38 @@ public class Level1_Global : MonoBehaviour {
 			// Restart from last checkpoint or return to main menu
 		}
 		
-		//Debug.Log(MainCam.transform.rotation.eulerAngles.ToString());
+		if(bubblesLeft < Constants.MAX_BUBBLES)
+		{
+			bubbleRegenTimer -= Time.deltaTime;
+			if(bubbleRegenTimer <= 0)
+			{
+				// Add a bubble and reset timer
+				bubblesLeft++;
+				bubbleRegenTimer = Constants.BUBBLE_REGEN_TIME;
+			}
+		}
+		
+		// Shoot bubble
 		if(Input.GetKeyDown(KeyCode.P))
 		{
-			startPosition= g.transform.position;
-			Vector3 startPos = MainCam.transform.position;
-			direction = Vector3.forward;
-		    direction = MainCam.transform.rotation * direction;
-			//direction.Normalize();
-			//Debug.Log("bullet direction is " + direction.ToString());
-			Vector3 dir = direction;
-			dir.Normalize();
-			Vector3 offset = dir*25.0f;
-			startPosition = startPosition + offset;
-		    Instantiate(bubble, startPos + offset, Quaternion.identity) ;	
+			if(bubblesLeft > 0)
+			{
+				startPosition= g.transform.position;
+				Vector3 startPos = MainCam.transform.position;
+				direction = Vector3.forward;
+		    	direction = MainCam.transform.rotation * direction;
+			
+				Vector3 dir = direction;
+				dir.Normalize();
+				Vector3 offset = dir * Constants.BUBBLE_SPAWN_OFFSET;
+				startPosition = startPosition + offset;
+		    
+				// Create bubble
+				Instantiate(bubble, startPos + offset, Quaternion.identity);
+			
+				// Update bubbles left counter
+				bubblesLeft--;
+			}
 		}	
 	}
 }

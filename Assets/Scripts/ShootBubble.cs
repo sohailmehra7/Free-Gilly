@@ -5,10 +5,13 @@ public class ShootBubble : MonoBehaviour {
 	
 	private Level1_Global globalObj;
 	private Vector3 shootDirection;
+	
+	// Particle effects
 	public GameObject redParticles;
 	public GameObject greenParticles;
 	public GameObject yellowParticles;
 	public GameObject blueParticles;
+	
 	// Use this for initialization
 	void Start () {
 		
@@ -47,10 +50,12 @@ public class ShootBubble : MonoBehaviour {
 		
 		// Collision with small obstacles
 		else if(collider.CompareTag("Small Obstacle")) {
+			
 			Destroy (collider.gameObject);
-			// break obstacle by instatiating smaller pieces , random chance of power up 
+			
+			// break obstacle, random chance of power up 
 			Destroy (gameObject);
-			Instantiate(yellowParticles, collider.gameObject.transform.position, Quaternion.identity) ;	
+			Instantiate(yellowParticles, collider.gameObject.transform.position, Quaternion.identity);	
 		}
 		
 		// Collision with large obstacles
@@ -58,23 +63,31 @@ public class ShootBubble : MonoBehaviour {
 			Destroy (collider.gameObject);
 			//Debug.Log("Collided with large object");
 			Destroy (gameObject);
-			Instantiate(yellowParticles, collider.gameObject.transform.position, Quaternion.identity) ;	
+			Instantiate(yellowParticles, collider.gameObject.transform.position, Quaternion.identity);	
 		}		
 		
 		// Collision with large obstacles
 		else if(collider.CompareTag("Health PowerUp")) {
+			
 			Destroy (collider.gameObject);
 			//Debug.Log("Collided with large object");
 			Destroy (gameObject);
-			Instantiate(redParticles, collider.gameObject.transform.position, Quaternion.identity) ;	
+			Instantiate(redParticles, collider.gameObject.transform.position, Quaternion.identity);
+			
+			// Set storedHealthPU to true
+			globalObj.storedHealthPU = true;
 		}	
 		
 		// Collision with large obstacles
 		else if(collider.CompareTag("Stamina PowerUp")) {
+			
 			Destroy (collider.gameObject);
 			//Debug.Log("Collided with large object");
 			Destroy (gameObject);
-			Instantiate(greenParticles, collider.gameObject.transform.position, Quaternion.identity) ;	
+			Instantiate(greenParticles, collider.gameObject.transform.position, Quaternion.identity);
+			
+			// Set storedStaminaPU to true
+			globalObj.storedStaminaPU = true;
 		}	
 	}
 }
