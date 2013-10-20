@@ -151,10 +151,10 @@ public class HUDScript: MonoBehaviour {
 		bubbleNum = globalObj.bubblesLeft;
 		
 		// Update HUD info
-		displayPowerUpIcons();
-		displayBubbles();
+		//displayPowerUpIcons();
+		//displayBubbles();
+		//OnGUI();
    }
-   
    
    void OnGUI () {
 		
