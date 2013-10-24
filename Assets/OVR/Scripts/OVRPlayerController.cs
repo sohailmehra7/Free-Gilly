@@ -39,6 +39,8 @@ public class OVRPlayerController : OVRComponent
 {
 	//getting wii data
 	private UniWiiCheck globalObj;
+	// Getting navigating agent
+	private NavMeshAgent nav_obj;
 	
 	protected CharacterController 	Controller 		 = null;
 	protected OVRCameraController 	CameraController = null;
@@ -65,7 +67,7 @@ public class OVRPlayerController : OVRComponent
 	protected Transform DirXform = null;
 	
 	// We can adjust these to influence speed and rotation of player controller
-	private float MoveScaleMultiplier     = 100.0f; 
+	private float MoveScaleMultiplier     = 10.0f; 
 	private float RotationScaleMultiplier = 1.0f; 
 	private bool  AllowMouseRotation      = true;
 	private bool  HaltUpdateMovement      = false;
@@ -128,6 +130,8 @@ public class OVRPlayerController : OVRComponent
 		//getting uniwiicheck script
 		GameObject gl = GameObject.Find("Global");
 		globalObj = gl.GetComponent<UniWiiCheck>();
+		
+		nav_obj = GameObject.Find("NavAgent").GetComponent<NavMeshAgent>();
 	}
 		
 	// Update 
@@ -205,7 +209,8 @@ public class OVRPlayerController : OVRComponent
 		bool moveBack    = false;
 		bool moveUp   	 = false;
 		bool moveDown    = false;
-				
+		
+		nav_obj.speed = 4.0f;		
 		MoveScale = 1.0f;
 			
 		// * * * * * * * * * * *
@@ -229,6 +234,9 @@ public class OVRPlayerController : OVRComponent
 				{
 					//moveForward = true;
 					gameObject.rigidbody.AddForce(0,0,-500);
+				    // Forward thrust control for Wii
+					//nav_obj.speed += 1;
+				    
 				}
 				else if(globalObj.ZAccel < 110.0f || globalObj.ZAccel > 180.0f)
 				{
@@ -268,9 +276,19 @@ public class OVRPlayerController : OVRComponent
 		if(DirXform != null)
 		{
 			if (moveForward)
+			{
+				if(nav_obj.remainingDistance > 0)
+				nav_obj.speed = 9.0f;
+				else
 				MoveThrottle += DirXform.TransformDirection(Vector3.forward * moveInfluence);
+			}
 			if (moveBack)
+			{
+				if(nav_obj.remainingDistance > 0)
+				nav_obj.speed = 1.0f;
+				else
 				MoveThrottle += DirXform.TransformDirection(Vector3.back * moveInfluence) * BackAndSideDampen;
+			}
 			if (moveLeft)
 				MoveThrottle += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen;
 			if (moveRight)

@@ -39,7 +39,7 @@ public class UniWiiCheck : MonoBehaviour {
 			}
 		}
 		else display = "Press the '1' and '2' buttons on your Wii Remote.";
-        Debug.Log(display);
+        //Debug.Log(display);
 		GUI.Label( new Rect(10,Screen.height-100, 500, 100), display);
 	}
  
@@ -52,7 +52,7 @@ public class UniWiiCheck : MonoBehaviour {
 	void Update()
 	{
 		YAccel = wiimote_getAccY(0);
-		Debug.Log("the acceleeration is " + ZAccel );
+		//Debug.Log("the acceleeration is " + ZAccel );
 		ZAccel = wiimote_getAccZ(0);
 		if(ZAccel > 180.0f || ZAccel < 110.0f)
 			YAccel = 130.0f;

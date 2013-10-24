@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 public class Navigation : MonoBehaviour {
 
-	public float moveSpeed;
+	
+	
+	private GameObject nav;
+	private NavMeshAgent nav_obj;
 	
 	private Level1_Global globalObj;
+	
 	
 	// Particle effects
 	public GameObject redParticles;
@@ -15,13 +20,36 @@ public class Navigation : MonoBehaviour {
 	void Start () {
 		
 		GameObject gl = GameObject.Find("Global");
+		nav = GameObject.Find("NavAgent");
 		globalObj = gl.GetComponent<Level1_Global>();
-		moveSpeed = 10.0f;
-		gameObject.rigidbody.AddForce(0, 0, -10000);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
+		
+		//gameObject.rigidbody.AddForce(0, 0, -1000);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+		Vector3 ePos = nav.transform.position;
+		Vector3 sPos = gameObject.transform.position;
+		Vector3 flowDir = (ePos - sPos);
+		float distance = flowDir.magnitude;
+		nav_obj = nav.GetComponent<NavMeshAgent>();
+		
+		
+		
+		//if(distance > 8.0f)
+		//{
+		//	nav_obj.speed = 2.0f;
+		//}
+		//else if(distance < 3.0f)
+		//{
+		//	nav_obj.speed = 5.0f;
+		//}
+		
+		
+		flowDir.Normalize();
+		if(nav_obj.remainingDistance > 3.0f)
+		gameObject.rigidbody.velocity = -flowDir*distance ;
 		//gameObject.rigidbody.AddForce(0,0,-50);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
 		/*
 		

@@ -6,6 +6,9 @@ static class Constants {
     public const int MAX_BUBBLES = 5;
 	public const float BUBBLE_REGEN_TIME = 3.0f;
 	public const float BUBBLE_SPAWN_OFFSET = 25.0f;
+	
+	//Used in Navigation Script 
+	public const int MOVE_SPEED = 2;
 }
 
 public class Level1_Global : MonoBehaviour {
@@ -108,4 +111,6 @@ public class Level1_Global : MonoBehaviour {
 			}
 		}	
 	}
+	
+
 }
