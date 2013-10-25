@@ -68,7 +68,7 @@ public class HUDScript: MonoBehaviour {
 		GameObject gl = GameObject.Find("Global");
 		globalObj = gl.GetComponent<Level1_Global>();
 		healthString = (globalObj.currentHealth) + "/" +(globalObj.maxHealth);
-		staminaString = (globalObj.currentStamina) + "/" +(globalObj.maxStamina);
+		staminaString = (int)(globalObj.currentStamina) + "/" +(globalObj.maxStamina);
 		scoreString = globalObj.score + "";
 		
 		healthPUStored = globalObj.storedHealthPU;
@@ -142,7 +142,7 @@ public class HUDScript: MonoBehaviour {
    void Update () {
 
 		healthString = (globalObj.currentHealth) + "/" +(globalObj.maxHealth);
-		staminaString = (globalObj.currentStamina) + "/" +(globalObj.maxStamina);
+		staminaString = (int)(globalObj.currentStamina) + "/" +(globalObj.maxStamina);
 		scoreString = globalObj.score + "";
 		
 		healthPUStored = globalObj.storedHealthPU;

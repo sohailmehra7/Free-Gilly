@@ -19,7 +19,7 @@ public class ShootBubble : MonoBehaviour {
 		GameObject gl = GameObject.Find("Global");
 		globalObj = gl.GetComponent<Level1_Global>();
 		shootDirection = globalObj.direction;
-		gameObject.rigidbody.AddForce(shootDirection * 10000.0f);
+		gameObject.rigidbody.AddForce(shootDirection * 500.0f);
 		
 		//Debug.Log("bullet force is " + (shootDirection*5000.0f).ToString());
 		

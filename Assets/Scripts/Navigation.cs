@@ -1,20 +1,32 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 
 public class Navigation : MonoBehaviour {
-
 	
+	[DllImport ("UniWii")]
+	private static extern void wiimote_rumble(int which, float duration);
 	
 	private GameObject nav;
 	private NavMeshAgent nav_obj;
+	private NavMeshAgent spawn_nav_obj;
 	
 	private Level1_Global globalObj;
+	private UniWiiCheck uniWii;
 	
+	//Obstacles to spawn
+	public GameObject SmallObstacle;
+	public GameObject LargeObstacle;
 	
-	// Particle effects
+	//   Particle effects
 	public GameObject redParticles;
 	public GameObject greenParticles;
+	
+	public Vector3 ObjSpawnPos ;
+	
+	public float ObstacleTimer;
 	
 	// Use this for initialization
 	void Start () {
@@ -22,8 +34,14 @@ public class Navigation : MonoBehaviour {
 		GameObject gl = GameObject.Find("Global");
 		nav = GameObject.Find("NavAgent");
 		globalObj = gl.GetComponent<Level1_Global>();
+		uniWii = gl.GetComponent<UniWiiCheck>();
+		spawn_nav_obj = GameObject.Find("SpawnNavAgent").GetComponent<NavMeshAgent>();
 		
 		//gameObject.rigidbody.AddForce(0, 0, -1000);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
+		// Avoid collision between the navAgent and the obstacles 
+		Physics.IgnoreLayerCollision(11, 20, true);
+		Physics.IgnoreLayerCollision(10, 20, true);
+		Physics.IgnoreLayerCollision(20, 20, true);
 	}
 	
 	// Update is called once per frame
@@ -31,25 +49,53 @@ public class Navigation : MonoBehaviour {
 		
 		Vector3 ePos = nav.transform.position;
 		Vector3 sPos = gameObject.transform.position;
-		Vector3 flowDir = (ePos - sPos);
-		float distance = flowDir.magnitude;
+		Vector3 flowDir = new Vector3(0,0,0);// = (ePos - sPos);
+		float distance = 0;//flowDir.magnitude;
 		nav_obj = nav.GetComponent<NavMeshAgent>();
 		
+		
+		NavMeshHit hit =  new NavMeshHit();
 		
 		
 		//if(distance > 8.0f)
 		//{
 		//	nav_obj.speed = 2.0f;
-		//}
+		//} 
 		//else if(distance < 3.0f)
 		//{
 		//	nav_obj.speed = 5.0f;
 		//}
+		ObjSpawnPos = spawn_nav_obj.transform.position;// sPos + flowDir ; //new Vector3(0,0,10);//
 		
+		ObstacleTimer += Time.deltaTime;
 		
-		flowDir.Normalize();
-		if(nav_obj.remainingDistance > 3.0f)
-		gameObject.rigidbody.velocity = -flowDir*distance ;
+		//Debug.DrawLine(probePosition, hit.position, Color.red);
+		if( ObstacleTimer > 2.0f) //NavMesh.SamplePosition(ePos, out hit,100.0f,1 << NavMesh.GetNavMeshLayerFromName("Default")) )//&&
+		{
+			//Vector3 v = flowDir;
+			//v.Set (flowDir.x*45, 4.5f, flowDir.z*45);
+			//ObjSpawnPos =hit.position + v;
+	    	//Debug.DrawLine(ePos, hit.position, Color.blue);
+			ObstacleTimer = 0.0f;
+		
+			if(spawn_nav_obj.remainingDistance >= 5.0f)
+				InstantiateObstacles();
+		}
+			
+		//vel.Normalize();
+		if(nav_obj.remainingDistance >= 1.0f)// && (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+		{
+			flowDir = (ePos - sPos);
+			distance = flowDir.magnitude;
+			flowDir.Normalize();
+			gameObject.rigidbody.velocity = -flowDir*distance;
+		}
+		else
+			gameObject.rigidbody.velocity = -gameObject.transform.forward*0.25f;
+		
+		//Debug.Log("rEMAINING DIST = " + nav_obj.remainingDistance);
+		//Debug.Log("Path status = " + nav_obj.pathStatus);
+			
 		//gameObject.rigidbody.AddForce(0,0,-50);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
 		/*
 		
@@ -76,11 +122,15 @@ public class Navigation : MonoBehaviour {
 		//gameObject.transform.position.Set(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z + 200.0f ); 
 	}
 	
+	void InstantiateObstacles()
+	{
+		Instantiate(SmallObstacle,ObjSpawnPos, Quaternion.identity);
+	}
+	
 	void OnControllerColliderHit(ControllerColliderHit hit)
 	{
 		//Debug.Log("collison has occured ") ;
 		//Collider collider = collision.collider;
-		
 		if(hit.gameObject.tag == "Environment") {
 			
 			globalObj.currentHealth -= 0;
@@ -93,13 +143,22 @@ public class Navigation : MonoBehaviour {
 			
 			globalObj.currentHealth -= 5;
 			
+			// Controller rumble
+			if(Constants.WII_RUMBLE)
+				wiimote_rumble(0, 0.5f);
+			
 			// Break obstacle 
 			Destroy (hit.gameObject);
+			//Instantiate(yellowParticles, collider.gameObject.transform.position, Quaternion.identity);
 		}
 		
 		else if(hit.gameObject.tag == ("Large Obstacle")) {
 			
 			globalObj.currentHealth -= 10;
+			
+			// Controller rumble
+			if(Constants.WII_RUMBLE)
+				wiimote_rumble(0, 0.5f);
 
 			//Destroy(gameObject);
 		}

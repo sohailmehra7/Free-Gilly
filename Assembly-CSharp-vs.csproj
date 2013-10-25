@@ -70,6 +70,7 @@
      <Compile Include="Assets\Scripts\Navigation.cs" />
      <Compile Include="Assets\Scripts\PauseMenu.cs" />
      <Compile Include="Assets\Scripts\ShootBubble.cs" />
+     <Compile Include="Assets\Scripts\SpawnAgentScript.cs" />
      <Compile Include="Assets\Scripts\Stamina.cs" />
      <Compile Include="Assets\Scripts\StartBranchScript.cs" />
      <Compile Include="Assets\Scripts\Title_Global.cs" />
