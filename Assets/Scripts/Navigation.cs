@@ -65,7 +65,8 @@ public class Navigation : MonoBehaviour {
 		//{
 		//	nav_obj.speed = 5.0f;
 		//}
-		ObjSpawnPos = spawn_nav_obj.transform.position;// sPos + flowDir ; //new Vector3(0,0,10);//
+		ObjSpawnPos = spawn_nav_obj.transform.position 
+			+ new Vector3(UnityEngine.Random.Range(-0.4f,0.4f),UnityEngine.Random.Range(0.2f,1.5f),0.0f);// sPos + flowDir ; //new Vector3(0,0,10);//
 		
 		ObstacleTimer += Time.deltaTime;
 		
