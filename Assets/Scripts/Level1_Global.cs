@@ -6,7 +6,7 @@ static class Constants {
     public const int MAX_BUBBLES = 5;
 	public const float BUBBLE_REGEN_TIME = 3.0f;
 	public const float BUBBLE_SPAWN_OFFSET = 1.5f;
-	public const bool WII_RUMBLE = false;
+	public const bool WII_RUMBLE = true;
 	
 	// Stamina
 	public const float STAMINA_DEC_RATE = 0.1f;
