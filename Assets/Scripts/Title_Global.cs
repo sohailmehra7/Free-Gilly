@@ -29,9 +29,15 @@ public class Title_Global : MonoBehaviour {
 	
 	void OnGUI () {
 		
-		GUILayout.BeginArea(new Rect(Screen.width/2 - Screen.width/4, Screen.height/2 + Screen.height/4, Screen.width/2, 400));
+		GUILayout.BeginArea(new Rect(Screen.width/2 - Screen.width/4, Screen.height/2 + Screen.height/8, Screen.width/2, 400));
 		
 		if (GUILayout.Button("New Game"))
+		{
+			Application.LoadLevel("GameScene");
+		}
+		GUILayout.Space(7);
+		
+		if (GUILayout.Button("Load Game"))
 		{
 			Application.LoadLevel("GameScene");
 		}
@@ -45,7 +51,7 @@ public class Title_Global : MonoBehaviour {
 		
 		if (GUILayout.Button("Game Info"))
 		{
-			Application.LoadLevel("RulesScene");
+			Application.LoadLevel("GameInfoScene");
 		}
 		GUILayout.Space(7);
 		
