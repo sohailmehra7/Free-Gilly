@@ -45,8 +45,10 @@ public class Level1_Global : MonoBehaviour {
 	public int bubblesLeft;
 	public float bubbleRegenTimer;
 	
-	// Score
+	// Score & Timer
 	public int score;
+	public float startTime;
+	public float timer;
 	
 	// SetOVRCameraController
 	public void SetOVRCameraController(ref OVRCameraController cameraController)
@@ -76,10 +78,14 @@ public class Level1_Global : MonoBehaviour {
 		staminaRegenTimer = Constants.STAMINA_REGEN_TIME;
 		
 		score = 0;
+		startTime = Time.time;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+		// Update timer
+		timer = Time.time - startTime;
 		
 		// Game over condition
 		if(currentHealth <= 0)

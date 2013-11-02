@@ -1,6 +1,8 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
+Project("{F34EDFD1-3198-1000-F38F-6CC8FB4911FE}") = "Free-Gilly", "Assembly-CSharp-firstpass-vs.csproj", "{F6269A48-307F-4ADE-3B31-7CB0084754B9}"
+EndProject
 Project("{F34EDFD1-3198-1000-F38F-6CC8FB4911FE}") = "Free-Gilly", "Assembly-CSharp-vs.csproj", "{A9181853-4342-25EA-7A13-230619A4B8BC}"
 EndProject
 Project("{F34EDFD1-3198-1000-F38F-6CC8FB4911FE}") = "Free-Gilly", "Assembly-CSharp-Editor-vs.csproj", "{B76C7A08-C2A4-FA6A-3586-75F5F9AE686F}"
@@ -11,6 +13,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F6269A48-307F-4ADE-3B31-7CB0084754B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6269A48-307F-4ADE-3B31-7CB0084754B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6269A48-307F-4ADE-3B31-7CB0084754B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6269A48-307F-4ADE-3B31-7CB0084754B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A9181853-4342-25EA-7A13-230619A4B8BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A9181853-4342-25EA-7A13-230619A4B8BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9181853-4342-25EA-7A13-230619A4B8BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -23,7 +29,7 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-																																																																																					GlobalSection(MonoDevelopProperties) = preSolution
+																																																																																											GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = Assembly-CSharp.csproj
 		Policies = $0
 		$0.TextStylePolicy = $1

@@ -36,11 +36,16 @@ public class HUDScript: MonoBehaviour {
 	// Bubbles
 	private int bubbleNum;
 	
+	// Timer
+	private float timer;
+	private string timeString;
+	
 	// Icons
 	public Texture healthIcon, staminaIcon, bubblesIcon, scoreIcon;
 	public Texture bubbleIconColor, bubbleIconGrey;
 	public Texture healthPUIconColor, healthPUIconGrey;
 	public Texture staminaPUIconColor, staminaPUIconGrey;
+	public Texture timeIcon;
    
     // Awake
    	void Awake()
@@ -75,6 +80,13 @@ public class HUDScript: MonoBehaviour {
 		staminaPUstored = globalObj.storedStaminaPU;
 		
 		bubbleNum = globalObj.bubblesLeft;
+		
+		timer = globalObj.timer;
+		
+		int minutes = (int)(timer / 60);
+   		int seconds = (int)(timer % 60);
+ 
+   		timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
 	
         // Ensure that camera controller variables have been properly
       	// initialized before we start reading them
@@ -150,6 +162,13 @@ public class HUDScript: MonoBehaviour {
 		
 		bubbleNum = globalObj.bubblesLeft;
 		
+		timer = globalObj.timer;
+		
+		int minutes = (int)(timer / 60);
+   		int seconds = (int)(timer % 60);
+ 
+   		timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
+		
 		// Update HUD info
 		//displayPowerUpIcons();
 		//displayBubbles();
@@ -211,12 +230,14 @@ public class HUDScript: MonoBehaviour {
         	GuiHelper.StereoBox(525, 150, 100, 20, ref healthString, Color.red);
 			GuiHelper.StereoBox(525, 175, 100, 20, ref staminaString, Color.green);
 			GuiHelper.StereoBox(775, 150, 50, 20, ref scoreString, Color.white);
+			GuiHelper.StereoBox(775, 350, 50, 20, ref timeString, Color.white);
 			
 			// Labels
 			GuiHelper.StereoDrawTexture(450, 150, 75, 20, ref healthIcon, Color.gray);
 			GuiHelper.StereoDrawTexture(450, 175, 75, 20, ref staminaIcon, Color.gray);
 			GuiHelper.StereoDrawTexture(650, 175, 75, 20, ref bubblesIcon, Color.gray);
 			GuiHelper.StereoDrawTexture(730, 147, 40, 25, ref scoreIcon, Color.gray);
+			GuiHelper.StereoDrawTexture(730, 347, 40, 25, ref timeIcon, Color.gray);
 			
 			// Bubbles
 			displayBubbles();

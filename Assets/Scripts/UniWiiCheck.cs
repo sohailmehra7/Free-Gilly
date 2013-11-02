@@ -123,7 +123,7 @@ public class UniWiiCheck : MonoBehaviour {
 	void Update()
 	{
 		XAccel = wiimote_getAccX(0);
-		Debug.Log("X Accel  " + XAccel );
+		//Debug.Log("X Accel  " + XAccel );
 		
 		YAccel = wiimote_getAccY(0);
 		//Debug.Log("Y Accel  " + YAccel );
@@ -134,7 +134,7 @@ public class UniWiiCheck : MonoBehaviour {
 		roll = wiimote_getRoll(0);
 		pitch = wiimote_getPitch(0);
 		float yaw = wiimote_getYaw(0);
-		Debug.Log("angles are   " + roll+ " " + pitch + " "+ yaw + "Sohail");
+		//Debug.Log("angles are   " + roll+ " " + pitch + " "+ yaw + "Sohail");
 		
 //		float irX = wiimote_getIrX(0);
 //		float irY = wiimote_getIrY(0);

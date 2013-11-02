@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 
-
 public class Navigation : MonoBehaviour {
 	
 	[DllImport ("UniWii")]
@@ -13,10 +12,13 @@ public class Navigation : MonoBehaviour {
 	private NavMeshAgent nav_obj;
 	private NavMeshAgent spawn_nav_obj;
 	
+	// OvrCameraControler
+	private GameObject cameraController;
+	
 	private Level1_Global globalObj;
 	private UniWiiCheck uniWii;
 	
-	//Obstacles to spawn
+	// Obstacles to spawn
 	public GameObject SmallObstacle;
 	public GameObject LargeObstacle;
 	public GameObject LargeObstacleRock1;
@@ -25,12 +27,17 @@ public class Navigation : MonoBehaviour {
 	public GameObject LargeObstacleRock4;
 	public GameObject LargeObstacleRock5;
 	
-	//   Particle effects
+	// Particle effects
 	public GameObject redParticles;
 	public GameObject greenParticles;
 	
-	public Vector3 ObjSpawnPos;
+	// Image effects
+	private ScreenOverlay[] so;
+	private float overlayTimer;
+	private bool overlayToggle;
 	
+	// Obstacles
+	public Vector3 ObjSpawnPos;
 	public float ObstacleTimer;
 	
 	// Use this for initialization
@@ -42,6 +49,21 @@ public class Navigation : MonoBehaviour {
 		uniWii = gl.GetComponent<UniWiiCheck>();
 		spawn_nav_obj = GameObject.Find("SpawnNavAgent").GetComponent<NavMeshAgent>();
 		
+		cameraController = GameObject.Find("OVRCameraController");
+		so = cameraController.GetComponentsInChildren<ScreenOverlay>();
+		
+		// Set the screen overlay parameters
+		so[0].enabled = false;
+		so[0].blendMode = ScreenOverlay.OverlayBlendMode.AlphaBlend;
+		so[0].intensity = 1.0f;
+		
+		so[1].enabled = false;
+		so[1].blendMode = ScreenOverlay.OverlayBlendMode.AlphaBlend;
+		so[1].intensity = 1.0f;
+		
+		overlayTimer = 0.5f;
+		overlayToggle = false;
+		
 		//gameObject.rigidbody.AddForce(0, 0, -1000);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
 		// Avoid collision between the navAgent and the obstacles 
 		Physics.IgnoreLayerCollision(11, 20, true);
@@ -51,6 +73,21 @@ public class Navigation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
+		if(overlayToggle == true)
+		{
+			so[0].enabled = true;
+			so[1].enabled = true;
+			
+			overlayTimer -= Time.deltaTime;
+			if(overlayTimer <= 0.0f)
+			{
+				overlayTimer = 0.5f;
+				overlayToggle = false;
+				so[0].enabled = false;
+				so[1].enabled = false;
+			}
+		}
 		
 		Vector3 ePos = nav.transform.position;
 		Vector3 sPos = gameObject.transform.position;
@@ -74,7 +111,7 @@ public class Navigation : MonoBehaviour {
 		ObstacleTimer += Time.deltaTime;
 		
 		//Debug.DrawLine(probePosition, hit.position, Color.red);
-		if( ObstacleTimer > 2.0f) //NavMesh.SamplePosition(ePos, out hit,100.0f,1 << NavMesh.GetNavMeshLayerFromName("Default")) )//&&
+		if(ObstacleTimer > 2.0f) //NavMesh.SamplePosition(ePos, out hit,100.0f,1 << NavMesh.GetNavMeshLayerFromName("Default")) )//&&
 		{
 			//Vector3 v = flowDir;
 			//v.Set (flowDir.x*45, 4.5f, flowDir.z*45);
@@ -195,6 +232,9 @@ public class Navigation : MonoBehaviour {
 			if(Constants.WII_RUMBLE)
 				wiimote_rumble(0, 0.5f);
 			
+			// Image effect
+			//overlayToggle = true;
+			
 			// Break obstacle 
 			Destroy (hit.gameObject);
 			//Instantiate(yellowParticles, collider.gameObject.transform.position, Quaternion.identity);
@@ -207,7 +247,10 @@ public class Navigation : MonoBehaviour {
 			// Controller rumble
 			if(Constants.WII_RUMBLE)
 				wiimote_rumble(0, 0.5f);
-
+			
+			// Image effect
+			//overlayToggle = true;
+			
 			// Break obstacle 
 			Destroy (hit.gameObject);
 		}
