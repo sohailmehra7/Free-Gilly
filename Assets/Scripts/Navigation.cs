@@ -19,12 +19,17 @@ public class Navigation : MonoBehaviour {
 	//Obstacles to spawn
 	public GameObject SmallObstacle;
 	public GameObject LargeObstacle;
+	public GameObject LargeObstacleRock1;
+	public GameObject LargeObstacleRock2;
+	public GameObject LargeObstacleRock3;
+	public GameObject LargeObstacleRock4;
+	public GameObject LargeObstacleRock5;
 	
 	//   Particle effects
 	public GameObject redParticles;
 	public GameObject greenParticles;
 	
-	public Vector3 ObjSpawnPos ;
+	public Vector3 ObjSpawnPos;
 	
 	public float ObstacleTimer;
 	
@@ -53,9 +58,7 @@ public class Navigation : MonoBehaviour {
 		float distance = 0;//flowDir.magnitude;
 		nav_obj = nav.GetComponent<NavMeshAgent>();
 		
-		
 		NavMeshHit hit =  new NavMeshHit();
-		
 		
 		//if(distance > 8.0f)
 		//{
@@ -125,13 +128,57 @@ public class Navigation : MonoBehaviour {
 	
 	void InstantiateObstacles()
 	{
-		Instantiate(SmallObstacle,ObjSpawnPos, Quaternion.identity);
+		float r = UnityEngine.Random.Range(0.0f, 1.0f);
+		
+		// Select between spawning small/large obstacle with a certain probability
+		int oType = 0;
+		if(r <= 0.9f)
+			oType = 0;
+		else
+			oType = 1;
+		
+		// Small obstacle
+		if(oType == 0)
+		{
+			Instantiate(SmallObstacle, ObjSpawnPos, Quaternion.identity);
+		}
+		
+		// Large obstacle
+		if(oType == 1)
+		{
+			int randomObs = (int)UnityEngine.Random.Range(0.0f, 5.0f);
+			
+			switch(randomObs)
+			{
+				case 0:
+						Instantiate(LargeObstacleRock1, ObjSpawnPos, Quaternion.identity);
+						break;
+				case 1:
+						Instantiate(LargeObstacleRock2, ObjSpawnPos, Quaternion.identity);
+						break;
+				case 2:
+						Instantiate(LargeObstacleRock3, ObjSpawnPos, Quaternion.identity);
+						break;
+				case 3:
+						Instantiate(LargeObstacleRock4, ObjSpawnPos, Quaternion.identity);
+						break;
+				case 4:
+						Instantiate(LargeObstacleRock5, ObjSpawnPos, Quaternion.identity);
+						break;
+				default:
+						Instantiate(LargeObstacleRock1, ObjSpawnPos, Quaternion.identity);
+						break;
+			}
+			
+		}
 	}
 	
 	void OnControllerColliderHit(ControllerColliderHit hit)
 	{
 		//Debug.Log("collison has occured ") ;
 		//Collider collider = collision.collider;
+		Vector3 particleOffset = new Vector3(0, 0, 0);
+		
 		if(hit.gameObject.tag == "Environment") {
 			
 			globalObj.currentHealth -= 0;
@@ -161,7 +208,8 @@ public class Navigation : MonoBehaviour {
 			if(Constants.WII_RUMBLE)
 				wiimote_rumble(0, 0.5f);
 
-			//Destroy(gameObject);
+			// Break obstacle 
+			Destroy (hit.gameObject);
 		}
 		
 		else if(hit.gameObject.tag == ("Health PowerUp")) {

@@ -31,16 +31,22 @@ public class PauseMenu : MonoBehaviour {
 			
 			GUILayout.BeginArea(new Rect(Screen.width/2 - Screen.width/10, Screen.height/2 + 100, Screen.width - 800, 400));
 
-			if(GUILayout.Button("Continue Game"))
+			if(GUILayout.Button("Continue"))
 			{
 				unPause();
 			}
 			GUILayout.Space(7);
 			
-			if(GUILayout.Button("Restart Game"))
+			if(GUILayout.Button("Restart Level"))
 			{
 				unPause();
 				Application.LoadLevel(Application.loadedLevel);
+			}
+			GUILayout.Space(7);
+			
+			if(GUILayout.Button("Save Game"))
+			{
+				saveGame();
 			}
 			GUILayout.Space(7);
 			
@@ -64,5 +70,10 @@ public class PauseMenu : MonoBehaviour {
 		isPaused = false;
    		Time.timeScale = 1;
 	}
-
+	
+	void saveGame()
+	{
+		
+	}
+	
 }

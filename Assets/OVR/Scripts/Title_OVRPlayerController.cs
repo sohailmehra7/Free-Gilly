@@ -35,17 +35,8 @@ using System.Collections.Generic;
 // direction on. This game object should also house the body geometry which will be seen
 // by the player.
 //
-public class OVRPlayerController : OVRComponent
+public class Title_OVRPlayerController : OVRComponent
 {
-	//getting wii data
-	private UniWiiCheck uniWii;
-	
-	private Level1_Global globalObj;
-	
-	// Getting navigating agent
-	private NavMeshAgent nav_obj;
-	private NavMeshAgent spawn_nav_obj;
-	
 	protected CharacterController 	Controller 		 = null;
 	protected OVRCameraController 	CameraController = null;
 
@@ -130,14 +121,6 @@ public class OVRPlayerController : OVRComponent
 		
 		InitializeInputs();	
 		SetCameras();
-		
-		//getting uniwiicheck script
-		GameObject gl = GameObject.Find("Global");
-		uniWii = gl.GetComponent<UniWiiCheck>();
-		globalObj = gl.GetComponent<Level1_Global>();
-		
-		nav_obj = GameObject.Find("NavAgent").GetComponent<NavMeshAgent>();
-		spawn_nav_obj = GameObject.Find("SpawnNavAgent").GetComponent<NavMeshAgent>();
 	}
 		
 	// Update 
@@ -215,13 +198,6 @@ public class OVRPlayerController : OVRComponent
 		bool moveBack    = false;
 		bool moveUp   	 = false;
 		bool moveDown    = false;
-		
-		MoveScale = 1.0f;
-		
-		if(nav_obj.remainingDistance >= 3.0f)
-		{
-			nav_obj.speed = 4.0f;		
-		}	
 			
 		// * * * * * * * * * * *
 		// Keyboard input
@@ -234,57 +210,14 @@ public class OVRPlayerController : OVRComponent
 		if (Input.GetKey(KeyCode.S)) moveDown 	 = true; 
 		if (Input.GetKey(KeyCode.D)) moveRight 	 = true;
 		
-		if ((Input.GetKey(KeyCode.T) || uniWii.buttonAPressed) && globalObj.currentStamina > 0) 
-			moveForward = true;
-		
+		if (Input.GetKey(KeyCode.T)) moveForward = true;
 		if (Input.GetKey(KeyCode.R)) moveBack	 = true;  //|| uniWii.YAccel > 135.0f
 		
-		int c = uniWii.wiiCount;
-		if (c>0) {
-//			if(uniWii.YAccel < 120.0f || uniWii.YAccel > 140.0f)
-//			{
-//				
-//				gameObject.rigidbody.AddForce(0,0,-500);
-//			}
-			
-		
-				if( (uniWii.YAccel > 160.0f) && 
-					(uniWii.pitch > 45.0f && uniWii.pitch < 150.0f) //&&
-					//((uniWii.roll < -120 &&  uniWii.roll > -180) || (uniWii.roll > 120 &&  uniWii.roll < 180))
-				) //uniWii.YAccel < 120.0f ||
-				{
-				//nav_obj.speed += 4.0f;
-					moveForward = true;
-					//gameObject.rigidbody.velocity +=
-				    // Forward thrust control for Wii
-					//nav_obj.speed += 1;
-				    
-				}
-				else if((uniWii.ZAccel < 95.0f || uniWii.ZAccel > 180.0f) &&
-						(uniWii.pitch < -125.0f && uniWii.pitch > -180.0f) || (uniWii.pitch > 155.0f && uniWii.pitch < 180.0f))
-				{
-					moveBack = true;
-					//gameObject.rigidbody.AddForce(0,0,500);
-				}
-			    else if(uniWii.roll < -45 && uniWii.roll > -145)
-				{
-					moveLeft	 = true;
-				}
-				else if(uniWii.roll > 45 && uniWii.roll < 145)
-				{
-					moveRight 	 = true;
-				}
-//				{
-//				
-//					gameObject.rigidbody.velocity.Set(0,0,-10000);
-//				}
-		}
-		
 		// Arrow keys
-		if (Input.GetKey(KeyCode.UpArrow) || uniWii.buttonUpPressed)    	moveUp 	  = true;
-		if (Input.GetKey(KeyCode.LeftArrow) || uniWii.buttonLeftPressed)  	moveLeft 	  = true;
-		if (Input.GetKey(KeyCode.DownArrow) || uniWii.buttonDownPressed)  	moveDown 	  = true; 
-		if (Input.GetKey(KeyCode.RightArrow) || uniWii.buttonRightPressed) 	moveRight   = true; 
+		if (Input.GetKey(KeyCode.UpArrow))    	moveUp 	  = true;
+		if (Input.GetKey(KeyCode.LeftArrow))  	moveLeft 	  = true;
+		if (Input.GetKey(KeyCode.DownArrow))  	moveDown 	  = true; 
+		if (Input.GetKey(KeyCode.RightArrow)) 	moveRight   = true; 
 			
 		if ( (moveForward && moveLeft) || (moveForward && moveRight) ||
 			 (moveBack && moveLeft)    || (moveBack && moveRight) )
@@ -307,54 +240,21 @@ public class OVRPlayerController : OVRComponent
 		{
 			if(moveForward)
 			{
-				if(nav_obj.remainingDistance >= 1.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
-				{
-					nav_obj.speed = 9.0f;
-					spawn_nav_obj.speed = 9.0f;
-					
-					// Decrease stamina
-					globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
-				}
-				else
-				{
 					MoveThrottle += DirXform.TransformDirection(Vector3.forward * moveInfluence);
-					//nav_obj.speed = nav_obj.remainingDistance;
-				}
+
 			}
 			if (moveBack)
 			{
-				if(nav_obj.remainingDistance >= float.Epsilon)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
-				{
-					nav_obj.speed = 2.0f;
-					spawn_nav_obj.speed = 1.0f;
-					
-					// Decrease stamina
-					globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
-				}
-				else
 				MoveThrottle += DirXform.TransformDirection(Vector3.back * moveInfluence) * BackAndSideDampen;
 			}
 			if (moveLeft)
 			{
-				if(nav_obj.remainingDistance >= 1.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
-				{
-					nav_obj.transform.position += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen * 3.0f;
-				}
-				else
-				{
+
 					MoveThrottle += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen;
-				}
 			}
 			if (moveRight)
 			{
-				if(nav_obj.remainingDistance >= 1.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
-				{
-					nav_obj.transform.position +=DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen * 3.0f;
-				}
-				else
-				{
 					MoveThrottle += DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen;
-				}
 			}
 			if (moveUp)
 				MoveThrottle += DirXform.TransformDirection(Vector3.up * moveInfluence);
@@ -430,12 +330,6 @@ public class OVRPlayerController : OVRComponent
 			
 		// Rotate
 		YRotation += rightAxisX * rotateInfluence;
-		
-		// Auto orientation
-		if(nav_obj.remainingDistance >= 15.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
-		{
-			YRotation = nav_obj.transform.rotation.eulerAngles.y;
-		}
 		
 	// Update cameras direction and rotation
 	SetCameras();
