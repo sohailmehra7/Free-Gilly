@@ -8,6 +8,7 @@ public class StartBranchScript : MonoBehaviour {
 	
 	public GameObject NavAgentRespawn;
 	public GameObject ObsAgentRespawn;
+	
 	private GameObject nav;
 	private NavMeshAgent nav_obj;
 	private NavMeshAgent spawn_nav_obj;

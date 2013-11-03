@@ -79,6 +79,8 @@ public class OVRPlayerController : OVRComponent
 	// TEST: Get Y from second sensor
 	private float YfromSensor2            = 0.0f;
 	
+	
+	public bool inDrop = false;
 	// * * * * * * * * * * * * *
 	
 	// Awake
@@ -217,10 +219,11 @@ public class OVRPlayerController : OVRComponent
 		bool moveDown    = false;
 		
 		MoveScale = 1.0f;
-		
-		if(nav_obj.remainingDistance >= 3.0f)
+		Debug.Log("in drop is" + inDrop);
+		if(nav_obj.remainingDistance >= 3.0f && inDrop == false)  //
 		{
-			nav_obj.speed = 4.0f;		
+			
+			nav_obj.speed = 7.0f;		
 		}	
 			
 		// * * * * * * * * * * *
@@ -307,7 +310,7 @@ public class OVRPlayerController : OVRComponent
 		{
 			if(moveForward)
 			{
-				if(nav_obj.remainingDistance >= 1.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(nav_obj.remainingDistance >= 15.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
 					nav_obj.speed = 20.0f;
 					obs_nav_obj.speed = 20.0f;
@@ -336,7 +339,7 @@ public class OVRPlayerController : OVRComponent
 			}
 			if (moveLeft)
 			{
-				if(nav_obj.remainingDistance >= 1.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(nav_obj.remainingDistance >= 15.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
 					nav_obj.transform.position += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen * 10.0f;
 				}
@@ -347,7 +350,7 @@ public class OVRPlayerController : OVRComponent
 			}
 			if (moveRight)
 			{
-				if(nav_obj.remainingDistance >= 1.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(nav_obj.remainingDistance >= 15.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
 					nav_obj.transform.position +=DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen * 10.0f;
 				}

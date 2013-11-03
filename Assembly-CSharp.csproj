@@ -64,6 +64,7 @@
      <Compile Include="Assets\OVR\Scripts\Title_OVRPlayerController.cs" />
      <Compile Include="Assets\Scripts\BranchSelection.cs" />
      <Compile Include="Assets\Scripts\CreditsUI.cs" />
+     <Compile Include="Assets\Scripts\EndDropScript.cs" />
      <Compile Include="Assets\Scripts\HUDScript.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
      <Compile Include="Assets\Scripts\Level1_Audio.cs" />
@@ -81,6 +82,7 @@
      <Compile Include="Assets\Scripts\SpawnPositionScript.cs" />
      <Compile Include="Assets\Scripts\Stamina.cs" />
      <Compile Include="Assets\Scripts\StartBranchScript.cs" />
+     <Compile Include="Assets\Scripts\StartDropScript.cs" />
      <Compile Include="Assets\Scripts\Title_Global.cs" />
      <Compile Include="Assets\Scripts\UniWiiCheck.cs" />
      <None Include="Assets\Standard Assets\Image Effects (Pro Only)\_Sources\Shaders\_BloomAndFlares\BlendOneOne.shader" />

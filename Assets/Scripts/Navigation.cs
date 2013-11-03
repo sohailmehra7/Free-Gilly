@@ -45,6 +45,7 @@ public class Navigation : MonoBehaviour {
 		
 		GameObject gl = GameObject.Find("Global");
 		nav = GameObject.FindGameObjectWithTag("NavAgent");
+		nav_obj = nav.GetComponent<NavMeshAgent>();
 		globalObj = gl.GetComponent<Level1_Global>();
 		uniWii = gl.GetComponent<UniWiiCheck>();
 		spawn_nav_obj = GameObject.FindGameObjectWithTag("ObsNavAgent").GetComponent<NavMeshAgent>();
@@ -93,7 +94,7 @@ public class Navigation : MonoBehaviour {
 		Vector3 sPos = gameObject.transform.position;
 		Vector3 flowDir = new Vector3(0,0,0);// = (ePos - sPos);
 		float distance = 0;//flowDir.magnitude;
-		nav_obj = nav.GetComponent<NavMeshAgent>();
+		
 		
 		NavMeshHit hit =  new NavMeshHit();
 		
@@ -124,7 +125,14 @@ public class Navigation : MonoBehaviour {
 		}
 			
 		//vel.Normalize();
-		if(nav_obj.remainingDistance >= 1.0f)// && (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+		float dist=nav_obj.remainingDistance; 
+		bool hasReached = false;
+		if (Vector3.Distance (nav_obj.transform.position,nav_obj.destination) <= 10.0f) //dist!=UnityEngine.Mathf.Infinity && && nav_obj.remainingDistance<= 1.0f) // Has reached 
+		     hasReached = true;
+			
+		
+		//Debug.Log(hasReached);	
+		if(!hasReached)//nav_obj.remainingDistance >= 1.0f)// && (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 		{
 			flowDir = (ePos - sPos);
 			distance = flowDir.magnitude * 0.7f;
@@ -273,6 +281,27 @@ public class Navigation : MonoBehaviour {
 			
 			// Set storedStaminaPU to true
 			globalObj.storedStaminaPU = true;
+		}
+		else if(hit.gameObject.tag == ("StartDrop")) {
+			
+			// Destroy object and instantiate particles
+			Destroy(hit.gameObject);
+			OVRPlayerController s = gameObject.GetComponent<OVRPlayerController>();
+			s.inDrop = true;
+			nav_obj.speed = 40.0f;
+			spawn_nav_obj.speed = 40.0f;
+			
+			
+		}
+		
+		else if(hit.gameObject.tag == ("Enddrop")) {
+			
+			// Destroy object and instantiate particles
+			Destroy(hit.gameObject);
+			OVRPlayerController s = gameObject.GetComponent<OVRPlayerController>();
+			s.inDrop = false;
+			nav_obj.speed = 7.0f;
+			spawn_nav_obj.speed = 14.0f;
 		}
 		
 	}
