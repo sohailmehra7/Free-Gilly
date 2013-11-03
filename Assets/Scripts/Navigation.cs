@@ -44,10 +44,10 @@ public class Navigation : MonoBehaviour {
 	void Start () {
 		
 		GameObject gl = GameObject.Find("Global");
-		nav = GameObject.Find("NavAgent");
+		nav = GameObject.FindGameObjectWithTag("NavAgent");
 		globalObj = gl.GetComponent<Level1_Global>();
 		uniWii = gl.GetComponent<UniWiiCheck>();
-		spawn_nav_obj = GameObject.Find("SpawnNavAgent").GetComponent<NavMeshAgent>();
+		spawn_nav_obj = GameObject.FindGameObjectWithTag("ObsNavAgent").GetComponent<NavMeshAgent>();
 		
 		cameraController = GameObject.Find("OVRCameraController");
 		so = cameraController.GetComponentsInChildren<ScreenOverlay>();
@@ -127,12 +127,12 @@ public class Navigation : MonoBehaviour {
 		if(nav_obj.remainingDistance >= 1.0f)// && (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 		{
 			flowDir = (ePos - sPos);
-			distance = flowDir.magnitude;
+			distance = flowDir.magnitude * 0.7f;
 			flowDir.Normalize();
 			gameObject.rigidbody.velocity = -flowDir*distance;
 		}
 		else
-			gameObject.rigidbody.velocity = -gameObject.transform.forward*0.25f;
+			gameObject.rigidbody.velocity = gameObject.transform.forward*0.75f;
 		
 		//Debug.Log("rEMAINING DIST = " + nav_obj.remainingDistance);
 		//Debug.Log("Path status = " + nav_obj.pathStatus);
@@ -169,7 +169,7 @@ public class Navigation : MonoBehaviour {
 		
 		// Select between spawning small/large obstacle with a certain probability
 		int oType = 0;
-		if(r <= 0.9f)
+		if(r <= 0.3f)
 			oType = 0;
 		else
 			oType = 1;
@@ -233,7 +233,7 @@ public class Navigation : MonoBehaviour {
 				wiimote_rumble(0, 0.5f);
 			
 			// Image effect
-			//overlayToggle = true;
+			overlayToggle = true;
 			
 			// Break obstacle 
 			Destroy (hit.gameObject);

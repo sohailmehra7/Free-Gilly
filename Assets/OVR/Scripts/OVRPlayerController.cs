@@ -44,7 +44,7 @@ public class OVRPlayerController : OVRComponent
 	
 	// Getting navigating agent
 	private NavMeshAgent nav_obj;
-	private NavMeshAgent spawn_nav_obj;
+	private NavMeshAgent obs_nav_obj;
 	
 	protected CharacterController 	Controller 		 = null;
 	protected OVRCameraController 	CameraController = null;
@@ -136,8 +136,8 @@ public class OVRPlayerController : OVRComponent
 		uniWii = gl.GetComponent<UniWiiCheck>();
 		globalObj = gl.GetComponent<Level1_Global>();
 		
-		nav_obj = GameObject.Find("NavAgent").GetComponent<NavMeshAgent>();
-		spawn_nav_obj = GameObject.Find("SpawnNavAgent").GetComponent<NavMeshAgent>();
+		nav_obj = GameObject.FindGameObjectWithTag("NavAgent").GetComponent<NavMeshAgent>();
+		obs_nav_obj = GameObject.FindGameObjectWithTag("ObsNavAgent").GetComponent<NavMeshAgent>();
 	}
 		
 	// Update 
@@ -309,8 +309,8 @@ public class OVRPlayerController : OVRComponent
 			{
 				if(nav_obj.remainingDistance >= 1.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
-					nav_obj.speed = 9.0f;
-					spawn_nav_obj.speed = 9.0f;
+					nav_obj.speed = 20.0f;
+					obs_nav_obj.speed = 20.0f;
 					
 					// Decrease stamina
 					globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
@@ -326,7 +326,7 @@ public class OVRPlayerController : OVRComponent
 				if(nav_obj.remainingDistance >= float.Epsilon)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
 					nav_obj.speed = 2.0f;
-					spawn_nav_obj.speed = 1.0f;
+					obs_nav_obj.speed = 1.0f;
 					
 					// Decrease stamina
 					globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
@@ -338,7 +338,7 @@ public class OVRPlayerController : OVRComponent
 			{
 				if(nav_obj.remainingDistance >= 1.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
-					nav_obj.transform.position += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen * 3.0f;
+					nav_obj.transform.position += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen * 10.0f;
 				}
 				else
 				{
@@ -349,7 +349,7 @@ public class OVRPlayerController : OVRComponent
 			{
 				if(nav_obj.remainingDistance >= 1.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
-					nav_obj.transform.position +=DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen * 3.0f;
+					nav_obj.transform.position +=DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen * 10.0f;
 				}
 				else
 				{

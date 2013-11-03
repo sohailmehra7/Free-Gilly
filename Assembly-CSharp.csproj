@@ -66,6 +66,7 @@
      <Compile Include="Assets\Scripts\CreditsUI.cs" />
      <Compile Include="Assets\Scripts\HUDScript.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
+     <Compile Include="Assets\Scripts\Level1_Audio.cs" />
      <Compile Include="Assets\Scripts\Level1_Global.cs" />
      <Compile Include="Assets\Scripts\Level2_Global.cs" />
      <Compile Include="Assets\Scripts\Level3_Global.cs" />
@@ -77,6 +78,7 @@
      <Compile Include="Assets\Scripts\PauseMenu.cs" />
      <Compile Include="Assets\Scripts\ShootBubble.cs" />
      <Compile Include="Assets\Scripts\SpawnAgentScript.cs" />
+     <Compile Include="Assets\Scripts\SpawnPositionScript.cs" />
      <Compile Include="Assets\Scripts\Stamina.cs" />
      <Compile Include="Assets\Scripts\StartBranchScript.cs" />
      <Compile Include="Assets\Scripts\Title_Global.cs" />

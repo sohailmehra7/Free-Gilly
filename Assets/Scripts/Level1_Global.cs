@@ -3,6 +3,7 @@ using System.Collections;
 
 static class Constants {
 	
+	// Bubbles
     public const int MAX_BUBBLES = 5;
 	public const float BUBBLE_REGEN_TIME = 3.0f;
 	public const float BUBBLE_SPAWN_OFFSET = 1.5f;
@@ -21,6 +22,13 @@ public class Level1_Global : MonoBehaviour {
 
 	public GameObject bubble;
 	public GameObject g;
+	
+	// Player controller
+	public GameObject player;
+	
+	// navAgents
+	public GameObject navAgent;
+	public GameObject obsNavAgent;
 	
 	public OVRCameraController CameraController = null;
 	private Camera MainCam;
@@ -49,6 +57,9 @@ public class Level1_Global : MonoBehaviour {
 	public int score;
 	public float startTime;
 	public float timer;
+	
+	// Spawn point array
+	public GameObject[] spawnPositions;
 	
 	// SetOVRCameraController
 	public void SetOVRCameraController(ref OVRCameraController cameraController)
@@ -79,6 +90,15 @@ public class Level1_Global : MonoBehaviour {
 		
 		score = 0;
 		startTime = Time.time;
+		
+	}
+	
+	void Awake() {
+	
+		// Select a random spawn position
+		int pos = (int) Random.Range(0, spawnPositions.Length);
+		Debug.Log(pos);
+		setSpawnPoint(pos);
 	}
 	
 	// Update is called once per frame
@@ -169,6 +189,34 @@ public class Level1_Global : MonoBehaviour {
 				storedStaminaPU = false;
 			}
 		}
+	}
+	
+	void setSpawnPoint(int pos)
+	{
+		SpawnPositionScript s = spawnPositions[pos].GetComponent<SpawnPositionScript>();
+		
+	 	//GameObject navObj, obsNavObj;
+	 	//NavMeshAgent nav, obsNav;
+	
+		//navObj = GameObject.Find("NavAgent");
+		//obsNavObj = GameObject.Find("SpawnNavAgent");
+	    //nav = navObj.GetComponent<NavMeshAgent>();
+		//obsNav = obsNavObj.GetComponent<NavMeshAgent>();
+		
+		// Place the player at the spawn position
+		Instantiate(player, spawnPositions[pos].transform.position, Quaternion.identity); 
+		//player.transform.position = spawnPositions[pos].transform.position;
+		
+		// Place the navAgents at the appropriate positions
+		GameObject na = (GameObject) Instantiate(navAgent, s.navAgentPos.transform.position, Quaternion.identity) as GameObject;
+		na.GetComponent<NavMeshAgent>().SetDestination(s.endPoint.transform.position);
+		
+		GameObject ona = (GameObject) Instantiate(obsNavAgent, s.obstacleAgentPos.transform.position, Quaternion.identity);
+		ona.GetComponent<NavMeshAgent>().SetDestination(s.endPoint.transform.position);
+		
+		//Debug.Log(s.destination);
+		//navObj.transform.position = s.navAgentPos.transform.position;
+		//obsNavObj.transform.position = s.obstacleAgentPos.transform.position;
 	}
 	
 
