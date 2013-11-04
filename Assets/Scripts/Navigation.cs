@@ -290,8 +290,6 @@ public class Navigation : MonoBehaviour {
 			s.inDrop = true;
 			nav_obj.speed = 40.0f;
 			spawn_nav_obj.speed = 40.0f;
-			
-			
 		}
 		
 		else if(hit.gameObject.tag == ("Enddrop")) {

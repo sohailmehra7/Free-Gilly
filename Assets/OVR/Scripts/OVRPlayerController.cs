@@ -219,7 +219,7 @@ public class OVRPlayerController : OVRComponent
 		bool moveDown    = false;
 		
 		MoveScale = 1.0f;
-		Debug.Log("in drop is" + inDrop);
+		//Debug.Log("in drop is" + inDrop);
 		if(nav_obj.remainingDistance >= 3.0f && inDrop == false)  //
 		{
 			
