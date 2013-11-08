@@ -50,6 +50,12 @@ public class PauseMenu : MonoBehaviour {
 			}
 			GUILayout.Space(7);
 			
+			if(GUILayout.Button("Achievement List"))
+			{
+				
+			}
+			GUILayout.Space(7);
+			
 			if(GUILayout.Button("Quit to Title Screen"))
 			{
 				unPause();

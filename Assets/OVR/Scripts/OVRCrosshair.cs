@@ -92,7 +92,7 @@ public class OVRCrosshair
 	// Init
 	public void Init()
 	{
-		DisplayCrosshair 		= false;
+		DisplayCrosshair 		= true;
 		CollisionWithGeometry 	= false;
 		FadeVal 		 		= 0.0f;
 	

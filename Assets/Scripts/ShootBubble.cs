@@ -4,7 +4,12 @@ using System.Collections;
 public class ShootBubble : MonoBehaviour {
 	
 	private Level1_Global globalObj;
+	private Level1_Audio audioScript;
+	
 	private Vector3 shootDirection;
+	
+	// Life timer
+	private float bubbleLifeTimer =  Constants.BUBBLE_LIFE_TIME;
 	
 	// Particle effects
 	public GameObject redParticles;
@@ -18,10 +23,11 @@ public class ShootBubble : MonoBehaviour {
 		// Get the aim direction and add force to the bubble object
 		GameObject gl = GameObject.Find("Global");
 		globalObj = gl.GetComponent<Level1_Global>();
-		shootDirection = globalObj.direction;
-		gameObject.rigidbody.AddForce(shootDirection * 500.0f);
+		audioScript = gl.GetComponent<Level1_Audio>();
 		
-		//Debug.Log("bullet force is " + (shootDirection*5000.0f).ToString());
+		shootDirection = globalObj.direction;
+		
+		gameObject.rigidbody.AddForce(shootDirection * Constants.BUBBLE_FORCE);
 		
 		// Remove collision with other bubbles
 		Physics.IgnoreLayerCollision(14, 14, true);
@@ -33,6 +39,11 @@ public class ShootBubble : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		if(bubbleLifeTimer <= 0)
+			Destroy(gameObject);
+		
+		else
+			bubbleLifeTimer -= Time.deltaTime;
 		
 	}
 	
@@ -52,23 +63,38 @@ public class ShootBubble : MonoBehaviour {
 		// Collision with small obstacles
 		else if(collider.CompareTag("Small Obstacle")) {
 			
+			// Play sound
+			AudioSource.PlayClipAtPoint(audioScript.obstacleHitSound, collider.gameObject.transform.position);
+			
 			// break obstacle, random chance of power up 
 			Instantiate(yellowParticles, gameObject.transform.position, Quaternion.identity);
 			Destroy(gameObject);
 			Destroy(collider.gameObject);
+			
+			// Add points to score
+			globalObj.score += 10;
 		}
 		
 		// Collision with large obstacles
 		else if(collider.CompareTag("Large Obstacle")) {
 			
+			// Play sound
+			AudioSource.PlayClipAtPoint(audioScript.obstacleHitSound, collider.gameObject.transform.position);
+			
 			Instantiate(yellowParticles, gameObject.transform.position, Quaternion.identity);
 			Destroy(gameObject);
 			Destroy(collider.gameObject);
+			
+			// Add points to score
+			globalObj.score += 20;
 		}		
 		
 		// Collision with large obstacles
 		else if(collider.CompareTag("Health PowerUp")) {
-
+			
+			// Play sound
+			AudioSource.PlayClipAtPoint(audioScript.powerPickUpSound, collider.gameObject.transform.position);
+			
 			Instantiate(redParticles, gameObject.transform.position, Quaternion.identity);
 			Destroy(gameObject);
 			Destroy(collider.gameObject);
@@ -80,6 +106,9 @@ public class ShootBubble : MonoBehaviour {
 		// Collision with large obstacles
 		else if(collider.CompareTag("Stamina PowerUp")) {
 		
+			// Play sound
+			AudioSource.PlayClipAtPoint(audioScript.powerPickUpSound, collider.gameObject.transform.position);
+			
 			Instantiate(greenParticles, gameObject.transform.position, Quaternion.identity);
 			Destroy(gameObject);
 			Destroy(collider.gameObject);

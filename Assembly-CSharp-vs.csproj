@@ -44,7 +44,6 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\LoadGame.cs" />
      <Compile Include="Assets\OVR\OVRImageEffects\OVRImageEffectBase.cs" />
      <Compile Include="Assets\OVR\OVRImageEffects\OVRLensCorrection.cs" />
      <Compile Include="Assets\OVR\Scripts\OVRCamera.cs" />
@@ -63,6 +62,7 @@
      <Compile Include="Assets\OVR\Scripts\OVRUtils.cs" />
      <Compile Include="Assets\OVR\Scripts\Title_OVRPlayerController.cs" />
      <Compile Include="Assets\Scripts\BranchSelection.cs" />
+     <Compile Include="Assets\Scripts\BubbleParticles.cs" />
      <Compile Include="Assets\Scripts\CreditsUI.cs" />
      <Compile Include="Assets\Scripts\EndDropScript.cs" />
      <Compile Include="Assets\Scripts\HUDScript.cs" />
@@ -71,6 +71,7 @@
      <Compile Include="Assets\Scripts\Level1_Global.cs" />
      <Compile Include="Assets\Scripts\Level2_Global.cs" />
      <Compile Include="Assets\Scripts\Level3_Global.cs" />
+     <Compile Include="Assets\Scripts\LoadGame.cs" />
      <Compile Include="Assets\Scripts\NavAgentScript.cs" />
      <Compile Include="Assets\Scripts\Navigation.cs" />
      <Compile Include="Assets\Scripts\Oculus TitleScene Scripts\Title_Global_Oculus.cs" />

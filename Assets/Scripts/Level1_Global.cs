@@ -5,23 +5,45 @@ static class Constants {
 	
 	// Bubbles
     public const int MAX_BUBBLES = 5;
+	public const float BUBBLE_LIFE_TIME = 5.0f;
 	public const float BUBBLE_REGEN_TIME = 3.0f;
 	public const float BUBBLE_SPAWN_OFFSET = 1.5f;
+	public const float BUBBLE_FORCE = 500.0f;
+	
+	// Wii Controller rumble;
 	public const bool WII_RUMBLE = true;
+	
+	// Particle effects
+	public const float BUBBLE_PARTICLE_LIFE_TIME = 30.0f;
+	public const float BUBBLE_PARTICLE_SPAWN_TIMER = 4.0f;
+	
+	// Health
+	public const int HEARTBEAT_HEALTH = 30;
 	
 	// Stamina
 	public const float STAMINA_DEC_RATE = 0.1f;
 	public const float STAMINA_REGEN_TIME = 1.0f;
-	public const float STAMINA_REGEN_AMT = 0.5f;
+	public const float STAMINA_REGEN_AMT = 2.0f;
 	
 	//Used in Navigation Script 
 	public const int MOVE_SPEED = 2;
+	
+	// Image Effects
+	public const bool BLOOD_SPLATTER_TOGGLE = false;
+	
+	// Probabilites
+	public const float SM_OBSTACLE_PROB = 0.7f;
+	public const float LG_OBSTACLE_PROB = 0.3f;
+	
+	// Debug - Cheat Codes
+	public const bool UNLIMITED_HEALTH = false;
+	public const bool UNLIMITED_STAMINA = false;
+	public const bool UNLIMITED_BUBBLES = true;
 }
 
 public class Level1_Global : MonoBehaviour {
 
 	public GameObject bubble;
-	public GameObject g;
 	
 	// Player controller
 	public GameObject player;
@@ -34,6 +56,8 @@ public class Level1_Global : MonoBehaviour {
 	private Camera MainCam;
 	
 	private UniWiiCheck uniWii;
+	
+	private Level1_Audio audioScript;
 	
 	public Vector3 direction;
 	public Vector3 startPosition;
@@ -71,10 +95,11 @@ public class Level1_Global : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 	    
-		g = GameObject.Find("Gilly");
+		// Set camera controller
 		SetOVRCameraController(ref CameraController);
 		
 		uniWii = gameObject.GetComponent<UniWiiCheck>();
+		audioScript = gameObject.GetComponent<Level1_Audio>();
 		
 		currentHealth = 100;
 		maxHealth = 100;
@@ -94,10 +119,9 @@ public class Level1_Global : MonoBehaviour {
 	}
 	
 	void Awake() {
-	
+		
 		// Select a random spawn position
 		int pos = (int) Random.Range(0, spawnPositions.Length);
-		Debug.Log(pos);
 		setSpawnPoint(pos);
 	}
 	
@@ -113,6 +137,7 @@ public class Level1_Global : MonoBehaviour {
 			Debug.Log("Game Over!");
 			
 			// Restart from last checkpoint or return to main menu
+			// Application.LoadLevel("GameOverScene");
 		}
 		
 		if(currentStamina <= 0)
@@ -143,27 +168,30 @@ public class Level1_Global : MonoBehaviour {
 		if(uniWii.buttonBPressed || Input.GetKeyDown(KeyCode.P))
 		{
 			if(bubblesLeft > 0)
-			{
-				startPosition = g.transform.position;
+			{		
 				Vector3 startPos = MainCam.transform.position;
+				//Debug.Log(startPos);
 				direction = Vector3.forward;
 		    	direction = MainCam.transform.rotation * direction;
 			
 				Vector3 dir = direction;
 				dir.Normalize();
 				Vector3 offset = dir * Constants.BUBBLE_SPAWN_OFFSET;
-				startPosition = startPosition + offset;
 		    
 				// Create bubble
-				Instantiate(bubble, startPos + offset, Quaternion.identity); //
+				Instantiate(bubble, startPos + offset, Quaternion.identity);
 			
+				// Play sound
+				AudioSource.PlayClipAtPoint(audioScript.bubblePopSound, startPos + offset);
+				
 				// Update bubbles left counter
-				bubblesLeft--;
+				if(Constants.UNLIMITED_BUBBLES == false)
+					bubblesLeft--;
 			}
 		}
 		
 		// Use health power-up
-		if(uniWii.button1Pressed)
+		if(uniWii.button1Pressed || Input.GetKeyDown(KeyCode.U))
 		{
 			if(storedHealthPU == true)
 			{
@@ -177,7 +205,7 @@ public class Level1_Global : MonoBehaviour {
 		}
 		
 		// Use stamina power-up
-		if(uniWii.button2Pressed)
+		if(uniWii.button2Pressed || Input.GetKeyDown(KeyCode.I))
 		{
 			if(storedStaminaPU == true)
 			{
@@ -204,8 +232,8 @@ public class Level1_Global : MonoBehaviour {
 		//obsNav = obsNavObj.GetComponent<NavMeshAgent>();
 		
 		// Place the player at the spawn position
-		Instantiate(player, spawnPositions[pos].transform.position, Quaternion.identity); 
-		//player.transform.position = spawnPositions[pos].transform.position;
+		//Instantiate(player, spawnPositions[pos].transform.position, Quaternion.identity); 
+		player.transform.position = spawnPositions[pos].transform.position;
 		
 		// Place the navAgents at the appropriate positions
 		GameObject na = (GameObject) Instantiate(navAgent, s.navAgentPos.transform.position, Quaternion.identity) as GameObject;
