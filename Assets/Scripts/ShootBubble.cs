@@ -6,6 +6,7 @@ public class ShootBubble : MonoBehaviour {
 	private Level1_Global globalObj;
 	private Level1_Audio audioScript;
 	
+	private NavMeshAgent navObj;
 	private Vector3 shootDirection;
 	
 	// Life timer
@@ -25,9 +26,10 @@ public class ShootBubble : MonoBehaviour {
 		globalObj = gl.GetComponent<Level1_Global>();
 		audioScript = gl.GetComponent<Level1_Audio>();
 		
+		navObj = GameObject.FindGameObjectWithTag("NavAgent").GetComponent<NavMeshAgent>();
 		shootDirection = globalObj.direction;
 		
-		gameObject.rigidbody.AddForce(shootDirection * Constants.BUBBLE_FORCE);
+		gameObject.rigidbody.AddForce(shootDirection * Constants.BUBBLE_FORCE * (navObj.speed/7.0f));
 		
 		// Remove collision with other bubbles
 		Physics.IgnoreLayerCollision(14, 14, true);

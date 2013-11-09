@@ -334,9 +334,11 @@ public class OVRPlayerController : OVRComponent
 			{
 				if(nav_obj.remainingDistance >= float.Epsilon)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
+					if(inDrop == false)
+					{
 					nav_obj.speed = 2.0f;
 					obs_nav_obj.speed = 1.0f;
-					
+					}
 					// Decrease stamina
 					globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
 				}

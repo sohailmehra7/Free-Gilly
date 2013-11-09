@@ -1,10 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ShootBubble.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\OVR\Scripts\OVRPlayerController.cs">
     <Files>
+      <File FileName="Assets\Scripts\Navigation.cs" Line="294" Column="30" />
       <File FileName="Assets\Scripts\Level1_Global.cs" Line="24" Column="45" />
-      <File FileName="Assets\Scripts\Navigation.cs" Line="172" Column="119" />
-      <File FileName="Assets\Scripts\ShootBubble.cs" Line="110" Column="60" />
+      <File FileName="Assets\Scripts\ShootBubble.cs" Line="69" Column="102" />
+      <File FileName="Assets\OVR\Scripts\OVRPlayerController.cs" Line="341" Column="7" />
+      <File FileName="Assets\Scripts\Level1_Audio.cs" Line="54" Column="2" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

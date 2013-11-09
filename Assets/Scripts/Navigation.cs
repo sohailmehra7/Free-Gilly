@@ -17,6 +17,7 @@ public class Navigation : MonoBehaviour {
 	
 	private Level1_Global globalObj;
 	private UniWiiCheck uniWii;
+	private Level1_Audio audioScript;
 	
 	// Obstacles to spawn
 	public GameObject SmallObstacle;
@@ -53,6 +54,7 @@ public class Navigation : MonoBehaviour {
 		globalObj = gl.GetComponent<Level1_Global>();
 		uniWii = gl.GetComponent<UniWiiCheck>();
 		obstacleNavObj = GameObject.FindGameObjectWithTag("ObsNavAgent").GetComponent<NavMeshAgent>();
+		audioScript = gl.GetComponent<Level1_Audio>();
 		
 		cameraController = GameObject.Find("OVRCameraController");
 		so = cameraController.GetComponentsInChildren<ScreenOverlay>();
@@ -276,6 +278,9 @@ public class Navigation : MonoBehaviour {
 		}
 		else if(hit.gameObject.tag == ("StartDrop")) {
 			
+			
+		    audioScript.audio3.Play ();
+			
 			// Destroy object and instantiate particles
 			Destroy(hit.gameObject);
 			OVRPlayerController s = gameObject.GetComponent<OVRPlayerController>();
@@ -285,6 +290,8 @@ public class Navigation : MonoBehaviour {
 		}
 		
 		else if(hit.gameObject.tag == ("EndDrop")) {
+			
+			audioScript.audio3.Stop();
 			
 			// Destroy object and instantiate particles
 			Destroy(hit.gameObject);

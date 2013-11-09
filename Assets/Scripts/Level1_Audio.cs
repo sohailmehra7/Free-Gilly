@@ -5,7 +5,7 @@ public class Level1_Audio : MonoBehaviour {
 
 	public AudioSource audio1; // Underwater Background
 	public AudioSource audio2; // Hearbeat audio
-	//public AudioSource audio3;
+	public AudioSource audio3;  //Drop Sound
 	
 	Level1_Global globalObj;
 	
@@ -18,7 +18,7 @@ public class Level1_Audio : MonoBehaviour {
 	public AudioClip bubblePopSound;
 	public AudioClip powerPickUpSound;
 	public AudioClip bloodSplatterSound;
-	public AudioClip dropSound;
+	
 	
 	// Voiceover
 	public AudioClip ouch; 						// "OUCH!"
@@ -50,5 +50,7 @@ public class Level1_Audio : MonoBehaviour {
 			isplayingBeat = false;
 			audio2.Stop();
 		}
+		
+	
 	}
 }
