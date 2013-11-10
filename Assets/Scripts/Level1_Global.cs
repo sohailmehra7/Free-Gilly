@@ -19,11 +19,13 @@ static class Constants {
 	
 	// Health
 	public const int HEARTBEAT_HEALTH = 30;
+	public const int HEALTH_REWARD = 10;
 	
 	// Stamina
 	public const float STAMINA_DEC_RATE = 0.1f;
 	public const float STAMINA_REGEN_TIME = 1.0f;
 	public const float STAMINA_REGEN_AMT = 2.0f;
+	public const int STAMINA_REWARD = 10;
 	
 	//Used in Navigation Script 
 	public const int MOVE_SPEED = 2;
@@ -34,6 +36,15 @@ static class Constants {
 	// Probabilites
 	public const float SM_OBSTACLE_PROB = 0.7f;
 	public const float LG_OBSTACLE_PROB = 0.3f;
+	
+	// Achievements
+//	public const string[] LEVEL1_ACH = new string[] {"Shoot and destroy 25 small obstacles (Level1)",
+//												     "Complete the level without using any health power-ups (Level1)",
+//												     "Complete the level while selecting the industrial pipes at each junction (Level1)",
+//												     "Find and collect the bonus item (Level1)"};
+//	
+//	// Achievement Rewards (H = Max health boost [+10], S = Max stamina boost [+10], HS = Both)
+//	public const string[] LEVEL1_ACH_REWARDS = new string[] {"S", "H", "HS", "HS"};
 	
 	// Debug - Cheat Codes
 	public const bool UNLIMITED_HEALTH = false;

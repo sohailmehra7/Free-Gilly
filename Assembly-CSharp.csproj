@@ -63,10 +63,11 @@
      <Compile Include="Assets\OVR\Scripts\Title_OVRPlayerController.cs" />
      <Compile Include="Assets\Scripts\BranchSelection.cs" />
      <Compile Include="Assets\Scripts\BubbleParticles.cs" />
-     <Compile Include="Assets\Scripts\CreditsUI.cs" />
+     <Compile Include="Assets\Scripts\Credits_Global.cs" />
      <Compile Include="Assets\Scripts\EndDropScript.cs" />
      <Compile Include="Assets\Scripts\HUDScript.cs" />
      <Compile Include="Assets\Scripts\Health.cs" />
+     <Compile Include="Assets\Scripts\HighScores_Global.cs" />
      <Compile Include="Assets\Scripts\Level1_Audio.cs" />
      <Compile Include="Assets\Scripts\Level1_Global.cs" />
      <Compile Include="Assets\Scripts\Level2_Global.cs" />

@@ -58,7 +58,7 @@ public class Title_Global : MonoBehaviour {
 		
 		if (GUILayout.Button("New Game"))
 		{
-			Application.LoadLevel("Level1");
+			Application.LoadLevel("Level1Beta");
 		}
 		GUILayout.Space(7);
 		
@@ -125,13 +125,13 @@ public class Title_Global : MonoBehaviour {
 	 void displayLevelSelectWindow(int windowID) {
 		
         if (GUILayout.Button("Level 1"))
-            Application.LoadLevel("Level1");
+            Application.LoadLevel("Level1Beta");
 		
 		if (GUILayout.Button("Level 2"))
-            Application.LoadLevel("Level1");
+            Application.LoadLevel("Level1Beta");
 		
 		if (GUILayout.Button("Level 3"))
-            Application.LoadLevel("Level1");
+            Application.LoadLevel("Level1Beta");
         
     }
 	
@@ -151,13 +151,13 @@ public class Title_Global : MonoBehaviour {
 	void displayGameInfoWindow(int windowID) {
 		
 		if (GUILayout.Button("Game Overview"))
-            Application.LoadLevel("Level1");
+            Application.LoadLevel("GameOverviewScene");
 		
         if (GUILayout.Button("Xbox Controller"))
-            Application.LoadLevel("Level1");
+            Application.LoadLevel("XboxLayout");
 		
 		if (GUILayout.Button("Wii Controller"))
-            Application.LoadLevel("Level1");
+            Application.LoadLevel("WiiLayout");
     }
 	
 	void readSaveFile(string playerID)
