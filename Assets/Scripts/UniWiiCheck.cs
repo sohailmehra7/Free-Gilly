@@ -64,23 +64,39 @@ public class UniWiiCheck : MonoBehaviour {
 	
 	[DllImport ("UniWii")]
 	private static extern void wiimote_rumble( int which, float duration);
+	
+	[DllImport ("UniWii")]
+	private static extern bool wiimote_getButtonPlus(int which);
+	
+	[DllImport ("UniWii")]
+	private static extern bool wiimote_getButtonMinus(int which);
+	 
+	[DllImport ("UniWii")]
+	private static extern bool wiimote_getButtonHome(int which);
 	 
 	private String display;
 	
-	public float XAccel;
-	public float YAccel;
-	public float ZAccel;
-	public float pitch;
-	public float roll;
+	public float[] XAccel;
+	public float[] YAccel;
+	public float[] ZAccel;
+	public float[] yaw;
+	public float[] pitch;
+	public float[] roll;
+	public float[] irX;
+	public float[] irY;
 	
-	public bool buttonAPressed;
-	public bool buttonBPressed;
-	public bool button1Pressed;
-	public bool button2Pressed;
-	public bool buttonUpPressed;
-	public bool buttonDownPressed;
-	public bool buttonLeftPressed;
-	public bool buttonRightPressed;
+	public bool[] buttonAPressed;
+	public bool[] buttonBPressed;
+	public bool[] button1Pressed;
+	public bool[] button2Pressed;
+	public bool[] buttonUpPressed;
+	public bool[] buttonDownPressed;
+	public bool[] buttonLeftPressed;
+	public bool[] buttonRightPressed;
+	
+	public bool[] buttonHomePressed;
+	public bool[] buttonPlusPressed;
+	public bool[] buttonMinusPressed;
 	
 	public int wiiCount;
  
@@ -101,57 +117,86 @@ public class UniWiiCheck : MonoBehaviour {
 	{
 		wiimote_start();
 		wiiCount = wiimote_count();
-		float accelX = wiimote_getAccX(0);
-		float accelY = wiimote_getAccY(0);
-		float accelZ = wiimote_getAccZ(0);
-		float irX = wiimote_getIrX(0);
-		float irY = wiimote_getIrY(0);
-		//float roll = wiimote_getRoll(0);
-		//float pitch = wiimote_getPitch(0);
-		//float yaw = wiimote_getYaw(0);
+		XAccel = new float[wiiCount];
+		YAccel = new float[wiiCount];
+		ZAccel = new float[wiiCount];
+		yaw    = new float[wiiCount];
+		pitch  = new float[wiiCount];
+		roll   = new float[wiiCount];
+		irX    = new float[wiiCount];
+		irY    = new float[wiiCount];
 		
-		buttonAPressed = wiimote_getButtonA(0);
-		buttonBPressed = wiimote_getButtonB(0);
-	 	button1Pressed = wiimote_getButton1(0);
-	 	button2Pressed = wiimote_getButton2(0);
-	 	buttonUpPressed = wiimote_getButtonUp(0);
-	 	buttonDownPressed = wiimote_getButtonDown(0);
-	 	buttonLeftPressed = wiimote_getButtonLeft(0);
-	 	buttonRightPressed = wiimote_getButtonRight(0);
+		buttonAPressed      = new bool[wiiCount];
+		buttonBPressed      = new bool[wiiCount];
+		button1Pressed      = new bool[wiiCount];
+		button2Pressed      = new bool[wiiCount];
+		buttonUpPressed     = new bool[wiiCount];
+		buttonDownPressed   = new bool[wiiCount];
+		buttonLeftPressed   = new bool[wiiCount];
+		buttonRightPressed  = new bool[wiiCount];
+		
+		buttonHomePressed  = new bool[wiiCount];
+		buttonPlusPressed  = new bool[wiiCount];
+		buttonMinusPressed = new bool[wiiCount];
+		
+		for(int i=0; i < wiiCount; i++)
+		{
+			XAccel[i] = wiimote_getAccX(i);
+			YAccel[i] = wiimote_getAccY(i);
+			ZAccel[i] = wiimote_getAccZ(i);
+			yaw[i]    = wiimote_getYaw(i);
+		    pitch[i]  = wiimote_getPitch(i);
+		    roll[i]   = wiimote_getRoll(i);
+			irX[i] = wiimote_getIrX(i);
+			irY[i] = wiimote_getIrY(i);
+			
+			buttonAPressed[i]    = wiimote_getButtonA(i);
+			buttonBPressed[i]    = wiimote_getButtonB(i);
+		 	button1Pressed[i]    = wiimote_getButton1(i);
+		 	button2Pressed[i]    = wiimote_getButton2(i);
+		 	buttonUpPressed[i]   = wiimote_getButtonUp(i);
+		 	buttonDownPressed[i] = wiimote_getButtonDown(i);
+		 	buttonLeftPressed[i] = wiimote_getButtonLeft(i);
+		 	buttonRightPressed[i] = wiimote_getButtonRight(i);
+			
+			buttonHomePressed[i]  = wiimote_getButtonHome(i);
+			buttonPlusPressed[i]  = wiimote_getButtonPlus(i);
+			buttonMinusPressed[i] = wiimote_getButtonMinus(i);
+			
+		}
+		
 	}
 	
 	void Update()
 	{
-		XAccel = wiimote_getAccX(0);
-		//Debug.Log("X Accel  " + XAccel );
-		
-		YAccel = wiimote_getAccY(0);
-		//Debug.Log("Y Accel  " + YAccel );
-		
-		ZAccel = wiimote_getAccZ(0);
-		//Debug.Log("Z Accel  " + ZAccel );
-		
-		roll = wiimote_getRoll(0);
-		pitch = wiimote_getPitch(0);
-		float yaw = wiimote_getYaw(0);
+		for(int i=0; i < wiiCount; i++)
+		{
+			XAccel[i] = wiimote_getAccX(i);
+			YAccel[i] = wiimote_getAccY(i);
+			ZAccel[i] = wiimote_getAccZ(i);
+			yaw[i]    = wiimote_getYaw(i);
+		    pitch[i]  = wiimote_getPitch(i);
+		    roll[i]   = wiimote_getRoll(i);
+			irX[i] = wiimote_getIrX(i);
+			irY[i] = wiimote_getIrY(i);
+			
+			buttonAPressed[i]    = wiimote_getButtonA(i);
+			buttonBPressed[i]    = wiimote_getButtonB(i);
+		 	button1Pressed[i]    = wiimote_getButton1(i);
+		 	button2Pressed[i]    = wiimote_getButton2(i);
+		 	buttonUpPressed[i]   = wiimote_getButtonUp(i);
+		 	buttonDownPressed[i] = wiimote_getButtonDown(i);
+		 	buttonLeftPressed[i] = wiimote_getButtonLeft(i);
+		 	buttonRightPressed[i] = wiimote_getButtonRight(i);
+			
+			buttonHomePressed[i]  = wiimote_getButtonHome(i);
+			buttonPlusPressed[i]  = wiimote_getButtonPlus(i);
+			buttonMinusPressed[i] = wiimote_getButtonMinus(i);
+			
+			Debug.Log("Accels are   " + XAccel[0]+ " " + YAccel[0] + " "+ ZAccel[0] );
+			Debug.Log("angles are   " + roll[0]+ " " + pitch[0] + " "+ yaw[0] );
+		}
 		//Debug.Log("angles are   " + roll+ " " + pitch + " "+ yaw + "Sohail");
-		
-//		float irX = wiimote_getIrX(0);
-//		float irY = wiimote_getIrY(0);
-//		Debug.Log("ir X is  " + irX );
-//		Debug.Log("ir Y is  " + irY );
-//		ZAccel = wiimote_getAccZ(0);
-//		if(ZAccel > 180.0f || ZAccel < 110.0f)
-//			YAccel = 130.0f;
-		
-		buttonAPressed = wiimote_getButtonA(0);
-		buttonBPressed = wiimote_getButtonB(0);
-	 	button1Pressed = wiimote_getButton1(0);
-	 	button2Pressed = wiimote_getButton2(0);
-	 	buttonUpPressed = wiimote_getButtonUp(0);
-	 	buttonDownPressed = wiimote_getButtonDown(0);
-	 	buttonLeftPressed = wiimote_getButtonLeft(0);
-	 	buttonRightPressed = wiimote_getButtonRight(0);
 	}
  
 	void OnApplicationQuit() {

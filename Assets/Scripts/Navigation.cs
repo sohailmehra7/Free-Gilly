@@ -229,8 +229,9 @@ public class Navigation : MonoBehaviour {
 			globalObj.currentHealth -= 5;
 			
 			// Controller rumble
-			if(Constants.WII_RUMBLE)
+			if(Constants.WII_RUMBLE){
 				wiimote_rumble(0, 0.5f);
+				wiimote_rumble(1, 0.5f);}
 			
 			// Image effect
 			if(Constants.BLOOD_SPLATTER_TOGGLE)
@@ -246,8 +247,9 @@ public class Navigation : MonoBehaviour {
 			globalObj.currentHealth -= 10;
 			
 			// Controller rumble
-			if(Constants.WII_RUMBLE)
+			if(Constants.WII_RUMBLE){
 				wiimote_rumble(0, 0.5f);
+				wiimote_rumble(1, 0.5f);}
 			
 			// Image effect
 			if(Constants.BLOOD_SPLATTER_TOGGLE)

@@ -236,61 +236,80 @@ public class OVRPlayerController : OVRComponent
 		if (Input.GetKey(KeyCode.A)) moveLeft	 = true;
 		if (Input.GetKey(KeyCode.S)) moveDown 	 = true; 
 		if (Input.GetKey(KeyCode.D)) moveRight 	 = true;
-		
-		if ((Input.GetKey(KeyCode.T) || uniWii.buttonAPressed) && globalObj.currentStamina > 0) 
-			moveForward = true;
-		
-		if (Input.GetKey(KeyCode.R)) moveBack	 = true;  //|| uniWii.YAccel > 135.0f
-		
-		int c = uniWii.wiiCount;
-		if (c>0) {
-//			if(uniWii.YAccel < 120.0f || uniWii.YAccel > 140.0f)
-//			{
-//				
-//				gameObject.rigidbody.AddForce(0,0,-500);
-//			}
-			
-		
-				if( (uniWii.YAccel > 160.0f) && 
-					(uniWii.pitch > 45.0f && uniWii.pitch < 150.0f) //&&
-					//((uniWii.roll < -120 &&  uniWii.roll > -180) || (uniWii.roll > 120 &&  uniWii.roll < 180))
-				) //uniWii.YAccel < 120.0f ||
-				{
-				//nav_obj.speed += 4.0f;
-					moveForward = true;
-					//gameObject.rigidbody.velocity +=
-				    // Forward thrust control for Wii
-					//nav_obj.speed += 1;
-				    
-				}
-				else if((uniWii.ZAccel < 95.0f || uniWii.ZAccel > 180.0f) &&
-						(uniWii.pitch < -125.0f && uniWii.pitch > -180.0f) || (uniWii.pitch > 155.0f && uniWii.pitch < 180.0f))
-				{
-					moveBack = true;
-					//gameObject.rigidbody.AddForce(0,0,500);
-				}
-			    else if(uniWii.roll < -45 && uniWii.roll > -145)
-				{
-					moveLeft	 = true;
-				}
-				else if(uniWii.roll > 45 && uniWii.roll < 145)
-				{
-					moveRight 	 = true;
-				}
-//				{
-//				
-//					gameObject.rigidbody.velocity.Set(0,0,-10000);
-//				}
-		}
+		if (Input.GetKey(KeyCode.R)) moveBack 	 = true;
+		if (Input.GetKey(KeyCode.T) && globalObj.currentStamina > 0) moveForward = true;
 		
 		// Arrow keys
-		if (Input.GetKey(KeyCode.UpArrow) || uniWii.buttonUpPressed)    	moveUp 	  = true;
-		if (Input.GetKey(KeyCode.LeftArrow) || uniWii.buttonLeftPressed)  	moveLeft 	  = true;
-		if (Input.GetKey(KeyCode.DownArrow) || uniWii.buttonDownPressed)  	moveDown 	  = true; 
-		if (Input.GetKey(KeyCode.RightArrow) || uniWii.buttonRightPressed) 	moveRight   = true; 
+		if (Input.GetKey(KeyCode.UpArrow))    	moveUp 	  	= true;
+		if (Input.GetKey(KeyCode.LeftArrow))  	moveLeft 	= true;
+		if (Input.GetKey(KeyCode.DownArrow))  	moveDown 	= true; 
+		if (Input.GetKey(KeyCode.RightArrow)) 	moveRight   = true; 
+		
+		// Wii inputs
+		int c = uniWii.wiiCount;
+		if(c > 1) 
+		{
+			// Move forward (buttons)
+			if (uniWii.buttonAPressed[0] && globalObj.currentStamina > 0) 
+				moveForward = true;
+		
+			// Move back (buttons)
+			if (uniWii.buttonBPressed[0]) 
+				moveBack = true;  
 			
-		if ( (moveForward && moveLeft) || (moveForward && moveRight) ||
-			 (moveBack && moveLeft)    || (moveBack && moveRight) )
+			// Move back (motion)
+			//else if((uniWii.ZAccel < 95.0f || uniWii.ZAccel > 180.0f) && (uniWii.pitch < -125.0f && uniWii.pitch > -180.0f) || (uniWii.pitch > 155.0f && uniWii.pitch < 180.0f))
+				//moveBack = true;
+			
+			// If both buttons are pressed
+			if(uniWii.button1Pressed[0] && uniWii.button1Pressed[1])
+			{   Debug.Log ("up executed");
+				if(((uniWii.ZAccel[0] < 80.0f || uniWii.ZAccel[0] > 130.0f) && (uniWii.roll[0] < 45 && uniWii.roll[0] > -45)) && 
+					((uniWii.ZAccel[1] < 80.0f || uniWii.ZAccel[1] > 130.0f) && (uniWii.roll[1] < 45 && uniWii.roll[1] > -45)))
+				{moveUp = true; }
+				
+				else if(((uniWii.ZAccel[0] < 80.0f || uniWii.ZAccel[0] > 140.0f) && ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125))) &&
+					 (((uniWii.ZAccel[0] < 980.0f || uniWii.ZAccel[0] > 140.0f) && ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125)))))
+					moveDown = true;
+				
+				if( (uniWii.roll[0] < 45 && uniWii.roll[0] > -45)    && (uniWii.roll[1] < 45 && uniWii.roll[1] > -45))
+				{moveUp = true; }
+				
+				else if(   ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125)) &&
+					 ( ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125)))  )
+					moveDown = true;
+			}
+			
+			// If one button is pressed
+			else if(uniWii.button1Pressed[0] || uniWii.button1Pressed[1])
+			{
+				// Move left (motion)	
+				//if(uniWii.roll < -45 && uniWii.roll > -145)	
+				if (uniWii.button1Pressed[0] && ((uniWii.YAccel[0] > 160.0f) && (uniWii.pitch[0] > 45.0f && uniWii.pitch[0] < 150.0f)))
+					moveLeft = true;
+			
+				// Move right (motion)
+				//else if(uniWii.roll > 45 && uniWii.roll < 145)
+				else if (uniWii.button1Pressed[1] && ((uniWii.YAccel[1] > 160.0f) && (uniWii.pitch[1] > 45.0f && uniWii.pitch[1] < 150.0f)))	
+					moveRight = true;
+			}
+	
+			// Move forward (motion)
+			//((uniWii.roll < -120 &&  uniWii.roll > -180) || (uniWii.roll > 120 &&  uniWii.roll < 180))
+			//uniWii.YAccel < 120.0f ||	
+			else if(((uniWii.YAccel[0] > 160.0f) && (uniWii.pitch[0] > 45.0f && uniWii.pitch[0] < 150.0f)) &&
+			  ((uniWii.YAccel[1] > 160.0f) && (uniWii.pitch[1] > 45.0f && uniWii.pitch[1] < 150.0f)))
+				moveForward = true;
+			
+			// D-pad
+			if(uniWii.buttonUpPressed[0])    	moveUp 	      = true;
+			if(uniWii.buttonLeftPressed[0])  	moveLeft 	  = true;
+			if(uniWii.buttonDownPressed[0])  	moveDown 	  = true; 
+			if(uniWii.buttonRightPressed[0]) 	moveRight     = true; 
+		}
+		
+			
+		if ((moveForward && moveLeft) || (moveForward && moveRight) || (moveBack && moveLeft) || (moveBack && moveRight))
 			MoveScale = 0.70710678f;
 			
 		// No positional movement if we are in the air
@@ -310,17 +329,19 @@ public class OVRPlayerController : OVRComponent
 		{
 			if(moveForward)
 			{
-				if(nav_obj.remainingDistance >= 15.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(nav_obj.remainingDistance >= 10.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{   
 					if(inDrop == false)
 					{
-					nav_obj.speed = 20.0f;
-					obs_nav_obj.speed = 20.0f;
+						nav_obj.speed = 20.0f;
+						obs_nav_obj.speed = 20.0f;
 					}
-					else{
-					nav_obj.speed = 50.0f;
-					obs_nav_obj.speed = 50.0f;	
+					else
+					{
+						nav_obj.speed = 50.0f;
+						obs_nav_obj.speed = 50.0f;	
 					}
+					
 					// Decrease stamina
 					globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
 				}
@@ -336,18 +357,19 @@ public class OVRPlayerController : OVRComponent
 				{
 					if(inDrop == false)
 					{
-					nav_obj.speed = 2.0f;
-					obs_nav_obj.speed = 1.0f;
+						nav_obj.speed = 2.0f;
+						obs_nav_obj.speed = 1.0f;
 					}
+					
 					// Decrease stamina
 					globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
 				}
 				else
-				MoveThrottle += DirXform.TransformDirection(Vector3.back * moveInfluence) * BackAndSideDampen;
+					MoveThrottle += DirXform.TransformDirection(Vector3.back * moveInfluence) * BackAndSideDampen;
 			}
 			if (moveLeft)
 			{
-				if(nav_obj.remainingDistance >= 15.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(nav_obj.remainingDistance >= 10.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
 					nav_obj.transform.position += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen * 10.0f;
 				}
@@ -358,7 +380,7 @@ public class OVRPlayerController : OVRComponent
 			}
 			if (moveRight)
 			{
-				if(nav_obj.remainingDistance >= 15.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(nav_obj.remainingDistance >= 10.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 				{
 					nav_obj.transform.position +=DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen * 10.0f;
 				}
@@ -371,7 +393,6 @@ public class OVRPlayerController : OVRComponent
 				MoveThrottle += DirXform.TransformDirection(Vector3.up * moveInfluence);
 			if (moveDown)
 				MoveThrottle += DirXform.TransformDirection(Vector3.down * moveInfluence) * BackAndSideDampen;
-			
 		}
 			
 		// Rotate
@@ -443,13 +464,13 @@ public class OVRPlayerController : OVRComponent
 		YRotation += rightAxisX * rotateInfluence;
 		
 		// Auto orientation
-		if(nav_obj.remainingDistance >= 15.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+		if(nav_obj.remainingDistance >= 5.0f) //15//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
 		{
 			YRotation = nav_obj.transform.rotation.eulerAngles.y;
 		}
 		
-	// Update cameras direction and rotation
-	SetCameras();
+		// Update cameras direction and rotation
+		SetCameras();
 
 	}
 

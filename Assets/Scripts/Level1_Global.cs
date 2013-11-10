@@ -5,6 +5,7 @@ static class Constants {
 	
 	// Bubbles
     public const int MAX_BUBBLES = 5;
+	public const float SHOOT_TIME = 0.25f;
 	public const float BUBBLE_LIFE_TIME = 5.0f;
 	public const float BUBBLE_REGEN_TIME = 3.0f;
 	public const float BUBBLE_SPAWN_OFFSET = 1.5f;
@@ -47,9 +48,9 @@ static class Constants {
 //	public const string[] LEVEL1_ACH_REWARDS = new string[] {"S", "H", "HS", "HS"};
 	
 	// Debug - Cheat Codes
-	public const bool UNLIMITED_HEALTH = false;
+	public const bool UNLIMITED_HEALTH  = false;
 	public const bool UNLIMITED_STAMINA = false;
-	public const bool UNLIMITED_BUBBLES = true;
+	public const bool UNLIMITED_BUBBLES = false;
 }
 
 public class Level1_Global : MonoBehaviour {
@@ -85,6 +86,8 @@ public class Level1_Global : MonoBehaviour {
 	public bool storedStaminaPU;
 	
 	// Bubbles
+	public float shootTimer;
+	public bool shootEnabled;
 	public int bubblesLeft;
 	public float bubbleRegenTimer;
 	
@@ -123,10 +126,11 @@ public class Level1_Global : MonoBehaviour {
 		bubblesLeft = Constants.MAX_BUBBLES;
 		bubbleRegenTimer = Constants.BUBBLE_REGEN_TIME;
 		staminaRegenTimer = Constants.STAMINA_REGEN_TIME;
+		shootTimer = Constants.SHOOT_TIME;
+		shootEnabled = true;
 		
 		score = 0;
 		startTime = Time.time;
-		
 	}
 	
 	void Awake() {
@@ -175,59 +179,44 @@ public class Level1_Global : MonoBehaviour {
 			}
 		}
 		
-		// Shoot bubble
-		if(uniWii.buttonBPressed || Input.GetKeyDown(KeyCode.P))
+		if(shootEnabled == false)
 		{
-			if(bubblesLeft > 0)
-			{		
-				Vector3 startPos = MainCam.transform.position;
-				//Debug.Log(startPos);
-				direction = Vector3.forward;
-		    	direction = MainCam.transform.rotation * direction;
-			
-				Vector3 dir = direction;
-				dir.Normalize();
-				Vector3 offset = dir * Constants.BUBBLE_SPAWN_OFFSET;
-		    
-				// Create bubble
-				Instantiate(bubble, startPos + offset, Quaternion.identity);
-			
-				// Play sound
-				AudioSource.PlayClipAtPoint(audioScript.bubblePopSound, startPos + offset);
-				
-				// Update bubbles left counter
-				if(Constants.UNLIMITED_BUBBLES == false)
-					bubblesLeft--;
+			shootTimer -= Time.deltaTime;
+			if(shootTimer <= 0)
+			{
+				shootTimer = Constants.SHOOT_TIME;
+				shootEnabled = true;
 			}
 		}
 		
-		// Use health power-up
-		if(uniWii.button1Pressed || Input.GetKeyDown(KeyCode.U))
+		// Shoot bubble
+		if(uniWii.wiiCount > 1 && uniWii.buttonBPressed[1])
 		{
-			if(storedHealthPU == true)
+			if(shootEnabled == true)
 			{
-				currentHealth += 25;
-				
-				if(currentHealth > 100)
-					currentHealth = 100;
-				
-				storedHealthPU = false;
+				shootBubble();
+				shootEnabled = false;
 			}
 		}
+		
+		// Keyboard input
+		if(Input.GetKeyDown(KeyCode.P))
+			shootBubble();
+		
+		if(Input.GetKeyDown(KeyCode.U))
+			useHealthPowerUp();
+		
+		if(Input.GetKeyDown(KeyCode.I))
+			useStaminaPowerUp();
+		
+		// Wii inputs
+		// Use health power-up
+		if(uniWii.wiiCount > 1 && uniWii.buttonPlusPressed[1])
+			useHealthPowerUp();
 		
 		// Use stamina power-up
-		if(uniWii.button2Pressed || Input.GetKeyDown(KeyCode.I))
-		{
-			if(storedStaminaPU == true)
-			{
-				currentStamina += 25;
-				
-				if(currentStamina > 100)
-					currentStamina = 100;
-				
-				storedStaminaPU = false;
-			}
-		}
+		if(uniWii.wiiCount > 1 && uniWii.buttonMinusPressed[1])
+			useStaminaPowerUp();
 	}
 	
 	void setSpawnPoint(int pos)
@@ -258,5 +247,55 @@ public class Level1_Global : MonoBehaviour {
 		//obsNavObj.transform.position = s.obstacleAgentPos.transform.position;
 	}
 	
-
+	void shootBubble()
+	{
+		if(bubblesLeft > 0)
+		{		
+			Vector3 startPos = MainCam.transform.position;
+			//Debug.Log(startPos);
+			direction = Vector3.forward;
+		    direction = MainCam.transform.rotation * direction;
+			
+			Vector3 dir = direction;
+			dir.Normalize();
+			Vector3 offset = dir * Constants.BUBBLE_SPAWN_OFFSET;
+		    
+			// Create bubble
+			Instantiate(bubble, startPos + offset, Quaternion.identity);
+			
+			// Play sound
+			AudioSource.PlayClipAtPoint(audioScript.bubblePopSound, startPos + offset);
+				
+			// Update bubbles left counter
+			if(Constants.UNLIMITED_BUBBLES == false)
+				bubblesLeft--;
+		}
+	}
+	
+	void useHealthPowerUp()
+	{
+		if(storedHealthPU == true)
+		{
+			currentHealth += 25;
+				
+			if(currentHealth > 100)
+				currentHealth = 100;
+				
+			storedHealthPU = false;
+		}	
+	}
+	
+	void useStaminaPowerUp()
+	{
+		if(storedStaminaPU == true)
+		{
+			currentStamina += 25;
+				
+			if(currentStamina > 100)
+				currentStamina = 100;
+				
+			storedStaminaPU = false;
+		}
+	}
+	
 }
