@@ -20,13 +20,20 @@ public class Navigation : MonoBehaviour {
 	private Level1_Audio audioScript;
 	
 	// Obstacles to spawn
-	public GameObject SmallObstacle;
-	public GameObject LargeObstacle;
+	public GameObject SmallObstacleBolts;
+	public GameObject SmallObstacleNuts;
+	public GameObject SmallObstacleNewspaper;
+	public GameObject SmallObstaclePaper;
+	public GameObject SmallObstacleBatteries;
 	public GameObject LargeObstacleRock1;
 	public GameObject LargeObstacleRock2;
 	public GameObject LargeObstacleRock3;
 	public GameObject LargeObstacleRock4;
 	public GameObject LargeObstacleRock5;
+	
+	// Powerups
+	public GameObject healthPowerUp;
+	public GameObject staminaPowerUp;
 	
 	// Particle effects
 	public GameObject redParticles;
@@ -39,8 +46,11 @@ public class Navigation : MonoBehaviour {
 	private bool overlayToggle;
 	
 	// Obstacles
-	public Vector3 ObjSpawnPos;
-	public float ObstacleTimer;
+	public Vector3 objSpawnPos;
+	public float obstacleTimer;
+	
+	// Powerups
+	public float powerUpSpawnTimer;
 	
 	// Bubble particles
 	public float bubbleParticleSpawnTimer;
@@ -71,7 +81,17 @@ public class Navigation : MonoBehaviour {
 		overlayTimer = 0.5f;
 		overlayToggle = false;
 		
-		bubbleParticleSpawnTimer =  Constants.BUBBLE_PARTICLE_SPAWN_TIMER;
+		bubbleParticleSpawnTimer = Constants.BUBBLE_PARTICLE_SPAWN_TIMER;
+		
+		powerUpSpawnTimer = UnityEngine.Random.Range(15.0f, 20.0f);
+		
+		// Easy
+		if(globalObj.branchDiff == 0)
+			obstacleTimer = UnityEngine.Random.Range(0.5f, 2.0f);
+		
+		// Hard
+		else if(globalObj.branchDiff == 1)
+			obstacleTimer = UnityEngine.Random.Range(0.5f, 1.0f);
 		
 		//gameObject.rigidbody.AddForce(0, 0, -1000);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
 		// Avoid collision between the navAgent and the obstacles 
@@ -106,15 +126,28 @@ public class Navigation : MonoBehaviour {
 		
 		NavMeshHit hit =  new NavMeshHit();
 		
-		ObjSpawnPos = obstacleNavObj.transform.position 
-			+ new Vector3(UnityEngine.Random.Range(-0.4f, 0.4f), UnityEngine.Random.Range(0.2f, 1.5f), 0.0f);// sPos + flowDir ; //new Vector3(0,0,10);//
+		objSpawnPos = obstacleNavObj.transform.position 
+			+ new Vector3(UnityEngine.Random.Range(-0.4f, 0.4f), UnityEngine.Random.Range(0.75f, 7.0f), 0.0f);// sPos + flowDir ; //new Vector3(0,0,10);//
 		
-		ObstacleTimer += Time.deltaTime;
+		obstacleTimer -= Time.deltaTime;
 		bubbleParticleSpawnTimer -= Time.deltaTime;
+		powerUpSpawnTimer -=Time.deltaTime;
 		
-		if(ObstacleTimer > 2.0f)
+		if(powerUpSpawnTimer <= 0.0f)
 		{
-			ObstacleTimer = 0.0f;
+			powerUpSpawnTimer = UnityEngine.Random.Range(15.0f, 20.0f);
+			InstantiatePowerUps();
+		}
+		
+		if(obstacleTimer <= 0.0f)
+		{
+			// Easy
+			if(globalObj.branchDiff == 0)
+				obstacleTimer = UnityEngine.Random.Range(0.5f, 2.0f);
+		
+			// Hard
+			else if(globalObj.branchDiff == 1)
+				obstacleTimer = UnityEngine.Random.Range(0.5f, 1.0f);
 		
 			if(obstacleNavObj.remainingDistance >= 5.0f)
 				InstantiateObstacles();
@@ -151,8 +184,34 @@ public class Navigation : MonoBehaviour {
 			gameObject.rigidbody.velocity = gameObject.transform.forward*0.75f;
 	}
 	
+	void InstantiatePowerUps()
+	{
+		float r = UnityEngine.Random.Range(0.0f, 1.0f);
+
+		// Select between spawning halth/ stamina powerups with a certain probability
+		int pType = 0;
+		if(r <= Constants.HEALTH_PROB)
+			pType = 0;
+		else
+			pType = 1;
+		
+		// Health
+		if(pType == 0)
+			Instantiate(healthPowerUp, objSpawnPos, Quaternion.identity);
+		
+		// Stamina
+		else if(pType == 1)
+			Instantiate(staminaPowerUp, objSpawnPos, Quaternion.identity);
+			
+	}
+	
 	void InstantiateObstacles()
 	{
+		Vector3 ePos = obstacleNavObj.transform.position;
+		Vector3 sPos = gameObject.transform.position;
+		Vector3 flowDir = ePos - sPos;
+		flowDir.Normalize();
+		
 		float r = UnityEngine.Random.Range(0.0f, 1.0f);
 		
 		// Obstacle that will be instantiated
@@ -168,10 +227,39 @@ public class Navigation : MonoBehaviour {
 		// Small obstacle
 		if(oType == 0)
 		{
-			obstacle = (GameObject) Instantiate(SmallObstacle, ObjSpawnPos, Quaternion.identity) as GameObject;
+			int randomObs = (int)UnityEngine.Random.Range(0.0f, 4.0f);
+
+			switch(randomObs)
+			{
+				case 0:
+						obstacle = (GameObject)Instantiate(SmallObstacleBolts, objSpawnPos, Quaternion.identity) as GameObject;
+						break;
+				case 1:
+						obstacle = (GameObject)Instantiate(SmallObstacleNuts, objSpawnPos, Quaternion.identity) as GameObject;
+						break;
+				case 2:
+						obstacle = (GameObject)Instantiate(SmallObstacleNewspaper, objSpawnPos, Quaternion.identity) as GameObject;
+						break;
+				case 3:
+						obstacle = (GameObject)Instantiate(SmallObstaclePaper, objSpawnPos, Quaternion.identity) as GameObject;
+						break;
+//				case 4:
+//						obstacle = (GameObject)Instantiate(LargeObstacleRock5, objSpawnPos, Quaternion.identity) as GameObject;
+//						break;
+				default:
+						obstacle = (GameObject)Instantiate(SmallObstacleBolts, objSpawnPos, Quaternion.identity) as GameObject;
+						break;
+			}
 			
 			// Scale obstacle randomly
 			obstacle.transform.localScale += new Vector3(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f));
+		
+			// Rotate obstacle randomly
+			obstacle.transform.Rotate(new Vector3(UnityEngine.Random.Range(-90.0f, 90.0f), UnityEngine.Random.Range(-90.0f, 90.0f), UnityEngine.Random.Range(-90.0f, 90.0f)));
+			
+			// Add random movement force/ torque
+			obstacle.rigidbody.AddForce(flowDir * Constants.SM_OBSTACLE_MOVE_MAGNITUDE);
+			obstacle.rigidbody.AddTorque(UnityEngine.Random.Range(5.0f, 15.0f), UnityEngine.Random.Range(5.0f, 15.0f), UnityEngine.Random.Range(5.0f, 15.0f));
 		}
 		
 		// Large obstacle
@@ -182,32 +270,36 @@ public class Navigation : MonoBehaviour {
 			switch(randomObs)
 			{
 				case 0:
-						obstacle = (GameObject)Instantiate(LargeObstacleRock1, ObjSpawnPos, Quaternion.identity) as GameObject;
+						obstacle = (GameObject)Instantiate(LargeObstacleRock1, objSpawnPos, Quaternion.identity) as GameObject;
 						break;
 				case 1:
-						obstacle = (GameObject)Instantiate(LargeObstacleRock2, ObjSpawnPos, Quaternion.identity) as GameObject;
+						obstacle = (GameObject)Instantiate(LargeObstacleRock2, objSpawnPos, Quaternion.identity) as GameObject;
 						break;
 				case 2:
-						obstacle = (GameObject)Instantiate(LargeObstacleRock3, ObjSpawnPos, Quaternion.identity) as GameObject;
+						obstacle = (GameObject)Instantiate(LargeObstacleRock3, objSpawnPos, Quaternion.identity) as GameObject;
 						break;
 				case 3:
-						obstacle = (GameObject)Instantiate(LargeObstacleRock4, ObjSpawnPos, Quaternion.identity) as GameObject;
+						obstacle = (GameObject)Instantiate(LargeObstacleRock4, objSpawnPos, Quaternion.identity) as GameObject;
 						break;
 				case 4:
-						obstacle = (GameObject)Instantiate(LargeObstacleRock5, ObjSpawnPos, Quaternion.identity) as GameObject;
+						obstacle = (GameObject)Instantiate(LargeObstacleRock5, objSpawnPos, Quaternion.identity) as GameObject;
 						break;
 				default:
-						obstacle = (GameObject)Instantiate(LargeObstacleRock1, ObjSpawnPos, Quaternion.identity) as GameObject;
+						obstacle = (GameObject)Instantiate(LargeObstacleRock1, objSpawnPos, Quaternion.identity) as GameObject;
 						break;
 			}
 			
 			// Scale obstacle randomly
 			obstacle.transform.localScale += new Vector3(UnityEngine.Random.Range(0.5f, 2.0f), UnityEngine.Random.Range(0.5f, 2.0f), UnityEngine.Random.Range(0.5f, 2.0f));
+		
+			// Rotate obstacle randomly
+			obstacle.transform.Rotate(new Vector3(UnityEngine.Random.Range(-90.0f, 90.0f), UnityEngine.Random.Range(-90.0f, 90.0f), UnityEngine.Random.Range(-90.0f, 90.0f)));
+		
+			// Add random movement force/ torque
+			obstacle.rigidbody.AddForce(flowDir * Constants.LG_OBSTACLE_MOVE_MAGNITUDE);
+			obstacle.rigidbody.AddTorque(UnityEngine.Random.Range(2.0f, 5.0f), UnityEngine.Random.Range(2.0f, 5.0f), UnityEngine.Random.Range(2.0f, 5.0f));
+		
 		}
-		
-		// Rotate obstacle randomly
-		obstacle.transform.Rotate(new Vector3(UnityEngine.Random.Range(-90.0f, 90.0f), UnityEngine.Random.Range(-90.0f, 90.0f), UnityEngine.Random.Range(-90.0f, 90.0f)));
-		
 		
 	}
 	

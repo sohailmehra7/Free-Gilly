@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Level1_Global.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Navigation.cs">
     <Files>
-      <File FileName="Assets\Scripts\Level1_Global.cs" Line="4" Column="19" />
-      <File FileName="Assets\Scripts\Navigation.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\Level1_Global.cs" Line="69" Column="27" />
+      <File FileName="Assets\Scripts\StartBranchScript.cs" Line="49" Column="26" />
+      <File FileName="Assets\Scripts\Navigation.cs" Line="195" Column="7" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

@@ -266,14 +266,14 @@ public class OVRPlayerController : OVRComponent
 			{   Debug.Log ("up executed");
 				if(((uniWii.ZAccel[0] < 80.0f || uniWii.ZAccel[0] > 130.0f) && (uniWii.roll[0] < 45 && uniWii.roll[0] > -45)) && 
 					((uniWii.ZAccel[1] < 80.0f || uniWii.ZAccel[1] > 130.0f) && (uniWii.roll[1] < 45 && uniWii.roll[1] > -45)))
-				{moveUp = true; }
+					moveUp = true;
 				
 				else if(((uniWii.ZAccel[0] < 80.0f || uniWii.ZAccel[0] > 140.0f) && ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125))) &&
 					 (((uniWii.ZAccel[0] < 980.0f || uniWii.ZAccel[0] > 140.0f) && ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125)))))
 					moveDown = true;
 				
 				if( (uniWii.roll[0] < 45 && uniWii.roll[0] > -45)    && (uniWii.roll[1] < 45 && uniWii.roll[1] > -45))
-				{moveUp = true; }
+					moveUp = true;
 				
 				else if(   ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125)) &&
 					 ( ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125)))  )
@@ -343,7 +343,8 @@ public class OVRPlayerController : OVRComponent
 					}
 					
 					// Decrease stamina
-					globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
+					if(!Constants.UNLIMITED_STAMINA)
+						globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
 				}
 				else
 				{

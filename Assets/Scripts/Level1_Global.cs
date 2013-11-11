@@ -36,9 +36,18 @@ static class Constants {
 	// Image Effects
 	public const bool BLOOD_SPLATTER_TOGGLE = false;
 	
+	// Obstacles
+	public const float SM_OBSTACLE_MOVE_MAGNITUDE = 25.0f;
+	public const float LG_OBSTACLE_MOVE_MAGNITUDE = 5.0f;
+	
 	// Probabilites
 	public const float SM_OBSTACLE_PROB = 0.7f;
 	public const float LG_OBSTACLE_PROB = 0.3f;
+	public const float STAMINA_PROB = 0.6f;
+	public const float HEALTH_PROB = 0.4f;
+	
+	// Power ups
+	public const float POWERUP_SPAWN_TIME = 15.0f;
 	
 	// Achievements
 //	public const string[] LEVEL1_ACH = new string[] {"Shoot and destroy 25 small obstacles (Level1)",
@@ -51,8 +60,8 @@ static class Constants {
 	
 	// Debug - Cheat Codes
 	public const bool UNLIMITED_HEALTH  = false;
-	public const bool UNLIMITED_STAMINA = false;
-	public const bool UNLIMITED_BUBBLES = false;
+	public const bool UNLIMITED_STAMINA = true;
+	public const bool UNLIMITED_BUBBLES = true;
 }
 
 public class Level1_Global : MonoBehaviour {
@@ -101,6 +110,9 @@ public class Level1_Global : MonoBehaviour {
 	// Spawn point array
 	public GameObject[] spawnPositions;
 	
+	// Branch difficulty
+	public int branchDiff;
+	
 	// SetOVRCameraController
 	public void SetOVRCameraController(ref OVRCameraController cameraController)
 	{
@@ -130,6 +142,9 @@ public class Level1_Global : MonoBehaviour {
 		staminaRegenTimer = Constants.STAMINA_REGEN_TIME;
 		shootTimer = Constants.SHOOT_TIME;
 		shootEnabled = true;
+		
+		// Default setting = easy
+		branchDiff = 0;
 		
 		score = 0;
 		startTime = Time.time;

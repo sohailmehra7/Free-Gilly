@@ -3,10 +3,6 @@ using System.Collections;
 
 public class SpawnPositionScript : MonoBehaviour {
 	
-	// Destination
-	public GameObject endPoint;
-	//public Vector3 destination = new Vector3(1,1,1);
-	
 	private GameObject nav;
 	private GameObject obsNav;
 	private NavMeshAgent nav_obj;
@@ -15,6 +11,9 @@ public class SpawnPositionScript : MonoBehaviour {
 	// Agent positions
 	public GameObject navAgentPos;
 	public GameObject obstacleAgentPos;
+	
+	// Destination
+	public GameObject endPoint;
 	
 	void Awake() {
 		

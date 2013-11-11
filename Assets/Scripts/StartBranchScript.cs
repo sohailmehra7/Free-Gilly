@@ -13,12 +13,19 @@ public class StartBranchScript : MonoBehaviour {
 	private NavMeshAgent nav_obj;
 	private NavMeshAgent spawn_nav_obj;
 	
+	private Level1_Global globalObj;
+	
+	// 0 = easy, 1 = hard
+	public int branchDifficulty;
+	
 	// Use this for initialization
 	void Start () {
 	
 		nav = GameObject.FindGameObjectWithTag("NavAgent");
 	    nav_obj = nav.GetComponent<NavMeshAgent>();
 		spawn_nav_obj = GameObject.FindGameObjectWithTag("ObsNavAgent").GetComponent<NavMeshAgent>();
+		
+		globalObj = GameObject.Find("Global").GetComponent<Level1_Global>();
 		
 		destination = endPoint.transform.position;
 	}
@@ -33,13 +40,25 @@ public class StartBranchScript : MonoBehaviour {
     {
     	if (other.gameObject.CompareTag("Player"))
 		{
-			nav_obj.transform.position = NavAgentRespawn.transform.position; //this.transform.position; // + offset
-			nav_obj.SetDestination(destination);
-			nav_obj.speed = 4.0f;
+			// Set the branch difficulty
+			globalObj.branchDiff = branchDifficulty;
 			
-			spawn_nav_obj.transform.position = ObsAgentRespawn.transform.position;// this.transform.position;
+			if(NavAgentRespawn != null) {
+				
+				nav_obj.transform.position = NavAgentRespawn.transform.position; //this.transform.position; // + offset
+				nav_obj.speed = 4.0f;
+			}
+			
+			nav_obj.SetDestination(destination);
+			
+			
+			if(ObsAgentRespawn != null) {
+			
+				spawn_nav_obj.transform.position = ObsAgentRespawn.transform.position;// this.transform.position;
+				spawn_nav_obj.speed = 8.0f;
+			}
+			
 			spawn_nav_obj.SetDestination(destination);
-			spawn_nav_obj.speed = 8.0f;
     	}
     }
 }
