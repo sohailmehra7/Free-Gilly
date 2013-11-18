@@ -39,6 +39,7 @@ static class Constants {
 	// Obstacles
 	public const float SM_OBSTACLE_MOVE_MAGNITUDE = 25.0f;
 	public const float LG_OBSTACLE_MOVE_MAGNITUDE = 5.0f;
+	public const float OBSTACLE_DESTROY_TIMER = 30.0f;
 	
 	// Probabilites
 	public const float SM_OBSTACLE_PROB = 0.7f;

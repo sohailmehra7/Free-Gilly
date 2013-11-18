@@ -75,6 +75,7 @@
      <Compile Include="Assets\Scripts\LoadGame.cs" />
      <Compile Include="Assets\Scripts\NavAgentScript.cs" />
      <Compile Include="Assets\Scripts\Navigation.cs" />
+     <Compile Include="Assets\Scripts\ObstacleDestroy.cs" />
      <Compile Include="Assets\Scripts\Oculus TitleScene Scripts\Title_Global_Oculus.cs" />
      <Compile Include="Assets\Scripts\Oculus TitleScene Scripts\Title_OVRMainMenu.cs" />
      <Compile Include="Assets\Scripts\Oculus TitleScene Scripts\Title_ShootBubble.cs" />
