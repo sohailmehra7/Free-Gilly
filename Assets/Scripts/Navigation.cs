@@ -98,6 +98,9 @@ public class Navigation : MonoBehaviour {
 		Physics.IgnoreLayerCollision(11, 20, true);
 		Physics.IgnoreLayerCollision(10, 20, true);
 		Physics.IgnoreLayerCollision(20, 20, true);
+		
+		Physics.IgnoreLayerCollision(17, 20, true);
+		
 	}
 	
 	// Update is called once per frame
@@ -136,7 +139,9 @@ public class Navigation : MonoBehaviour {
 		if(powerUpSpawnTimer <= 0.0f)
 		{
 			powerUpSpawnTimer = UnityEngine.Random.Range(15.0f, 20.0f);
-			InstantiatePowerUps();
+			
+			if(obstacleNavObj.remainingDistance >= 5.0f)
+				InstantiatePowerUps();
 		}
 		
 		if(obstacleTimer <= 0.0f)

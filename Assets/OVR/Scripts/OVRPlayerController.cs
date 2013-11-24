@@ -359,7 +359,7 @@ public class OVRPlayerController : OVRComponent
 					if(inDrop == false)
 					{
 						nav_obj.speed = 2.0f;
-						obs_nav_obj.speed = 1.0f;
+						//obs_nav_obj.speed = 1.0f;
 					}
 					
 					// Decrease stamina

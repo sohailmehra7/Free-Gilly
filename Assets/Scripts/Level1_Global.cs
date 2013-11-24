@@ -18,7 +18,7 @@ static class Constants {
 	
 	// Particle effects
 	public const float BUBBLE_PARTICLE_LIFE_TIME = 30.0f;
-	public const float BUBBLE_PARTICLE_SPAWN_TIMER = 4.0f;
+	public const float BUBBLE_PARTICLE_SPAWN_TIMER = 2.0f;
 	
 	// Health
 	public const int HEARTBEAT_HEALTH = 30;
@@ -61,13 +61,15 @@ static class Constants {
 	
 	// Debug - Cheat Codes
 	public const bool UNLIMITED_HEALTH  = false;
-	public const bool UNLIMITED_STAMINA = true;
-	public const bool UNLIMITED_BUBBLES = true;
+	public const bool UNLIMITED_STAMINA = false;
+	public const bool UNLIMITED_BUBBLES = false;
 }
 
 public class Level1_Global : MonoBehaviour {
 
 	public GameObject bubble;
+	public bool gameOver ;
+	public Texture fadeTexture;
 	
 	// Player controller
 	public GameObject player;
@@ -123,7 +125,7 @@ public class Level1_Global : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-	    
+	    gameOver = false;
 		// Set camera controller
 		SetOVRCameraController(ref CameraController);
 		
@@ -149,6 +151,9 @@ public class Level1_Global : MonoBehaviour {
 		
 		score = 0;
 		startTime = Time.time;
+		
+		// Ignore appropriate collisions
+		setUpPhysics();
 	}
 	
 	void Awake() {
@@ -167,7 +172,8 @@ public class Level1_Global : MonoBehaviour {
 		// Game over condition
 		if(currentHealth <= 0)
 		{
-			Debug.Log("Game Over!");
+			gameOver = true;
+			Application.LoadLevel ("GameOverScene");
 			
 			// Restart from last checkpoint or return to main menu
 			// Application.LoadLevel("GameOverScene");
@@ -314,6 +320,35 @@ public class Level1_Global : MonoBehaviour {
 				
 			storedStaminaPU = false;
 		}
+	}
+	
+//	void onGUI()
+//	{
+//		if(gameOver == true)
+//		{
+//			GUI.color = Color.black;
+//			GUI.color.a = (float)Mathf.Lerp(1.0f,0.0f,(Time.time - startTime));
+//			
+//			GUI.DrawTexture (new Rect(0,0,Screen.width,Screen.height),fadeTexture);
+//			
+//		
+//			
+//		}
+//		
+//	}
+	
+	void setUpPhysics() {
+	
+		Physics.IgnoreLayerCollision(10, 10, true);
+		Physics.IgnoreLayerCollision(10, 11, true);
+		Physics.IgnoreLayerCollision(10, 12, true);
+		Physics.IgnoreLayerCollision(10, 13, true);
+		Physics.IgnoreLayerCollision(11, 11, true);
+		Physics.IgnoreLayerCollision(11, 12, true);
+		Physics.IgnoreLayerCollision(11, 13, true);
+		Physics.IgnoreLayerCollision(12, 12, true);
+		Physics.IgnoreLayerCollision(12, 13, true);
+		Physics.IgnoreLayerCollision(13, 13, true);
 	}
 	
 }

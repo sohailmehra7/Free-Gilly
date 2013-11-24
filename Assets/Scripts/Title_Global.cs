@@ -7,11 +7,12 @@ public class Title_Global : MonoBehaviour {
 	private GUIStyle buttonStyle;
 	
 	// Background Texture
-	//public GUITexture background;
+	public MovieTexture background;
+	public Texture logo;
 	
-	private Rect levelSelectWindow = new Rect(20, 20, 120, 50);
-	private Rect loginWindow = new Rect(20, 20, 120, 50);
-	private Rect gameInfoWindow = new Rect(20, 20, 120, 50);
+	private Rect levelSelectWindow = new Rect(Screen.width/25, 20, 120, 50);
+	private Rect loginWindow = new Rect(Screen.width/25, 20, 120, 50);
+	private Rect gameInfoWindow = new Rect(Screen.width/25, 20, 120, 50);
 	
 	// Window booleans
 	private bool showLevelSelectWindow = false;
@@ -50,17 +51,22 @@ public class Title_Global : MonoBehaviour {
 	
 	void OnGUI () {
 		
+		GUI.DrawTexture(new Rect(-150, -100, Screen.width+Screen.width/5, Screen.height+Screen.height/3), background);
+		background.Play();
+		
+		GUI.DrawTexture(new Rect(Screen.width/25, Screen.height/2, Screen.width/10, Screen.height/10), logo);
+		
 		GUILayout.BeginArea(new Rect(Screen.width/2 + Screen.width/3, 0, Screen.width/2, 400));
 		GUILayout.Label("Player Profile: " + username);
 		GUILayout.EndArea();
 		
-		GUILayout.BeginArea(new Rect(Screen.width/2 - Screen.width/4, Screen.height/2 + Screen.height/8, Screen.width/2, 400));
+		GUILayout.BeginArea(new Rect(Screen.width/25, Screen.height/2 + Screen.height/10, Screen.width/10, 400));
 		
 		if (GUILayout.Button("New Game"))
 		{
-			Application.LoadLevel("Level1Beta");
+			Application.LoadLevel("Level1");
 		}
-		GUILayout.Space(7);
+		GUILayout.Space(3);
 		
 		if (GUILayout.Button("Continue Game"))
 		{
@@ -68,7 +74,7 @@ public class Title_Global : MonoBehaviour {
 			showLoginWindow = true;
 			showGameInfoWindow = false;
 		}
-		GUILayout.Space(7);
+		GUILayout.Space(3);
 		
 		if (GUILayout.Button("Level Select"))
 		{
@@ -76,13 +82,13 @@ public class Title_Global : MonoBehaviour {
 			showLoginWindow = false;
 			showGameInfoWindow = false;
 		}
-		GUILayout.Space(7);
+		GUILayout.Space(3);
 		
 		if (GUILayout.Button("High Scores"))
 		{
 			Application.LoadLevel("HighScoresScene");
 		}
-		GUILayout.Space(7);
+		GUILayout.Space(3);
 		
 		if (GUILayout.Button("Game Info"))
 		{
@@ -90,19 +96,25 @@ public class Title_Global : MonoBehaviour {
 			showLoginWindow = false;
 			showGameInfoWindow = true;
 		}
-		GUILayout.Space(7);
+		GUILayout.Space(3);
 		
-		/*if (GUILayout.Button("Options"))
+		if (GUILayout.Button("Options"))
 		{
 			Application.LoadLevel("HighScoresScene");
 		}
-		GUILayout.Space(7);*/
+		GUILayout.Space(3);
+		
+		if (GUILayout.Button("Gilly's World"))
+		{
+			Application.LoadLevel("GillysWorld");
+		}
+		GUILayout.Space(3);
 		
 		if (GUILayout.Button("Credits"))
 		{
 			Application.LoadLevel("CreditsScene");
 		}
-		GUILayout.Space(7);
+		GUILayout.Space(3);
 	
 		if (GUILayout.Button("Exit"))
 		{
@@ -123,16 +135,15 @@ public class Title_Global : MonoBehaviour {
 	}
 	
 	 void displayLevelSelectWindow(int windowID) {
-		
-        if (GUILayout.Button("Level 1"))
-            Application.LoadLevel("Level1Beta");
+		        
+		if (GUILayout.Button("Level 1"))
+            Application.LoadLevel("Level1");
 		
 		if (GUILayout.Button("Level 2"))
-            Application.LoadLevel("Level1Beta");
+            Application.LoadLevel("Level1");
 		
 		if (GUILayout.Button("Level 3"))
-            Application.LoadLevel("Level1Beta");
-        
+            Application.LoadLevel("Level1");
     }
 	
 	void displayLoginWindow(int windowID) {
