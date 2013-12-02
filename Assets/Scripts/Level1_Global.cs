@@ -62,7 +62,7 @@ static class Constants {
 	// Debug - Cheat Codes
 	public const bool UNLIMITED_HEALTH  = false;
 	public const bool UNLIMITED_STAMINA = false;
-	public const bool UNLIMITED_BUBBLES = false;
+	public const bool UNLIMITED_BUBBLES = true;
 }
 
 public class Level1_Global : MonoBehaviour {

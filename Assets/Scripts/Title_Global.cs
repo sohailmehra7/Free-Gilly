@@ -54,13 +54,13 @@ public class Title_Global : MonoBehaviour {
 		GUI.DrawTexture(new Rect(-150, -100, Screen.width+Screen.width/5, Screen.height+Screen.height/3), background);
 		background.Play();
 		
-		GUI.DrawTexture(new Rect(Screen.width/25, Screen.height/2, Screen.width/10, Screen.height/10), logo);
+		GUI.DrawTexture(new Rect(Screen.width/25, Screen.height/2 - Screen.height/25, Screen.width/10, Screen.height/10), logo);
 		
 		GUILayout.BeginArea(new Rect(Screen.width/2 + Screen.width/3, 0, Screen.width/2, 400));
 		GUILayout.Label("Player Profile: " + username);
 		GUILayout.EndArea();
 		
-		GUILayout.BeginArea(new Rect(Screen.width/25, Screen.height/2 + Screen.height/10, Screen.width/10, 400));
+		GUILayout.BeginArea(new Rect(Screen.width/25, Screen.height/2 + Screen.height/15, Screen.width/10, 400));
 		
 		if (GUILayout.Button("New Game"))
 		{
