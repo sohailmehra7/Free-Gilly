@@ -55,6 +55,10 @@ public class Navigation : MonoBehaviour {
 	// Bubble particles
 	public float bubbleParticleSpawnTimer;
 	
+	// Grind
+	public bool playGrindSound;
+	public float grindTimer;
+	
 	// Use this for initialization
 	void Start () {
 		
@@ -85,6 +89,9 @@ public class Navigation : MonoBehaviour {
 		
 		powerUpSpawnTimer = UnityEngine.Random.Range(15.0f, 20.0f);
 		
+		playGrindSound = false;
+		grindTimer = 0.0f;
+		
 		// Easy
 		if(globalObj.branchDiff == 0)
 			obstacleTimer = UnityEngine.Random.Range(0.5f, 2.0f);
@@ -93,14 +100,12 @@ public class Navigation : MonoBehaviour {
 		else if(globalObj.branchDiff == 1)
 			obstacleTimer = UnityEngine.Random.Range(0.5f, 1.0f);
 		
-		//gameObject.rigidbody.AddForce(0, 0, -1000);//new Vector3(Random.Range (-10,10),0,Random.Range (-4,-5)));//
 		// Avoid collision between the navAgent and the obstacles 
 		Physics.IgnoreLayerCollision(11, 20, true);
 		Physics.IgnoreLayerCollision(10, 20, true);
 		Physics.IgnoreLayerCollision(20, 20, true);
 		
 		Physics.IgnoreLayerCollision(17, 20, true);
-		
 	}
 	
 	// Update is called once per frame
@@ -124,13 +129,13 @@ public class Navigation : MonoBehaviour {
 		
 		Vector3 ePos = nav.transform.position;
 		Vector3 sPos = gameObject.transform.position;
-		Vector3 flowDir = new Vector3(0,0,0);// = (ePos - sPos);
-		float distance = 0;//flowDir.magnitude;
+		Vector3 flowDir = new Vector3(0,0,0);
+		float distance = 0;
 		
 		NavMeshHit hit =  new NavMeshHit();
 		
 		objSpawnPos = obstacleNavObj.transform.position 
-			+ new Vector3(UnityEngine.Random.Range(-0.4f, 0.4f), UnityEngine.Random.Range(0.75f, 7.0f), 0.0f);// sPos + flowDir ; //new Vector3(0,0,10);//
+			+ new Vector3(UnityEngine.Random.Range(-0.25f, 0.25f), UnityEngine.Random.Range(-0.5f, 6.0f), 0.0f);
 		
 		obstacleTimer -= Time.deltaTime;
 		bubbleParticleSpawnTimer -= Time.deltaTime;
@@ -165,7 +170,15 @@ public class Navigation : MonoBehaviour {
 			Instantiate(bubbleParticles, obstacleNavObj.transform.position + bubbleParticleOffset, Quaternion.identity);
 			bubbleParticleSpawnTimer =  Constants.BUBBLE_PARTICLE_SPAWN_TIMER;
 		}
-			
+		
+		grindTimer += Time.deltaTime;
+		
+		if(grindTimer > 0.1f)
+		{
+			playGrindSound = false;
+			audioScript.audio4.Stop();
+		}
+		
 		//vel.Normalize();
 		float dist = navObj.remainingDistance; 
 		bool hasReached = false;
@@ -303,9 +316,7 @@ public class Navigation : MonoBehaviour {
 			// Add random movement force/ torque
 			obstacle.rigidbody.AddForce(flowDir * Constants.LG_OBSTACLE_MOVE_MAGNITUDE);
 			obstacle.rigidbody.AddTorque(UnityEngine.Random.Range(2.0f, 5.0f), UnityEngine.Random.Range(2.0f, 5.0f), UnityEngine.Random.Range(2.0f, 5.0f));
-		
 		}
-		
 	}
 	
 	void OnControllerColliderHit(ControllerColliderHit hit)
@@ -315,9 +326,15 @@ public class Navigation : MonoBehaviour {
 		
 		if(hit.gameObject.tag == "Environment") {
 			
-			globalObj.currentHealth -= 0;
+			grindTimer = 0.0f;
 			
-			//Destroy (gameObject);
+			if(playGrindSound == false)
+			{
+				playGrindSound = true;
+				
+				// Play sound
+				audioScript.audio4.Play();
+			}
 		}
 		
 		// Collision with small obstacles
@@ -330,13 +347,15 @@ public class Navigation : MonoBehaviour {
 				wiimote_rumble(0, 0.5f);
 				wiimote_rumble(1, 0.5f);}
 			
+			// Play sound
+			AudioSource.PlayClipAtPoint(audioScript.fishObsHit, hit.gameObject.transform.position);
+			
 			// Image effect
 			if(Constants.BLOOD_SPLATTER_TOGGLE)
 				overlayToggle = true;
 			
 			// Break obstacle 
 			Destroy (hit.gameObject);
-			//Instantiate(yellowParticles, collider.gameObject.transform.position, Quaternion.identity);
 		}
 		
 		else if(hit.gameObject.tag == ("Large Obstacle")) {
@@ -347,6 +366,9 @@ public class Navigation : MonoBehaviour {
 			if(Constants.WII_RUMBLE){
 				wiimote_rumble(0, 0.5f);
 				wiimote_rumble(1, 0.5f);}
+			
+			// Play sound
+			AudioSource.PlayClipAtPoint(audioScript.fishObsHit, hit.gameObject.transform.position);
 			
 			// Image effect
 			if(Constants.BLOOD_SPLATTER_TOGGLE)
@@ -362,6 +384,9 @@ public class Navigation : MonoBehaviour {
 			Destroy(hit.gameObject);
 			Instantiate(redParticles, collider.gameObject.transform.position, Quaternion.identity);
 			
+			// Play sound
+			AudioSource.PlayClipAtPoint(audioScript.powerPickUpSound, hit.gameObject.transform.position);
+			
 			// Set storedHealthPU to true
 			globalObj.storedHealthPU = true;
 		}
@@ -372,13 +397,16 @@ public class Navigation : MonoBehaviour {
 			Destroy(hit.gameObject);
 			Instantiate(greenParticles, collider.gameObject.transform.position, Quaternion.identity);
 			
+			// Play sound
+			AudioSource.PlayClipAtPoint(audioScript.powerPickUpSound, hit.gameObject.transform.position);
+			
 			// Set storedStaminaPU to true
 			globalObj.storedStaminaPU = true;
 		}
+		
 		else if(hit.gameObject.tag == ("StartDrop")) {
 			
-			
-		    audioScript.audio3.Play ();
+		    audioScript.audio3.Play();
 			
 			// Destroy object and instantiate particles
 			Destroy(hit.gameObject);

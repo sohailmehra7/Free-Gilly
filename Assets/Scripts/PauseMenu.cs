@@ -56,7 +56,7 @@ public class PauseMenu : MonoBehaviour {
 			}
 			GUILayout.Space(7);
 			
-			if(GUILayout.Button("Quit to Title Screen"))
+			if(GUILayout.Button("Return to Title Screen"))
 			{
 				unPause();
 				Application.LoadLevel("TitleScene");

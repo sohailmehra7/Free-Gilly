@@ -79,7 +79,6 @@ public class OVRPlayerController : OVRComponent
 	// TEST: Get Y from second sensor
 	private float YfromSensor2            = 0.0f;
 	
-	
 	public bool inDrop = false;
 	// * * * * * * * * * * * * *
 	
@@ -219,11 +218,11 @@ public class OVRPlayerController : OVRComponent
 		bool moveDown    = false;
 		
 		MoveScale = 1.0f;
-		//Debug.Log("in drop is" + inDrop);
-		if(nav_obj.remainingDistance >= 3.0f && inDrop == false)  //
+
+		if(nav_obj.remainingDistance >= 3.0f && inDrop == false)
 		{
-			
-			nav_obj.speed = 7.0f;		
+			nav_obj.speed = Constants.DEFAULT_FLOW_SPEED;
+			obs_nav_obj.speed = Constants.DEFAULT_OBSAGENT_SPEED;
 		}	
 			
 		// * * * * * * * * * * *
@@ -329,17 +328,19 @@ public class OVRPlayerController : OVRComponent
 		{
 			if(moveForward)
 			{
-				if(nav_obj.remainingDistance >= 10.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(nav_obj.remainingDistance >= 10.0f)
 				{   
+					// Thrust without drop
 					if(inDrop == false)
 					{
-						nav_obj.speed = 20.0f;
-						obs_nav_obj.speed = 20.0f;
+						nav_obj.speed = Constants.THRUST_SPEED;
+						obs_nav_obj.speed = Constants.THRUST_SPEED;
 					}
+					// Thrust while in drop
 					else
 					{
-						nav_obj.speed = 50.0f;
-						obs_nav_obj.speed = 50.0f;	
+						nav_obj.speed = Constants.DROP_SPEED;
+						obs_nav_obj.speed = Constants.DROP_SPEED;	
 					}
 					
 					// Decrease stamina
@@ -358,8 +359,7 @@ public class OVRPlayerController : OVRComponent
 				{
 					if(inDrop == false)
 					{
-						nav_obj.speed = 2.0f;
-						//obs_nav_obj.speed = 1.0f;
+						nav_obj.speed = Constants.SLOW_SPEED;
 					}
 					
 					// Decrease stamina

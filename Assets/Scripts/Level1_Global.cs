@@ -8,17 +8,24 @@ static class Constants {
 	// Bubbles
     public const int MAX_BUBBLES = 5;
 	public const float SHOOT_TIME = 0.25f;
-	public const float BUBBLE_LIFE_TIME = 5.0f;
+	public const float BUBBLE_LIFE_TIME = 7.0f;
 	public const float BUBBLE_REGEN_TIME = 3.0f;
 	public const float BUBBLE_SPAWN_OFFSET = 1.5f;
 	public const float BUBBLE_FORCE = 500.0f;
+	
+	// Movement Speed
+	public const float DEFAULT_FLOW_SPEED = 3.5f;
+	public const float DEFAULT_OBSAGENT_SPEED = 10.0f;
+	public const float THRUST_SPEED = 20.0f;
+	public const float SLOW_SPEED = 2.0f;
+	public const float DROP_SPEED = 50.0f;
 	
 	// Wii Controller rumble;
 	public const bool WII_RUMBLE = true;
 	
 	// Particle effects
-	public const float BUBBLE_PARTICLE_LIFE_TIME = 30.0f;
-	public const float BUBBLE_PARTICLE_SPAWN_TIMER = 2.0f;
+	public const float BUBBLE_PARTICLE_LIFE_TIME = 120.0f;
+	public const float BUBBLE_PARTICLE_SPAWN_TIMER = 1.5f;
 	
 	// Health
 	public const int HEARTBEAT_HEALTH = 30;
@@ -39,7 +46,7 @@ static class Constants {
 	// Obstacles
 	public const float SM_OBSTACLE_MOVE_MAGNITUDE = 25.0f;
 	public const float LG_OBSTACLE_MOVE_MAGNITUDE = 5.0f;
-	public const float OBSTACLE_DESTROY_TIMER = 30.0f;
+	public const float OBSTACLE_DESTROY_TIMER = 120.0f;
 	
 	// Probabilites
 	public const float SM_OBSTACLE_PROB = 0.7f;
@@ -62,7 +69,7 @@ static class Constants {
 	// Debug - Cheat Codes
 	public const bool UNLIMITED_HEALTH  = false;
 	public const bool UNLIMITED_STAMINA = false;
-	public const bool UNLIMITED_BUBBLES = true;
+	public const bool UNLIMITED_BUBBLES = false;
 }
 
 public class Level1_Global : MonoBehaviour {
@@ -116,6 +123,10 @@ public class Level1_Global : MonoBehaviour {
 	// Branch difficulty
 	public int branchDiff;
 	
+	// GameOver
+	private Rect gameOverWindow = new Rect(0, 0, Screen.width, Screen.height);
+	private bool showGameOverWindow = false;
+	
 	// SetOVRCameraController
 	public void SetOVRCameraController(ref OVRCameraController cameraController)
 	{
@@ -132,7 +143,7 @@ public class Level1_Global : MonoBehaviour {
 		uniWii = gameObject.GetComponent<UniWiiCheck>();
 		audioScript = gameObject.GetComponent<Level1_Audio>();
 		
-		currentHealth = 100;
+		currentHealth = 10;
 		maxHealth = 100;
 		currentStamina = 100.0f;
 		maxStamina = 100.0f;
@@ -161,6 +172,9 @@ public class Level1_Global : MonoBehaviour {
 		// Select a random spawn position
 		int pos = (int) Random.Range(0, spawnPositions.Length);
 		setSpawnPoint(pos);
+		
+		// Play the game
+		Time.timeScale = 1;
 	}
 	
 	// Update is called once per frame
@@ -171,12 +185,9 @@ public class Level1_Global : MonoBehaviour {
 		
 		// Game over condition
 		if(currentHealth <= 0)
-		{
-			gameOver = true;
-			Application.LoadLevel ("GameOverScene");
-			
+		{	
 			// Restart from last checkpoint or return to main menu
-			// Application.LoadLevel("GameOverScene");
+			showGameOverWindow = true;
 		}
 		
 		if(currentStamina <= 0)
@@ -235,12 +246,38 @@ public class Level1_Global : MonoBehaviour {
 		
 		// Wii inputs
 		// Use health power-up
-		if(uniWii.wiiCount > 1 && uniWii.buttonPlusPressed[1])
-			useHealthPowerUp();
+		if((uniWii.wiiCount > 1 && uniWii.buttonPlusPressed[1]) || (uniWii.wiiCount > 1 && uniWii.buttonPlusPressed[2]))
+			useStaminaPowerUp();
 		
 		// Use stamina power-up
-		if(uniWii.wiiCount > 1 && uniWii.buttonMinusPressed[1])
-			useStaminaPowerUp();
+		if((uniWii.wiiCount > 1 && uniWii.buttonMinusPressed[1]) || (uniWii.wiiCount > 1 && uniWii.buttonPlusPressed[2]))
+			useHealthPowerUp();
+	}
+	
+	void OnGUI ()
+	{
+		if(showGameOverWindow)
+			gameOverWindow = GUILayout.Window(0, gameOverWindow, displayGameOverWindow, "");
+	}
+	
+	void displayGameOverWindow (int windowID) {
+		
+		// Stop the game
+		Time.timeScale = 0;
+		
+		GUILayout.Label("				GAME OVER! (Gilly's health dropped to zero).");
+		
+		if (GUILayout.Button("Restart Level"))
+		{
+            Time.timeScale = 1;
+			Application.LoadLevel(Application.loadedLevel);
+		}
+		
+		if (GUILayout.Button("Return to Title Screen"))
+		{
+			Time.timeScale = 1;
+            Application.LoadLevel("TitleScene");
+		}
 	}
 	
 	void setSpawnPoint(int pos)
@@ -265,10 +302,6 @@ public class Level1_Global : MonoBehaviour {
 		
 		GameObject ona = (GameObject) Instantiate(obsNavAgent, s.obstacleAgentPos.transform.position, Quaternion.identity);
 		ona.GetComponent<NavMeshAgent>().SetDestination(s.endPoint.transform.position);
-		
-		//Debug.Log(s.destination);
-		//navObj.transform.position = s.navAgentPos.transform.position;
-		//obsNavObj.transform.position = s.obstacleAgentPos.transform.position;
 	}
 	
 	void shootBubble()
@@ -321,21 +354,6 @@ public class Level1_Global : MonoBehaviour {
 			storedStaminaPU = false;
 		}
 	}
-	
-//	void onGUI()
-//	{
-//		if(gameOver == true)
-//		{
-//			GUI.color = Color.black;
-//			GUI.color.a = (float)Mathf.Lerp(1.0f,0.0f,(Time.time - startTime));
-//			
-//			GUI.DrawTexture (new Rect(0,0,Screen.width,Screen.height),fadeTexture);
-//			
-//		
-//			
-//		}
-//		
-//	}
 	
 	void setUpPhysics() {
 	

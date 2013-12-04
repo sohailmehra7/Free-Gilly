@@ -29,7 +29,7 @@ public class ShootBubble : MonoBehaviour {
 		navObj = GameObject.FindGameObjectWithTag("NavAgent").GetComponent<NavMeshAgent>();
 		shootDirection = globalObj.direction;
 		
-		gameObject.rigidbody.AddForce(shootDirection * Constants.BUBBLE_FORCE * (navObj.speed/7.0f));
+		gameObject.rigidbody.AddForce(shootDirection * Constants.BUBBLE_FORCE * (navObj.speed/Constants.DEFAULT_FLOW_SPEED));
 		
 		// Remove collision with other bubbles
 		Physics.IgnoreLayerCollision(14, 14, true);
@@ -81,14 +81,11 @@ public class ShootBubble : MonoBehaviour {
 		else if(collider.CompareTag("Large Obstacle")) {
 			
 			// Play sound
-			AudioSource.PlayClipAtPoint(audioScript.obstacleHitSound, collider.gameObject.transform.position);
+			AudioSource.PlayClipAtPoint(audioScript.bubbleLargeObsHit, collider.gameObject.transform.position);
 			
-			Instantiate(yellowParticles, gameObject.transform.position, Quaternion.identity);
+			//Instantiate(yellowParticles, gameObject.transform.position, Quaternion.identity);
 			Destroy(gameObject);
-			Destroy(collider.gameObject);
-			
-			// Add points to score
-			globalObj.score += 20;
+			//Destroy(collider.gameObject);
 		}		
 		
 		// Collision with large obstacles

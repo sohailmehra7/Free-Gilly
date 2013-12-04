@@ -2,8 +2,9 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Level1_Global.cs">
     <Files>
-      <File FileName="Assets\Scripts\Level1_Global.cs" Line="65" Column="44" />
-      <File FileName="Assets\Scripts\Title_Global.cs" Line="57" Column="79" />
+      <File FileName="Assets\Scripts\Level1_Global.cs" Line="268" Column="68" />
+      <File FileName="Assets\OVR\Scripts\OVRPlayerController.cs" Line="231" Column="10" />
+      <File FileName="Assets\Scripts\PauseMenu.cs" Line="29" Column="39" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

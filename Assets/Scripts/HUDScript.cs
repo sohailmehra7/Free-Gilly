@@ -253,25 +253,24 @@ public class HUDScript: MonoBehaviour {
 			// Power-ups
 			//displayPowerUpIcons();
 			
+			// New UI
 			Color uiColor = new Color(0.5f, 0.5f, 0.5f, 0.7f);
 			Color uiColor2 = new Color(0.5f, 0.5f, 0.5f, 0.5f);
 			
-			// New UI
-			GuiHelper.StereoDrawTexture(450, 430, 20, -1*(int)healthBarLength, ref healthBar, uiColor);
-			GuiHelper.StereoDrawTexture(740, 430, 20, -1*(int)staminaBarLength, ref staminaBar, uiColor);
+			GuiHelper.StereoDrawTexture(460, 430, 20, -1*(int)healthBarLength, ref healthBar, uiColor);
+			GuiHelper.StereoDrawTexture(750, 430, 20, -1*(int)staminaBarLength, ref staminaBar, uiColor);
 			
-			GuiHelper.StereoDrawTexture(445, 430, 30, 20, ref healthIcon, uiColor2);
-			GuiHelper.StereoDrawTexture(735, 430, 30, 20, ref staminaIcon, uiColor2);
+			GuiHelper.StereoDrawTexture(455, 430, 30, 20, ref healthIcon, uiColor2);
+			GuiHelper.StereoDrawTexture(745, 430, 30, 20, ref staminaIcon, uiColor2);
 			
-			GuiHelper.StereoBox(550, 430, 50, 20, ref scoreString, Color.white);
-			GuiHelper.StereoBox(620, 430, 50, 20, ref timeString, Color.white);
-			
+			GuiHelper.StereoBox(555, 430, 50, 20, ref scoreString, Color.white);
+			GuiHelper.StereoBox(625, 430, 50, 20, ref timeString, Color.white);
+		
 			// Bubbles
 			displayBubbles2();
 			
 			// Power-ups
 			displayPowerUpIcons2();
-			
 			
         	/* ******************************************************* */
         }
@@ -355,14 +354,14 @@ public class HUDScript: MonoBehaviour {
 	void displayPowerUpIcons2()
 	{
 		if(healthPUStored)
-			GuiHelper.StereoDrawTexture(485, 145, 30, 30, ref healthPUIconColor, Color.grey);
+			GuiHelper.StereoDrawTexture(455, 300, 30, 30, ref healthPUIconColor, Color.grey);
 		else
-			GuiHelper.StereoDrawTexture(485, 145, 30, 30, ref healthPUIconGrey, Color.gray);
+			GuiHelper.StereoDrawTexture(455, 300, 30, 30, ref healthPUIconGrey, Color.gray);
 			
 		if(staminaPUstored)
-			GuiHelper.StereoDrawTexture(690, 147, 40, 25, ref staminaPUIconColor, Color.grey);
+			GuiHelper.StereoDrawTexture(740, 300, 40, 25, ref staminaPUIconColor, Color.grey);
 		else
-			GuiHelper.StereoDrawTexture(690, 147, 40, 25, ref staminaPUIconGrey, Color.gray);	
+			GuiHelper.StereoDrawTexture(740, 300, 40, 25, ref staminaPUIconGrey, Color.gray);	
 	}
 	
 	void displayBubbles2()
@@ -371,51 +370,51 @@ public class HUDScript: MonoBehaviour {
 		{
 			case 0:
 			default:
-					GuiHelper.StereoDrawTexture(510, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(530, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(550, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(570, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(590, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(565, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(585, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(605, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(625, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(645, 400, 20, 17, ref bubbleIconColor, Color.black);
 					break;
 			
 			case 1:
-					GuiHelper.StereoDrawTexture(510, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(530, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(550, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(570, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(590, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(565, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(585, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(605, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(625, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(645, 400, 20, 17, ref bubbleIconColor, Color.black);
 					break;
 			
 			case 2:
-					GuiHelper.StereoDrawTexture(510, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(530, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(550, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(570, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(590, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(565, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(585, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(605, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(625, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(645, 400, 20, 17, ref bubbleIconColor, Color.black);
 					break;
 			
 			case 3:
-					GuiHelper.StereoDrawTexture(510, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(530, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(550, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(570, 173, 20, 17, ref bubbleIconColor, Color.black);
-					GuiHelper.StereoDrawTexture(590, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(565, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(585, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(605, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(625, 400, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(645, 400, 20, 17, ref bubbleIconColor, Color.black);
 					break;
 			
 			case 4:
-					GuiHelper.StereoDrawTexture(510, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(530, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(550, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(570, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(590, 173, 20, 17, ref bubbleIconColor, Color.black);
+					GuiHelper.StereoDrawTexture(565, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(585, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(605, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(625, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(645, 400, 20, 17, ref bubbleIconColor, Color.black);
 					break;
 			
 			case 5:
-					GuiHelper.StereoDrawTexture(560, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(580, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(600, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(620, 173, 20, 17, ref bubbleIconColor, Color.gray);
-					GuiHelper.StereoDrawTexture(640, 173, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(565, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(585, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(605, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(625, 400, 20, 17, ref bubbleIconColor, Color.gray);
+					GuiHelper.StereoDrawTexture(645, 400, 20, 17, ref bubbleIconColor, Color.gray);
 					break;
 		}
 	}

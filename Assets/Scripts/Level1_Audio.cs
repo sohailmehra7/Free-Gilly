@@ -4,8 +4,9 @@ using System.Collections;
 public class Level1_Audio : MonoBehaviour {
 
 	public AudioSource audio1; // Underwater Background
-	public AudioSource audio2; // Hearbeat audio
-	public AudioSource audio3;  //Drop Sound
+	public AudioSource audio2; // Heartbeat
+	public AudioSource audio3; // Drop Sound
+	public AudioSource audio4; // Grind Sound
 	
 	Level1_Global globalObj;
 	
@@ -18,7 +19,10 @@ public class Level1_Audio : MonoBehaviour {
 	public AudioClip bubblePopSound;
 	public AudioClip powerPickUpSound;
 	public AudioClip bloodSplatterSound;
-	
+	public AudioClip panting;
+	public AudioClip grindEnvironment;
+	public AudioClip bubbleLargeObsHit;
+	public AudioClip fishObsHit;
 	
 	// Voiceover
 	public AudioClip ouch; 						// "OUCH!"
