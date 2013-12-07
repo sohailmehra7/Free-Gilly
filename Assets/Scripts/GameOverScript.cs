@@ -5,6 +5,9 @@ public class GameOverScript : MonoBehaviour {
 	
 	public MovieTexture background;
 	
+	public string[] LEVEL_ACH;
+	public int[] LEVEL_ACH_TRACKER;
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -12,31 +15,112 @@ public class GameOverScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+		
+		LEVEL_ACH = PlayerPrefsX.GetStringArray("AchievementList");
+		LEVEL_ACH_TRACKER = PlayerPrefsX.GetIntArray("AchievementTracker");
 	}
 	
 	void OnGUI() {
 	
-			GUI.DrawTexture(new Rect(-150, -100, Screen.width+Screen.width/5, Screen.height+Screen.height/3), background);
-			background.Play();
+		// Bonus points
+		int bonus = 0;
 		
-			GUILayout.BeginArea(new Rect(Screen.width/2-Screen.width/35 , Screen.height/2 - Screen.height/10, Screen.width/10, Screen.height/10));
-			GUILayout.Label("GAME OVER!!");
-       		GUILayout.EndArea();
+		// Table headers style
+		GUIStyle textStyle = new GUIStyle();
+		textStyle.fontSize = 12;
+		textStyle.fontStyle = FontStyle.Bold;
+		textStyle.normal.textColor = Color.white;
+		textStyle.alignment = TextAnchor.MiddleCenter;
+		
+		// Message style
+		GUIStyle messageStyle = new GUIStyle();
+		messageStyle.fontSize = 14;
+		messageStyle.fontStyle = FontStyle.Bold;
+		messageStyle.normal.textColor = Color.black;
+		messageStyle.alignment = TextAnchor.MiddleCenter;
+		
+		// Title style
+		GUIStyle titleStyle = new GUIStyle();
+		titleStyle.fontSize = 24;
+		titleStyle.fontStyle = FontStyle.Bold;
+		titleStyle.normal.textColor = Color.black;
+		titleStyle.alignment = TextAnchor.MiddleCenter;
+		
+		GUI.DrawTexture(new Rect(-150, -100, Screen.width+Screen.width/5, Screen.height+Screen.height/3), background);
+		background.Play();
+		
+		// Label Area
+		GUILayout.BeginArea(new Rect(Screen.width/2 - Screen.width/4, Screen.height/10, Screen.width/2, 100));
+		GUILayout.Label("LEVEL " + PlayerPrefs.GetInt("Level") + " SUMMARY:", titleStyle);
+		GUILayout.Space(7);
+		
+		if(PlayerPrefs.GetInt("Complete") == 1)
+			GUILayout.Label("Yay, Gilly's free! The unfathomable depths of the ocean are now open for you to explore! Go for it!", messageStyle);
+		
+		else
+			GUILayout.Label("Oh no! Gilly was severly injured. Try again.", messageStyle);
+		
+		GUILayout.EndArea();
+		
+		int heightModifer = 0;
+		int widthModifer = Screen.width/12;
+		int widthModifer1 = Screen.width/3;
+		
+		// 
+		GUILayout.BeginArea(new Rect(Screen.width/2 - Screen.width/4, Screen.height/2 - Screen.height/4, Screen.width/2, Screen.height/2));
+		
+		// Title row
+		GUI.Box(new Rect(0, heightModifer, widthModifer1, 25), "ACHIEVEMENT", textStyle);
+		GUI.Box(new Rect(widthModifer1, heightModifer, widthModifer, 25), "PROGRESS", textStyle);
+		GUI.Box(new Rect(widthModifer+widthModifer1, heightModifer, widthModifer, 25), "BONUS", textStyle);
+		
+		heightModifer += 25;
+		
+		for(int i=0; i<LEVEL_ACH.Length; i++)
+		{
+			GUI.Box(new Rect(0, heightModifer, widthModifer1, 25), LEVEL_ACH[i]);
 			
-			GUILayout.BeginArea(new Rect(Screen.width/2-Screen.width/20, Screen.height/2-Screen.height/20, Screen.width/10, Screen.height/10));
-
-			if(GUILayout.Button("Restart Level"))
+			if(LEVEL_ACH_TRACKER[i] == 0)
 			{
+				GUI.Box(new Rect(widthModifer1, heightModifer, widthModifer, 25), "Not Complete");
+				GUI.Box(new Rect(widthModifer+widthModifer1, heightModifer, widthModifer, 25), "-");
+			}
+			
+			else if(LEVEL_ACH_TRACKER[i] == 1)
+			{
+				GUI.Box(new Rect(widthModifer1, heightModifer, widthModifer, 25), "Complete");
+				GUI.Box(new Rect(widthModifer+widthModifer1, heightModifer, widthModifer, 25), "+100");
+				bonus += 100;
+			}
+			
+			heightModifer += 25;
+		}
+       	GUILayout.EndArea();
+		
+		// Final score
+		
+		// Navigation Area
+		GUILayout.BeginArea(new Rect(Screen.width/2 - Screen.width/4, Screen.height - Screen.height/5, Screen.width/2, 100));
+		if(PlayerPrefs.GetInt("Complete") == 1)
+		{
+			if(GUILayout.Button("Continue"))
+			{	
 				Application.LoadLevel("Level1");
 			}
-			GUILayout.Space(7);
-
-			if(GUILayout.Button("Quit to Title Screen"))
-			{
-				Application.LoadLevel("TitleScene");
-			}
-			GUILayout.EndArea();
+			GUILayout.Space(3);
+		}
+		
+		if(GUILayout.Button("Restart Level"))
+		{	
+			Application.LoadLevel("Level1");
+		}
+		GUILayout.Space(3);
+		
+		if(GUILayout.Button("Back to Main Menu"))
+		{	
+			Application.LoadLevel("TitleScene");
+		}
+		GUILayout.EndArea();
 	}
 	
 }

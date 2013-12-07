@@ -57,15 +57,6 @@ static class Constants {
 	// Power ups
 	public const float POWERUP_SPAWN_TIME = 15.0f;
 	
-	// Achievements
-//	public const string[] LEVEL1_ACH = new string[] {"Shoot and destroy 25 small obstacles (Level1)",
-//												     "Complete the level without using any health power-ups (Level1)",
-//												     "Complete the level while selecting the industrial pipes at each junction (Level1)",
-//												     "Find and collect the bonus item (Level1)"};
-//	
-//	// Achievement Rewards (H = Max health boost [+10], S = Max stamina boost [+10], HS = Both)
-//	public const string[] LEVEL1_ACH_REWARDS = new string[] {"S", "H", "HS", "HS"};
-	
 	// Debug - Cheat Codes
 	public const bool UNLIMITED_HEALTH  = false;
 	public const bool UNLIMITED_STAMINA = false;
@@ -75,7 +66,6 @@ static class Constants {
 public class Level1_Global : MonoBehaviour {
 
 	public GameObject bubble;
-	public bool gameOver ;
 	public Texture fadeTexture;
 	
 	// Player controller
@@ -94,6 +84,8 @@ public class Level1_Global : MonoBehaviour {
 	
 	public Vector3 direction;
 	public Vector3 startPosition;
+	
+	public int currentLevel = 1;
 	
 	// Health and stamina stats
 	public int currentHealth;
@@ -123,13 +115,19 @@ public class Level1_Global : MonoBehaviour {
 	// Branch difficulty
 	public int branchDiff;
 	
-	// GameOver
-	private Rect gameOverWindow = new Rect(0, 0, Screen.width, Screen.height);
-	private bool showGameOverWindow = false;
-	
 	// Loading Screen
 	public Texture2D loadingScreen;
 	public bool loading_on = true;
+	
+	// Achievements
+	public string[] LEVEL1_ACH;
+	public int[] LEVEL1_ACH_TRACKER;
+	
+	// Achievement-related variables
+	public int smObsDestroyed;
+	
+	// Achievement Rewards (H = Max health boost [+10], S = Max stamina boost [+10], HS = Both)
+	public string[] LEVEL1_ACH_REWARDS = new string[] {"S", "H", "HS", "HS"};
 	
 	// SetOVRCameraController
 	public void SetOVRCameraController(ref OVRCameraController cameraController)
@@ -141,14 +139,13 @@ public class Level1_Global : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		
-	    gameOver = false;
 		// Set camera controller
 		SetOVRCameraController(ref CameraController);
 		
 		uniWii = gameObject.GetComponent<UniWiiCheck>();
 		audioScript = gameObject.GetComponent<Level1_Audio>();
 		
-		currentHealth = 100;
+		currentHealth = 10;
 		maxHealth = 100;
 		currentStamina = 100.0f;
 		maxStamina = 100.0f;
@@ -168,8 +165,24 @@ public class Level1_Global : MonoBehaviour {
 		score = 0;
 		startTime = Time.time;
 		
+		smObsDestroyed = 0;
+		
 		// Ignore appropriate collisions
 		setUpPhysics();
+		
+		// Achievements
+		LEVEL1_ACH = new string[] {	"Complete the level in under 10 minutes",
+									"Shoot and destroy 25 small obstacles",
+									"Complete the level without using any health power-ups",
+									"Complete the level while selecting the industrial pipes at each junction"};
+	
+		LEVEL1_ACH_TRACKER = new int[] {1, 0, 1, 1};
+		
+		// Refresh PlayerPrefs
+		PlayerPrefs.SetInt("Level", 1);
+		PlayerPrefs.SetInt("Score", score);
+		PlayerPrefsX.SetStringArray("AchievementList", LEVEL1_ACH);
+		PlayerPrefsX.SetIntArray("AchievementTracker", LEVEL1_ACH_TRACKER);
 	}
 	
 	void Awake() {
@@ -191,8 +204,20 @@ public class Level1_Global : MonoBehaviour {
 		// Game over condition
 		if(currentHealth <= 0)
 		{	
-			// Restart from last checkpoint or return to main menu
-			showGameOverWindow = true;
+			// Fail the appropriate achievements
+			for(int i=0; i<LEVEL1_ACH.Length; i++)
+				LEVEL1_ACH_TRACKER[i] = 0;
+			
+			// Store data
+			PlayerPrefs.SetInt("Level", currentLevel);
+			PlayerPrefs.SetInt("Complete", 0);
+			PlayerPrefs.SetInt("Score", score);
+			PlayerPrefs.SetFloat("Time", timer);
+			PlayerPrefsX.SetStringArray("AchievementList", LEVEL1_ACH);
+			PlayerPrefsX.SetIntArray("AchievementTracker", LEVEL1_ACH_TRACKER);
+			
+			// Load Gameover scene
+			Application.LoadLevel("GameOverScene");
 		}
 		
 		if(currentStamina <= 0)
@@ -239,6 +264,14 @@ public class Level1_Global : MonoBehaviour {
 			}
 		}
 		
+		/////// Achievement checks ///////
+		if(smObsDestroyed >= 25)
+			LEVEL1_ACH_TRACKER[1] = 1;
+		
+		if(timer > 600.0f)
+			LEVEL1_ACH_TRACKER[0] = 0;
+		//////////////////////////////////
+			
 		// Keyboard input
 		if(Input.GetKeyDown(KeyCode.P))
 			shootBubble();
@@ -269,42 +302,11 @@ public class Level1_Global : MonoBehaviour {
     	}
     	if(!Application.isLoadingLevel)
        		loading_on = false;
-		
-		if(showGameOverWindow)
-			gameOverWindow = GUILayout.Window(0, gameOverWindow, displayGameOverWindow, "");
-	}
-	
-	void displayGameOverWindow (int windowID) {
-		
-		// Stop the game
-		Time.timeScale = 0;
-		
-		GUILayout.Label("				GAME OVER! (Gilly's health dropped to zero).");
-		
-		if (GUILayout.Button("Restart Level"))
-		{
-            Time.timeScale = 1;
-			Application.LoadLevel(Application.loadedLevel);
-		}
-		
-		if (GUILayout.Button("Return to Title Screen"))
-		{
-			Time.timeScale = 1;
-            Application.LoadLevel("TitleScene");
-		}
 	}
 	
 	void setSpawnPoint(int pos)
 	{
 		SpawnPositionScript s = spawnPositions[pos].GetComponent<SpawnPositionScript>();
-		
-	 	//GameObject navObj, obsNavObj;
-	 	//NavMeshAgent nav, obsNav;
-	
-		//navObj = GameObject.Find("NavAgent");
-		//obsNavObj = GameObject.Find("SpawnNavAgent");
-	    //nav = navObj.GetComponent<NavMeshAgent>();
-		//obsNav = obsNavObj.GetComponent<NavMeshAgent>();
 		
 		// Place the player at the spawn position
 		//Instantiate(player, spawnPositions[pos].transform.position, Quaternion.identity); 
@@ -352,6 +354,9 @@ public class Level1_Global : MonoBehaviour {
 				currentHealth = 100;
 				
 			storedHealthPU = false;
+			
+			// Update achievement tracker
+			LEVEL1_ACH_TRACKER[1] = 0;
 		}	
 	}
 	

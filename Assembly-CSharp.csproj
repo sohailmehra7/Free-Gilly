@@ -79,6 +79,7 @@
      <Compile Include="Assets\Scripts\Oculus TitleScene Scripts\Title_OVRMainMenu.cs" />
      <Compile Include="Assets\Scripts\Oculus TitleScene Scripts\Title_ShootBubble.cs" />
      <Compile Include="Assets\Scripts\PauseMenu.cs" />
+     <Compile Include="Assets\Scripts\PlayerPrefsX.cs" />
      <Compile Include="Assets\Scripts\ShootBubble.cs" />
      <Compile Include="Assets\Scripts\SpawnAgentScript.cs" />
      <Compile Include="Assets\Scripts\SpawnPositionScript.cs" />

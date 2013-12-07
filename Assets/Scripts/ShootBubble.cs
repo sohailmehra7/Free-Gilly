@@ -75,6 +75,9 @@ public class ShootBubble : MonoBehaviour {
 			
 			// Add points to score
 			globalObj.score += 10;
+			
+			// Update achievement tracker
+			globalObj.smObsDestroyed++;
 		}
 		
 		// Collision with large obstacles

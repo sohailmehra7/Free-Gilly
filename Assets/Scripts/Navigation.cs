@@ -324,7 +324,21 @@ public class Navigation : MonoBehaviour {
 		//Collider collider = collision.collider;
 		Vector3 particleOffset = new Vector3(0, 0, 0);
 		
-		if(hit.gameObject.tag == "Environment") {
+		if(hit.gameObject.tag == "FinalDestination") {
+			
+			// Store data
+			PlayerPrefs.SetInt("Level", globalObj.currentLevel);
+			PlayerPrefs.SetInt("Complete", 1);
+			PlayerPrefs.SetInt("Score", globalObj.score);
+			PlayerPrefs.SetFloat("Time", globalObj.timer);
+			PlayerPrefsX.SetStringArray("AchievementList", globalObj.LEVEL1_ACH);
+			PlayerPrefsX.SetIntArray("AchievementTracker", globalObj.LEVEL1_ACH_TRACKER);
+			
+			// Load Gameover scene
+			Application.LoadLevel("GameOverScene");
+		}
+		
+		else if(hit.gameObject.tag == "Environment") {
 			
 			grindTimer = 0.0f;
 			
