@@ -1,10 +1,9 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\GameOverScript.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\OVR\Scripts\OVRCrosshair.cs">
     <Files>
-      <File FileName="Assets\Scripts\Level1_Global.cs" Line="219" Column="26" />
-      <File FileName="Assets\Scripts\GameOverScript.cs" Line="57" Column="41" />
-      <File FileName="Assets\Scripts\Navigation.cs" Line="331" Column="38" />
+      <File FileName="Assets\Scripts\Title_Global.cs" Line="30" Column="2" />
+      <File FileName="Assets\OVR\Scripts\OVRCrosshair.cs" Line="167" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

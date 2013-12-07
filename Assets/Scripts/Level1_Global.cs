@@ -115,10 +115,6 @@ public class Level1_Global : MonoBehaviour {
 	// Branch difficulty
 	public int branchDiff;
 	
-	// Loading Screen
-	public Texture2D loadingScreen;
-	public bool loading_on = true;
-	
 	// Achievements
 	public string[] LEVEL1_ACH;
 	public int[] LEVEL1_ACH_TRACKER;
@@ -290,18 +286,6 @@ public class Level1_Global : MonoBehaviour {
 		// Use health power-up
 		if((uniWii.wiiCount > 1) && (uniWii.buttonMinusPressed[0] || uniWii.buttonMinusPressed[1]))	
 			useHealthPowerUp();
-	}
-	
-	void OnGUI ()
-	{
-		if(loading_on)
-		{
-       		GUI.matrix.SetTRS(Vector3.zero, Quaternion.identity, new Vector3(1.0f*Screen.width/1.0f, 1.0f*Screen.height/1.0f, 1.0f));
-       		GUI.depth = -10;
-       		GUI.Box(new Rect(0,0,1024,768), loadingScreen);
-    	}
-    	if(!Application.isLoadingLevel)
-       		loading_on = false;
 	}
 	
 	void setSpawnPoint(int pos)
