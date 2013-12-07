@@ -193,8 +193,8 @@ public class UniWiiCheck : MonoBehaviour {
 			buttonPlusPressed[i]  = wiimote_getButtonPlus(i);
 			buttonMinusPressed[i] = wiimote_getButtonMinus(i);
 			
-			Debug.Log("Accels are   " + XAccel[0]+ " " + YAccel[0] + " "+ ZAccel[0] );
-			Debug.Log("angles are   " + roll[0]+ " " + pitch[0] + " "+ yaw[0] );
+			//Debug.Log("Accels are   " + XAccel[0]+ " " + YAccel[0] + " "+ ZAccel[0] );
+			//Debug.Log("angles are   " + roll[0]+ " " + pitch[0] + " "+ yaw[0] );
 		}
 		//Debug.Log("angles are   " + roll+ " " + pitch + " "+ yaw + "Sohail");
 	}

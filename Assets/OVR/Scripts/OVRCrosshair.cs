@@ -137,34 +137,34 @@ public class OVRCrosshair
 			GUI.color = new Color(1, 1, 1, FadeVal * FadeScale);
 			
 			// Calculate X
-			XL += Input.GetAxis("Mouse X") * ScaleSpeedX;
-			if(XL < DeadZoneX) 
-			{
-				if(PlayerController != null)
-					PlayerController.SetAllowMouseRotation(false);
-				
-				XL = DeadZoneX - 0.001f;	
-			}
-			else if (XL > (Screen.width - DeadZoneX))
-			{
-				if(PlayerController != null)
-					PlayerController.SetAllowMouseRotation(false);
-				
-				XL = ScreenWidth - DeadZoneX + 0.001f;
-			}
+//			XL += Input.GetAxis("Mouse X") * ScaleSpeedX;
+//			if(XL < DeadZoneX) 
+//			{
+//				if(PlayerController != null)
+//					PlayerController.SetAllowMouseRotation(false);
+//				
+//				XL = DeadZoneX - 0.001f;	
+//			}
+//			else if (XL > (Screen.width - DeadZoneX))
+//			{
+//				if(PlayerController != null)
+//					PlayerController.SetAllowMouseRotation(false);
+//				
+//				XL = ScreenWidth - DeadZoneX + 0.001f;
+//			}
 			
 			// Calculate Y
-			YL -= Input.GetAxis("Mouse Y") * ScaleSpeedY;
-			if(YL < DeadZoneY) 
-			{
-				//CursorOnScreen = false;
-				if(YL < 0.0f) YL = 0.0f;
-			}
-			else if (YL > ScreenHeight - DeadZoneY)
-			{
-				//CursorOnScreen = false;
-				if(YL > ScreenHeight) YL = ScreenHeight;
-			}
+//			YL -= Input.GetAxis("Mouse Y") * ScaleSpeedY;
+//			if(YL < DeadZoneY) 
+//			{
+//				//CursorOnScreen = false;
+//				if(YL < 0.0f) YL = 0.0f;
+//			}
+//			else if (YL > ScreenHeight - DeadZoneY)
+//			{
+//				//CursorOnScreen = false;
+//				if(YL > ScreenHeight) YL = ScreenHeight;
+//			}
 			
 			// Finally draw cursor
 			bool allowMouseRotation = true;

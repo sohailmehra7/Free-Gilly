@@ -98,8 +98,18 @@ public class ShootBubble : MonoBehaviour {
 			Destroy(gameObject);
 			Destroy(collider.gameObject);
 			
+			// If there is already a power-up stored use the new one immeadiately
+			if(globalObj.storedHealthPU == true)
+			{
+				globalObj.currentHealth += 25;
+				
+				// Clamp to max health
+				if(globalObj.currentHealth > Constants.MAX_HEALTH)
+					globalObj.currentHealth = Constants.MAX_HEALTH;
+			}
 			// Set storedHealthPU to true
-			globalObj.storedHealthPU = true;
+			else
+				globalObj.storedHealthPU = true;
 		}	
 		
 		// Collision with large obstacles
@@ -112,8 +122,19 @@ public class ShootBubble : MonoBehaviour {
 			Destroy(gameObject);
 			Destroy(collider.gameObject);
 			
+			// If there is already a power-up stored use the new one immeadiately
+			if(globalObj.storedStaminaPU == true)
+			{
+				globalObj.currentStamina += 25;
+				
+				// Clamp to max stamina
+				if(globalObj.currentStamina > Constants.MAX_STAMINA)
+					globalObj.currentStamina = Constants.MAX_STAMINA;
+			}
+			
 			// Set storedStaminaPU to true
-			globalObj.storedStaminaPU = true;
+			else
+				globalObj.storedStaminaPU = true;
 		}	
 	}
 }

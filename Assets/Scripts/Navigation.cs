@@ -387,8 +387,19 @@ public class Navigation : MonoBehaviour {
 			// Play sound
 			AudioSource.PlayClipAtPoint(audioScript.powerPickUpSound, hit.gameObject.transform.position);
 			
+			// If there is already a power-up stored use the new one immeadiately
+			if(globalObj.storedHealthPU == true)
+			{
+				globalObj.currentHealth += 25;
+				
+				// Clamp to max health
+				if(globalObj.currentHealth > Constants.MAX_HEALTH)
+					globalObj.currentHealth = Constants.MAX_HEALTH;
+			}
+			
 			// Set storedHealthPU to true
-			globalObj.storedHealthPU = true;
+			else
+				globalObj.storedHealthPU = true;
 		}
 		
 		else if(hit.gameObject.tag == ("Stamina PowerUp")) {
@@ -400,8 +411,19 @@ public class Navigation : MonoBehaviour {
 			// Play sound
 			AudioSource.PlayClipAtPoint(audioScript.powerPickUpSound, hit.gameObject.transform.position);
 			
+			// If there is already a power-up stored use the new one immeadiately
+			if(globalObj.storedStaminaPU == true)
+			{
+				globalObj.currentStamina += 25;
+				
+				// Clamp to max stamina
+				if(globalObj.currentStamina > Constants.MAX_STAMINA)
+					globalObj.currentStamina = Constants.MAX_STAMINA;
+			}
+			
 			// Set storedStaminaPU to true
-			globalObj.storedStaminaPU = true;
+			else
+				globalObj.storedStaminaPU = true;
 		}
 		
 		else if(hit.gameObject.tag == ("StartDrop")) {

@@ -73,7 +73,7 @@ public class OVRPlayerController : OVRComponent
 	// We can adjust these to influence speed and rotation of player controller
 	private float MoveScaleMultiplier     = 10.0f; 
 	private float RotationScaleMultiplier = 1.0f; 
-	private bool  AllowMouseRotation      = true;
+	private bool  AllowMouseRotation      = false;
 	private bool  HaltUpdateMovement      = false;
 	
 	// TEST: Get Y from second sensor
@@ -274,7 +274,7 @@ public class OVRPlayerController : OVRComponent
 				if( (uniWii.roll[0] < 45 && uniWii.roll[0] > -45)    && (uniWii.roll[1] < 45 && uniWii.roll[1] > -45))
 					moveUp = true;
 				
-				else if(   ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125)) &&
+				else if(((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125)) &&
 					 ( ((uniWii.roll[0] < -125 && uniWii.roll[0] > -180) || (uniWii.roll[0] < 180 && uniWii.roll[0] > 125)))  )
 					moveDown = true;
 			}
@@ -301,10 +301,10 @@ public class OVRPlayerController : OVRComponent
 				moveForward = true;
 			
 			// D-pad
-			if(uniWii.buttonUpPressed[0])    	moveUp 	      = true;
-			if(uniWii.buttonLeftPressed[0])  	moveLeft 	  = true;
-			if(uniWii.buttonDownPressed[0])  	moveDown 	  = true; 
-			if(uniWii.buttonRightPressed[0]) 	moveRight     = true; 
+			if(uniWii.buttonUpPressed[0] || uniWii.buttonUpPressed[1])    		moveUp 	      = true;
+			if(uniWii.buttonLeftPressed[0] || uniWii.buttonLeftPressed[1])  	moveLeft 	  = true;
+			if(uniWii.buttonDownPressed[0] || uniWii.buttonDownPressed[1])  	moveDown 	  = true; 
+			if(uniWii.buttonRightPressed[0] || uniWii.buttonRightPressed[1]) 	moveRight     = true; 
 		}
 		
 			

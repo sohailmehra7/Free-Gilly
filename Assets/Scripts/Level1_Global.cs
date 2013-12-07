@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// Vimu bhai check
-
 static class Constants {
 	
 	// Bubbles
@@ -18,7 +16,7 @@ static class Constants {
 	public const float DEFAULT_OBSAGENT_SPEED = 10.0f;
 	public const float THRUST_SPEED = 20.0f;
 	public const float SLOW_SPEED = 2.0f;
-	public const float DROP_SPEED = 50.0f;
+	public const float DROP_SPEED = 35.0f;
 	
 	// Wii Controller rumble;
 	public const bool WII_RUMBLE = true;
@@ -30,12 +28,14 @@ static class Constants {
 	// Health
 	public const int HEARTBEAT_HEALTH = 30;
 	public const int HEALTH_REWARD = 10;
+	public const int MAX_HEALTH = 100;
 	
 	// Stamina
 	public const float STAMINA_DEC_RATE = 0.1f;
 	public const float STAMINA_REGEN_TIME = 1.0f;
-	public const float STAMINA_REGEN_AMT = 2.0f;
+	public const float STAMINA_REGEN_AMT = 1.0f;
 	public const int STAMINA_REWARD = 10;
+	public const int MAX_STAMINA = 100;
 	
 	//Used in Navigation Script 
 	public const int MOVE_SPEED = 2;
@@ -136,6 +136,7 @@ public class Level1_Global : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
+		
 	    gameOver = false;
 		// Set camera controller
 		SetOVRCameraController(ref CameraController);
@@ -143,7 +144,7 @@ public class Level1_Global : MonoBehaviour {
 		uniWii = gameObject.GetComponent<UniWiiCheck>();
 		audioScript = gameObject.GetComponent<Level1_Audio>();
 		
-		currentHealth = 10;
+		currentHealth = 100;
 		maxHealth = 100;
 		currentStamina = 100.0f;
 		maxStamina = 100.0f;
@@ -245,12 +246,12 @@ public class Level1_Global : MonoBehaviour {
 			useStaminaPowerUp();
 		
 		// Wii inputs
-		// Use health power-up
-		if((uniWii.wiiCount > 1 && uniWii.buttonPlusPressed[1]) || (uniWii.wiiCount > 1 && uniWii.buttonPlusPressed[2]))
+		// Use stamina power-up
+		if((uniWii.wiiCount > 1) && (uniWii.buttonPlusPressed[0] || uniWii.buttonPlusPressed[1]))
 			useStaminaPowerUp();
 		
-		// Use stamina power-up
-		if((uniWii.wiiCount > 1 && uniWii.buttonMinusPressed[1]) || (uniWii.wiiCount > 1 && uniWii.buttonPlusPressed[2]))
+		// Use health power-up
+		if((uniWii.wiiCount > 1) && (uniWii.buttonMinusPressed[0] || uniWii.buttonMinusPressed[1]))	
 			useHealthPowerUp();
 	}
 	
@@ -309,7 +310,6 @@ public class Level1_Global : MonoBehaviour {
 		if(bubblesLeft > 0)
 		{		
 			Vector3 startPos = MainCam.transform.position;
-			//Debug.Log(startPos);
 			direction = Vector3.forward;
 		    direction = MainCam.transform.rotation * direction;
 			
