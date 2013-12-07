@@ -63,9 +63,8 @@ public class Title_Global : MonoBehaviour {
 		GUILayout.BeginArea(new Rect(Screen.width/25, Screen.height/2 + Screen.height/15, Screen.width/10, 400));
 		
 		if (GUILayout.Button("New Game"))
-		{
 			Application.LoadLevel("Level1");
-		}
+
 		GUILayout.Space(3);
 		
 		if (GUILayout.Button("Continue Game"))
@@ -137,7 +136,7 @@ public class Title_Global : MonoBehaviour {
 	 void displayLevelSelectWindow(int windowID) {
 		        
 		if (GUILayout.Button("Level 1"))
-            Application.LoadLevel("Level1");
+			Application.LoadLevel("Level1");
 		
 		if (GUILayout.Button("Level 2"))
             Application.LoadLevel("Level1");

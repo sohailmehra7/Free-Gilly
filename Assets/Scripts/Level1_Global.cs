@@ -127,6 +127,10 @@ public class Level1_Global : MonoBehaviour {
 	private Rect gameOverWindow = new Rect(0, 0, Screen.width, Screen.height);
 	private bool showGameOverWindow = false;
 	
+	// Loading Screen
+	public Texture2D loadingScreen;
+	public bool loading_on = true;
+	
 	// SetOVRCameraController
 	public void SetOVRCameraController(ref OVRCameraController cameraController)
 	{
@@ -257,6 +261,15 @@ public class Level1_Global : MonoBehaviour {
 	
 	void OnGUI ()
 	{
+		if(loading_on)
+		{
+       		GUI.matrix.SetTRS(Vector3.zero, Quaternion.identity, new Vector3(1.0f*Screen.width/1.0f, 1.0f*Screen.height/1.0f, 1.0f));
+       		GUI.depth = -10;
+       		GUI.Box(new Rect(0,0,1024,768), loadingScreen);
+    	}
+    	if(!Application.isLoadingLevel)
+       		loading_on = false;
+		
 		if(showGameOverWindow)
 			gameOverWindow = GUILayout.Window(0, gameOverWindow, displayGameOverWindow, "");
 	}
