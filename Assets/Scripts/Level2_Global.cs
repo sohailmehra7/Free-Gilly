@@ -9,12 +9,17 @@ public class Level2_Global : MonoBehaviour {
 //		CameraController = cameraController;
 //		CameraController.GetCamera(ref MainCam);
 //	}
-	
+
+	private UniWiiCheck uniWii;
+	private bool pauseEnabled;
 	// Use this for initialization
 	void Start () {
 	
+		uniWii = gameObject.GetComponent<UniWiiCheck>();
 		// Refresh PlayerPrefs
-		PlayerPrefs.SetInt("Level", 2);
+		
+		pauseEnabled = true;
+		
 		PlayerPrefs.SetInt("Complete", 0);
 		//PlayerPrefs.SetInt("Score", score);
 		//PlayerPrefs.SetFloat("Time", timer);
@@ -23,14 +28,35 @@ public class Level2_Global : MonoBehaviour {
 	}
 	
 	void Awake() {
-		
+		while(PlayerPrefs.GetInt("Level")!=2)
+			PlayerPrefs.SetInt("Level", 2);
+		Debug.Log("Starting of Level 2");
+		Debug.Log(PlayerPrefs.GetInt("Level"));		
 		// Play the game
 		Time.timeScale = 1;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		// Pause game
+		if((uniWii.wiiCount > 1) && (uniWii.buttonHomePressed[0] || uniWii.buttonHomePressed[1]))
+		{
+			PauseMenu pm = GameObject.FindGameObjectWithTag("OVRCamera").GetComponent<PauseMenu>();
+			
+			if(pauseEnabled == true)
+			{
+				if(pm.isPaused == false)
+				{
+					pm.pause();
+					pauseEnabled = false;
+				}
+				else if(pm.isPaused == true)
+				{
+					pm.unPause();
+					pauseEnabled = false;
+				}
+			}
+		}		
 	}
 	
 	void shootBubble()

@@ -95,6 +95,7 @@
      <Compile Include="Assets\Scripts\graphics\UnderwaterEffect.cs" />
      <Compile Include="Assets\Scripts\graphics\WaterMirrorReflection.cs" />
      <Compile Include="Assets\Scripts\misc\AnimatedProjector.cs" />
+     <Compile Include="Assets\Scripts\ovrtracking.cs" />
      <Compile Include="Assets\SimpleParticlePack\Scripts\ParticleTester.cs" />
      <Compile Include="Assets\iTweenEditor\Examples\StartAndStopTween.cs" />
      <Compile Include="Assets\iTweenEditor\Helper Classes\EventParamMappings.cs" />

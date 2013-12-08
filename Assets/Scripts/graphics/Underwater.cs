@@ -36,8 +36,8 @@ public class Underwater : MonoBehaviour {
 		if(IsUnderwater(cam[0])) 
 		{
 			if( !cam[0].gameObject.GetComponent(typeof(UnderwaterEffect)) ) {//Camera.main == cam &&
-					cam[0].gameObject.AddComponent(typeof(UnderwaterEffect));
-					cam[1].gameObject.AddComponent(typeof(UnderwaterEffect));
+					//cam[0].gameObject.AddComponent(typeof(UnderwaterEffect));
+					//cam[1].gameObject.AddComponent(typeof(UnderwaterEffect));
 				}
 				
 				UnderwaterEffect effect = (UnderwaterEffect)cam[0].gameObject.GetComponent(typeof(UnderwaterEffect));				

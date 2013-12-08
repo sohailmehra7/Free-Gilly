@@ -184,16 +184,22 @@ public class Level1_Global : MonoBehaviour {
 	
 		LEVEL1_ACH_TRACKER = new int[] {1, 0, 1, 1};
 		
-		// Refresh PlayerPrefs
-		PlayerPrefs.SetInt("Level", 1);
 		PlayerPrefs.SetInt("Complete", 0);
 		PlayerPrefs.SetInt("Score", score);
 		PlayerPrefs.SetFloat("Time", timer);
 		PlayerPrefsX.SetStringArray("AchievementList", LEVEL1_ACH);
 		PlayerPrefsX.SetIntArray("AchievementTracker", LEVEL1_ACH_TRACKER);
+		
+
 	}
 	
 	void Awake() {
+		
+		// Refresh PlayerPrefs
+		while(PlayerPrefs.GetInt("Level")!=1)
+			PlayerPrefs.SetInt("Level", 1);
+		Debug.Log("Starting of Level 1");
+		Debug.Log(PlayerPrefs.GetInt("Level"));		
 		
 		// Select a random spawn position
 		int pos = (int) Random.Range(0, spawnPositions.Length);

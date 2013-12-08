@@ -190,8 +190,13 @@ public class OVRMainMenu : MonoBehaviour
 			GuiHelper.SetCameraController(ref CameraController);
 		}
 		
+		
 		// Set the GUI target 
 		GUIRenderObject = GameObject.Instantiate(Resources.Load("OVRGUIObjectMain")) as GameObject;
+		
+		Debug.Log(PlayerPrefs.GetInt("Level"));
+		if(PlayerPrefs.GetInt ("Level")== 2)
+			GUIRenderObject = null;
 		
 		if(GUIRenderObject != null)
 		{
