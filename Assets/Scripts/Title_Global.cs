@@ -64,7 +64,8 @@ public class Title_Global : MonoBehaviour {
 		
 		if (GUILayout.Button("New Game"))
 		{
-			Application.LoadLevel("Level1");
+			PlayerPrefs.SetString("SceneToLoad", "Level1");
+			Application.LoadLevel("LoadingScreen");
 		}
 		GUILayout.Space(3);
 		
@@ -137,10 +138,16 @@ public class Title_Global : MonoBehaviour {
 	 void displayLevelSelectWindow(int windowID) {
 		        
 		if (GUILayout.Button("Level 1"))
-			Application.LoadLevel("Level1");
+		{
+			PlayerPrefs.SetString("SceneToLoad", "Level1");
+			Application.LoadLevel("LoadingScreen");
+		}
 		
 		if (GUILayout.Button("Level 2"))
-            Application.LoadLevel("Level1");
+		{
+            PlayerPrefs.SetString("SceneToLoad", "Level2");
+			Application.LoadLevel("LoadingScreen");
+		}
 		
 		if (GUILayout.Button("Level 3"))
             Application.LoadLevel("Level1");

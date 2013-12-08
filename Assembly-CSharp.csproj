@@ -73,6 +73,7 @@
      <Compile Include="Assets\Scripts\Level1_Global.cs" />
      <Compile Include="Assets\Scripts\Level2_Global.cs" />
      <Compile Include="Assets\Scripts\LoadGame.cs" />
+     <Compile Include="Assets\Scripts\LoadingScreenScript.cs" />
      <Compile Include="Assets\Scripts\NavAgentScript.cs" />
      <Compile Include="Assets\Scripts\Navigation.cs" />
      <Compile Include="Assets\Scripts\ObstacleDestroy.cs" />

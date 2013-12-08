@@ -111,6 +111,8 @@ public class Navigation : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
+		if(PlayerPrefs.GetInt("Level") == 1)
+		{
 		// Blood splatter effect
 		if(overlayToggle == true)
 		{
@@ -200,6 +202,7 @@ public class Navigation : MonoBehaviour {
 		}
 		else
 			gameObject.rigidbody.velocity = gameObject.transform.forward*0.75f;
+		}
 	}
 	
 	void InstantiatePowerUps()

@@ -24,24 +24,30 @@ public class Underwater : MonoBehaviour {
 	private bool wasUnderwater = false;
 	#endregion
 	
-	public bool IsUnderwater(Camera cam) {
+	public bool IsUnderwater(GameObject cam) {
 		return cam.transform.position.y + m_UnderwaterCheckOffset < transform.position.y ? true : false;	
 	}
 			
 	public void OnWillRenderObject()
 	{
 		
-		Camera cam = Camera.current;
+		GameObject[] cam = GameObject.FindGameObjectsWithTag("MainCamera");
 		
-		if(IsUnderwater(cam)) 
+		if(IsUnderwater(cam[0])) 
 		{
-			if(Camera.main == cam && !cam.gameObject.GetComponent(typeof(UnderwaterEffect)) ) {
-					cam.gameObject.AddComponent(typeof(UnderwaterEffect));	
+			if( !cam[0].gameObject.GetComponent(typeof(UnderwaterEffect)) ) {//Camera.main == cam &&
+					cam[0].gameObject.AddComponent(typeof(UnderwaterEffect));
+					cam[1].gameObject.AddComponent(typeof(UnderwaterEffect));
 				}
 				
-				UnderwaterEffect effect = (UnderwaterEffect)cam.gameObject.GetComponent(typeof(UnderwaterEffect));				
+				UnderwaterEffect effect = (UnderwaterEffect)cam[0].gameObject.GetComponent(typeof(UnderwaterEffect));				
 				if(effect) {
 					effect.enabled = true;					
+				}
+			
+			UnderwaterEffect effect2 = (UnderwaterEffect)cam[1].gameObject.GetComponent(typeof(UnderwaterEffect));				
+				if(effect2) {
+					effect2.enabled = true;					
 				}
 				
 				//Ok some HACK's here 
@@ -70,9 +76,14 @@ public class Underwater : MonoBehaviour {
 		}
 		else{
 			
-			UnderwaterEffect effect = (UnderwaterEffect)cam.gameObject.GetComponent(typeof(UnderwaterEffect));
+			UnderwaterEffect effect = (UnderwaterEffect)cam[0].gameObject.GetComponent(typeof(UnderwaterEffect));
 				if(effect && effect.enabled) {
 					effect.enabled = false;
+				}
+			
+			UnderwaterEffect effect2 = (UnderwaterEffect)cam[1].gameObject.GetComponent(typeof(UnderwaterEffect));
+				if(effect2 && effect2.enabled) {
+					effect2.enabled = false;
 				}
 
 				//Ok some HACK's here 

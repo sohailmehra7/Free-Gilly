@@ -37,10 +37,11 @@ using System.Collections.Generic;
 //
 public class OVRPlayerController : OVRComponent
 {
-	//getting wii data
+	// Wii Data
 	private UniWiiCheck uniWii;
 	
 	private Level1_Global globalObj;
+	private Level2_Global globalObj2;
 	
 	// Getting navigating agent
 	private NavMeshAgent nav_obj;
@@ -135,7 +136,12 @@ public class OVRPlayerController : OVRComponent
 		//getting uniwiicheck script
 		GameObject gl = GameObject.Find("Global");
 		uniWii = gl.GetComponent<UniWiiCheck>();
-		globalObj = gl.GetComponent<Level1_Global>();
+		
+		if(PlayerPrefs.GetInt("Level") == 1)
+			globalObj = gl.GetComponent<Level1_Global>();
+		
+		else if(PlayerPrefs.GetInt("Level") == 2)
+			globalObj2 = gl.GetComponent<Level2_Global>();
 		
 		nav_obj = GameObject.FindGameObjectWithTag("NavAgent").GetComponent<NavMeshAgent>();
 		obs_nav_obj = GameObject.FindGameObjectWithTag("ObsNavAgent").GetComponent<NavMeshAgent>();
@@ -236,7 +242,15 @@ public class OVRPlayerController : OVRComponent
 		if (Input.GetKey(KeyCode.S)) moveDown 	 = true; 
 		if (Input.GetKey(KeyCode.D)) moveRight 	 = true;
 		if (Input.GetKey(KeyCode.R)) moveBack 	 = true;
-		if (Input.GetKey(KeyCode.T) && globalObj.currentStamina > 0) moveForward = true;
+		
+		if(PlayerPrefs.GetInt("Level") == 1)
+		{
+			if (Input.GetKey(KeyCode.T) && globalObj.currentStamina > 0) moveForward = true;
+		}
+		else
+		{
+			if (Input.GetKey(KeyCode.T)) moveForward = true;
+		}
 		
 		// Arrow keys
 		if (Input.GetKey(KeyCode.UpArrow))    	moveUp 	  	= true;
@@ -249,8 +263,16 @@ public class OVRPlayerController : OVRComponent
 		if(c > 1) 
 		{
 			// Move forward (buttons)
-			if (uniWii.buttonAPressed[0] && globalObj.currentStamina > 0) 
-				moveForward = true;
+			if(PlayerPrefs.GetInt("Level") == 1)
+			{
+				if (uniWii.buttonAPressed[0] && globalObj.currentStamina > 0) 
+					moveForward = true;
+			}
+			else
+			{
+				if (uniWii.buttonAPressed[0]) 
+					moveForward = true;
+			}
 		
 			// Move back (buttons)
 			if (uniWii.buttonBPressed[0]) 
@@ -328,67 +350,92 @@ public class OVRPlayerController : OVRComponent
 		{
 			if(moveForward)
 			{
-				if(nav_obj.remainingDistance >= 10.0f)
-				{   
-					// Thrust without drop
-					if(inDrop == false)
-					{
-						nav_obj.speed = Constants.THRUST_SPEED;
-						obs_nav_obj.speed = Constants.THRUST_SPEED;
+				if(PlayerPrefs.GetInt("Level") == 1)
+				{
+					if(nav_obj.remainingDistance >= 10.0f)
+					{	   
+						// Thrust without drop
+						if(inDrop == false)
+						{
+							nav_obj.speed = Constants.THRUST_SPEED;
+							obs_nav_obj.speed = Constants.THRUST_SPEED;
+						}
+						// Thrust while in drop
+						else
+						{
+							nav_obj.speed = Constants.DROP_SPEED;
+							obs_nav_obj.speed = Constants.DROP_SPEED;	
+						}
+					
+						// Decrease stamina
+						if(!Constants.UNLIMITED_STAMINA)
+							globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
 					}
-					// Thrust while in drop
 					else
 					{
-						nav_obj.speed = Constants.DROP_SPEED;
-						obs_nav_obj.speed = Constants.DROP_SPEED;	
+						MoveThrottle += DirXform.TransformDirection(Vector3.forward * moveInfluence);
 					}
-					
-					// Decrease stamina
-					if(!Constants.UNLIMITED_STAMINA)
-						globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
 				}
 				else
 				{
 					MoveThrottle += DirXform.TransformDirection(Vector3.forward * moveInfluence);
-					//nav_obj.speed = nav_obj.remainingDistance;
 				}
 			}
 			if (moveBack)
 			{
-				if(nav_obj.remainingDistance >= float.Epsilon)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(PlayerPrefs.GetInt("Level") == 1)
 				{
-					if(inDrop == false)
+					if(nav_obj.remainingDistance >= float.Epsilon)
 					{
-						nav_obj.speed = Constants.SLOW_SPEED;
-					}
+						if(inDrop == false)
+						{
+							nav_obj.speed = Constants.SLOW_SPEED;
+						}
 					
-					// Decrease stamina
-					globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
+						// Decrease stamina
+						globalObj.currentStamina -= Constants.STAMINA_DEC_RATE;
+					}
+					else
+						MoveThrottle += DirXform.TransformDirection(Vector3.back * moveInfluence) * BackAndSideDampen;
 				}
 				else
+				{
 					MoveThrottle += DirXform.TransformDirection(Vector3.back * moveInfluence) * BackAndSideDampen;
+				}
 			}
 			if (moveLeft)
 			{
-				if(nav_obj.remainingDistance >= 10.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(PlayerPrefs.GetInt("Level") == 1)
 				{
-					nav_obj.transform.position += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen * 10.0f;
+					if(nav_obj.remainingDistance >= 10.0f)
+					{
+						nav_obj.transform.position += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen * 10.0f;
+					}
+					else
+					{
+						MoveThrottle += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen;
+					}
 				}
 				else
-				{
 					MoveThrottle += DirXform.TransformDirection(Vector3.left * moveInfluence) * BackAndSideDampen;
-				}
+					
 			}
 			if (moveRight)
 			{
-				if(nav_obj.remainingDistance >= 10.0f)//&& (nav_obj.remainingDistance != float.NegativeInfinity && nav_obj.remainingDistance != float.PositiveInfinity))
+				if(PlayerPrefs.GetInt("Level") == 1)
 				{
-					nav_obj.transform.position +=DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen * 10.0f;
+					if(nav_obj.remainingDistance >= 10.0f)
+					{
+						nav_obj.transform.position +=DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen * 10.0f;
+					}
+					else
+					{
+						MoveThrottle += DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen;
+					}
 				}
 				else
-				{
 					MoveThrottle += DirXform.TransformDirection(Vector3.right * moveInfluence) * BackAndSideDampen;
-				}
+					
 			}
 			if (moveUp)
 				MoveThrottle += DirXform.TransformDirection(Vector3.up * moveInfluence);

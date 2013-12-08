@@ -55,7 +55,10 @@ static class Constants {
 	public const float HEALTH_PROB = 0.4f;
 	
 	// Power ups
-	public const float POWERUP_SPAWN_TIME = 15.0f;
+	public const float POWERUP_SPAWN_TIME = 10.0f;
+	
+	// Pause
+	public const float PAUSE_TOGGLE_DELAY = 0.1f;
 	
 	// Debug - Cheat Codes
 	public const bool UNLIMITED_HEALTH  = false;
@@ -109,6 +112,10 @@ public class Level1_Global : MonoBehaviour {
 	public float startTime;
 	public float timer;
 	
+	// Pause
+	public float pauseTimer;
+	public bool pauseEnabled;
+	
 	// Spawn point array
 	public GameObject[] spawnPositions;
 	
@@ -141,7 +148,7 @@ public class Level1_Global : MonoBehaviour {
 		uniWii = gameObject.GetComponent<UniWiiCheck>();
 		audioScript = gameObject.GetComponent<Level1_Audio>();
 		
-		currentHealth = 10;
+		currentHealth = 100;
 		maxHealth = 100;
 		currentStamina = 100.0f;
 		maxStamina = 100.0f;
@@ -154,6 +161,9 @@ public class Level1_Global : MonoBehaviour {
 		staminaRegenTimer = Constants.STAMINA_REGEN_TIME;
 		shootTimer = Constants.SHOOT_TIME;
 		shootEnabled = true;
+		
+		pauseTimer = Constants.PAUSE_TOGGLE_DELAY;
+		pauseEnabled = true;
 		
 		// Default setting = easy
 		branchDiff = 0;
@@ -176,7 +186,9 @@ public class Level1_Global : MonoBehaviour {
 		
 		// Refresh PlayerPrefs
 		PlayerPrefs.SetInt("Level", 1);
+		PlayerPrefs.SetInt("Complete", 0);
 		PlayerPrefs.SetInt("Score", score);
+		PlayerPrefs.SetFloat("Time", timer);
 		PlayerPrefsX.SetStringArray("AchievementList", LEVEL1_ACH);
 		PlayerPrefsX.SetIntArray("AchievementTracker", LEVEL1_ACH_TRACKER);
 	}
@@ -260,6 +272,17 @@ public class Level1_Global : MonoBehaviour {
 			}
 		}
 		
+		// Pause menu
+		if(pauseEnabled == false)
+		{
+			pauseTimer -= 0.01f; //Time.deltaTime;
+			if(pauseTimer <= 0)
+			{
+				pauseTimer = Constants.PAUSE_TOGGLE_DELAY;
+				pauseEnabled = true;
+			}
+		}
+		
 		/////// Achievement checks ///////
 		if(smObsDestroyed >= 25)
 			LEVEL1_ACH_TRACKER[1] = 1;
@@ -278,6 +301,9 @@ public class Level1_Global : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.I))
 			useStaminaPowerUp();
 		
+		if(Input.GetKeyDown(KeyCode.Backspace))
+			Application.LoadLevel(Application.loadedLevel);
+		
 		// Wii inputs
 		// Use stamina power-up
 		if((uniWii.wiiCount > 1) && (uniWii.buttonPlusPressed[0] || uniWii.buttonPlusPressed[1]))
@@ -286,6 +312,26 @@ public class Level1_Global : MonoBehaviour {
 		// Use health power-up
 		if((uniWii.wiiCount > 1) && (uniWii.buttonMinusPressed[0] || uniWii.buttonMinusPressed[1]))	
 			useHealthPowerUp();
+		
+		// Pause game
+		if((uniWii.wiiCount > 1) && (uniWii.buttonHomePressed[0] || uniWii.buttonHomePressed[1]))
+		{
+			PauseMenu pm = GameObject.FindGameObjectWithTag("OVRCamera").GetComponent<PauseMenu>();
+			
+			if(pauseEnabled == true)
+			{
+				if(pm.isPaused == false)
+				{
+					pm.pause();
+					pauseEnabled = false;
+				}
+				else if(pm.isPaused == true)
+				{
+					pm.unPause();
+					pauseEnabled = false;
+				}
+			}
+		}
 	}
 	
 	void setSpawnPoint(int pos)

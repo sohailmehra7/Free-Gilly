@@ -1,9 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\OVR\Scripts\OVRCrosshair.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\Level1_Global.cs">
     <Files>
-      <File FileName="Assets\Scripts\Title_Global.cs" Line="30" Column="2" />
-      <File FileName="Assets\OVR\Scripts\OVRCrosshair.cs" Line="167" Column="3" />
+      <File FileName="Assets\Scripts\PauseMenu.cs" Line="28" Column="47" />
+      <File FileName="Assets\Scripts\Level1_Global.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\LoadingScreenScript.cs" Line="17" Column="76" />
+      <File FileName="Assets\Scripts\Title_Global.cs" Line="1" Column="1" />
+      <File FileName="Assets\Scripts\HighScores_Global.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

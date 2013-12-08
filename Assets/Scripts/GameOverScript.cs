@@ -8,9 +8,18 @@ public class GameOverScript : MonoBehaviour {
 	public string[] LEVEL_ACH;
 	public int[] LEVEL_ACH_TRACKER;
 	
+	private float time;
+	private string timeString;
+	
 	// Use this for initialization
 	void Start () {
 	
+		time = PlayerPrefs.GetFloat("Time");
+		
+		int minutes = (int)(time / 60);
+   		int seconds = (int)(time % 60);
+ 
+   		timeString = string.Format("{0:00}:{1:00}", minutes, seconds);
 	}
 	
 	// Update is called once per frame
@@ -36,14 +45,14 @@ public class GameOverScript : MonoBehaviour {
 		GUIStyle messageStyle = new GUIStyle();
 		messageStyle.fontSize = 14;
 		messageStyle.fontStyle = FontStyle.Bold;
-		messageStyle.normal.textColor = Color.black;
+		messageStyle.normal.textColor = Color.white;
 		messageStyle.alignment = TextAnchor.MiddleCenter;
 		
 		// Title style
 		GUIStyle titleStyle = new GUIStyle();
 		titleStyle.fontSize = 24;
 		titleStyle.fontStyle = FontStyle.Bold;
-		titleStyle.normal.textColor = Color.black;
+		titleStyle.normal.textColor = Color.white;
 		titleStyle.alignment = TextAnchor.MiddleCenter;
 		
 		GUI.DrawTexture(new Rect(-150, -100, Screen.width+Screen.width/5, Screen.height+Screen.height/3), background);
@@ -98,6 +107,10 @@ public class GameOverScript : MonoBehaviour {
        	GUILayout.EndArea();
 		
 		// Final score
+		GUILayout.BeginArea(new Rect(Screen.width/2 - Screen.width/4, Screen.height - Screen.height/3, Screen.width/2, 100));
+		GUILayout.Label("Score (+Bonus): " + (PlayerPrefs.GetInt("Score")+bonus), messageStyle);
+		GUILayout.Label("Time Taken: " + timeString, messageStyle);
+		GUILayout.EndArea();
 		
 		// Navigation Area
 		GUILayout.BeginArea(new Rect(Screen.width/2 - Screen.width/4, Screen.height - Screen.height/5, Screen.width/2, 100));
@@ -105,7 +118,7 @@ public class GameOverScript : MonoBehaviour {
 		{
 			if(GUILayout.Button("Continue"))
 			{	
-				Application.LoadLevel("Level1");
+				Application.LoadLevel("Level2");
 			}
 			GUILayout.Space(3);
 		}
