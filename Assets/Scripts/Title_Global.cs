@@ -101,13 +101,13 @@ public class Title_Global : MonoBehaviour {
 		
 		if (GUILayout.Button("Options"))
 		{
-			Application.LoadLevel("HighScoresScene");
+			//Application.LoadLevel("HighScoresScene");
 		}
 		GUILayout.Space(3);
 		
 		if (GUILayout.Button("Gilly's World"))
 		{
-			Application.LoadLevel("GillysWorld");
+			//Application.LoadLevel("GillysWorld");
 		}
 		GUILayout.Space(3);
 		
@@ -150,7 +150,9 @@ public class Title_Global : MonoBehaviour {
 		}
 		
 		if (GUILayout.Button("Level 3"))
-            Application.LoadLevel("Level1");
+		{
+            //Application.LoadLevel("Level1");
+		}
     }
 	
 	void displayLoginWindow(int windowID) {

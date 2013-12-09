@@ -194,7 +194,7 @@ public class OVRMainMenu : MonoBehaviour
 		// Set the GUI target 
 		GUIRenderObject = GameObject.Instantiate(Resources.Load("OVRGUIObjectMain")) as GameObject;
 		
-		Debug.Log(PlayerPrefs.GetInt("Level"));
+		//Debug.Log(PlayerPrefs.GetInt("Level"));
 		if(PlayerPrefs.GetInt ("Level")== 2)
 			GUIRenderObject = null;
 		

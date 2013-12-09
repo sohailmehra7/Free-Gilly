@@ -12,15 +12,17 @@ public class Level2_Global : MonoBehaviour {
 
 	private UniWiiCheck uniWii;
 	private bool pauseEnabled;
+	
 	// Use this for initialization
 	void Start () {
 	
 		uniWii = gameObject.GetComponent<UniWiiCheck>();
-		// Refresh PlayerPrefs
 		
 		pauseEnabled = true;
 		
+		// Refresh PlayerPrefs
 		PlayerPrefs.SetInt("Complete", 0);
+		PlayerPrefs.SetString("SceneToLoad", "Level2");
 		//PlayerPrefs.SetInt("Score", score);
 		//PlayerPrefs.SetFloat("Time", timer);
 		//PlayerPrefsX.SetStringArray("AchievementList", LEVEL1_ACH);
@@ -28,10 +30,12 @@ public class Level2_Global : MonoBehaviour {
 	}
 	
 	void Awake() {
-		while(PlayerPrefs.GetInt("Level")!=2)
+		while(PlayerPrefs.GetInt("Level")!= 2)
 			PlayerPrefs.SetInt("Level", 2);
-		Debug.Log("Starting of Level 2");
-		Debug.Log(PlayerPrefs.GetInt("Level"));		
+		
+		//Debug.Log("Starting of Level 2");
+		//Debug.Log(PlayerPrefs.GetInt("Level"));		
+		
 		// Play the game
 		Time.timeScale = 1;
 	}
@@ -56,7 +60,14 @@ public class Level2_Global : MonoBehaviour {
 					pauseEnabled = false;
 				}
 			}
-		}		
+		}
+		
+		// Keyboard Inputs
+		if(Input.GetKeyDown(KeyCode.Backspace))
+		{
+			PlayerPrefs.SetString("SceneToLoad", "Level2");
+			Application.LoadLevel("LoadingScreen");
+		}
 	}
 	
 	void shootBubble()

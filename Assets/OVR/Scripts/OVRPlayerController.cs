@@ -227,7 +227,13 @@ public class OVRPlayerController : OVRComponent
 
 		if(nav_obj.remainingDistance >= 3.0f && inDrop == false)
 		{
-			nav_obj.speed = Constants.DEFAULT_FLOW_SPEED;
+			if(nav_obj.speed > Constants.DEFAULT_FLOW_SPEED)
+				nav_obj.speed -= 0.25f;
+			
+			if(nav_obj.speed < Constants.DEFAULT_FLOW_SPEED)
+				nav_obj.speed = Constants.DEFAULT_FLOW_SPEED;
+			
+			//nav_obj.speed = Constants.DEFAULT_FLOW_SPEED;
 			obs_nav_obj.speed = Constants.DEFAULT_OBSAGENT_SPEED;
 		}	
 			
@@ -306,20 +312,20 @@ public class OVRPlayerController : OVRComponent
 			{
 				// Move left (motion)	
 				//if(uniWii.roll < -45 && uniWii.roll > -145)	
-				if (uniWii.button1Pressed[0] && ((uniWii.YAccel[0] > 160.0f) && (uniWii.pitch[0] > 45.0f && uniWii.pitch[0] < 150.0f)))
+				if (uniWii.button1Pressed[0] && ((uniWii.YAccel[0] > 150.0f) && (uniWii.pitch[0] > 45.0f && uniWii.pitch[0] < 150.0f)))
 					moveLeft = true;
 			
 				// Move right (motion)
 				//else if(uniWii.roll > 45 && uniWii.roll < 145)
-				else if (uniWii.button1Pressed[1] && ((uniWii.YAccel[1] > 160.0f) && (uniWii.pitch[1] > 45.0f && uniWii.pitch[1] < 150.0f)))	
+				else if (uniWii.button1Pressed[1] && ((uniWii.YAccel[1] > 150.0f) && (uniWii.pitch[1] > 45.0f && uniWii.pitch[1] < 150.0f)))	
 					moveRight = true;
 			}
 	
 			// Move forward (motion)
 			//((uniWii.roll < -120 &&  uniWii.roll > -180) || (uniWii.roll > 120 &&  uniWii.roll < 180))
 			//uniWii.YAccel < 120.0f ||	
-			else if(((uniWii.YAccel[0] > 160.0f) && (uniWii.pitch[0] > 45.0f && uniWii.pitch[0] < 150.0f)) &&
-			  ((uniWii.YAccel[1] > 160.0f) && (uniWii.pitch[1] > 45.0f && uniWii.pitch[1] < 150.0f)))
+			else if(((uniWii.YAccel[0] > 155.0f) && (uniWii.pitch[0] > 45.0f && uniWii.pitch[0] < 150.0f)) &&
+			  ((uniWii.YAccel[1] > 155.0f) && (uniWii.pitch[1] > 45.0f && uniWii.pitch[1] < 150.0f)))
 				moveForward = true;
 			
 			// D-pad

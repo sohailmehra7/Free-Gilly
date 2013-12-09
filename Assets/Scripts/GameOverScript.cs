@@ -118,14 +118,16 @@ public class GameOverScript : MonoBehaviour {
 		{
 			if(GUILayout.Button("Continue"))
 			{	
-				Application.LoadLevel("Level2");
+				PlayerPrefs.SetString("SceneToLoad", "Level2");
+				Application.LoadLevel("LoadingScreen");
 			}
 			GUILayout.Space(3);
 		}
 		
 		if(GUILayout.Button("Restart Level"))
 		{	
-			Application.LoadLevel("Level1");
+			PlayerPrefs.SetString("SceneToLoad", "Level1");
+			Application.LoadLevel("LoadingScreen");
 		}
 		GUILayout.Space(3);
 		

@@ -63,7 +63,8 @@ public class PauseMenu : MonoBehaviour {
 			if(buttons[1])
 			{
 				unPause();
-				Application.LoadLevel(Application.loadedLevel);
+				PlayerPrefs.SetString("SceneToLoad", PlayerPrefs.GetString("SceneToLoad"));
+				Application.LoadLevel("LoadingScreen");
 			}
 			
 			if(buttons[2])

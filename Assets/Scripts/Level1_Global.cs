@@ -187,19 +187,19 @@ public class Level1_Global : MonoBehaviour {
 		PlayerPrefs.SetInt("Complete", 0);
 		PlayerPrefs.SetInt("Score", score);
 		PlayerPrefs.SetFloat("Time", timer);
+		PlayerPrefs.SetString("SceneToLoad", "Level1");
 		PlayerPrefsX.SetStringArray("AchievementList", LEVEL1_ACH);
 		PlayerPrefsX.SetIntArray("AchievementTracker", LEVEL1_ACH_TRACKER);
-		
-
 	}
 	
 	void Awake() {
 		
 		// Refresh PlayerPrefs
-		while(PlayerPrefs.GetInt("Level")!=1)
+		while(PlayerPrefs.GetInt("Level")!= 1)
 			PlayerPrefs.SetInt("Level", 1);
-		Debug.Log("Starting of Level 1");
-		Debug.Log(PlayerPrefs.GetInt("Level"));		
+		
+		//Debug.Log("Starting of Level 1");
+		//Debug.Log(PlayerPrefs.GetInt("Level"));		
 		
 		// Select a random spawn position
 		int pos = (int) Random.Range(0, spawnPositions.Length);
@@ -308,7 +308,10 @@ public class Level1_Global : MonoBehaviour {
 			useStaminaPowerUp();
 		
 		if(Input.GetKeyDown(KeyCode.Backspace))
-			Application.LoadLevel(Application.loadedLevel);
+		{
+			PlayerPrefs.SetString("SceneToLoad", "Level1");
+			Application.LoadLevel("LoadingScreen");
+		}
 		
 		// Wii inputs
 		// Use stamina power-up
